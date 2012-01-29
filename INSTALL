@@ -1,0 +1,21 @@
+
+Install:
+
+  $ tar xvfz skechupcms_2012010401.tar.gz
+  
+  You might have to change $LOAD_PATH in cms.rb.
+
+Usage:
+
+  -. start SketchUp Pro
+  -. open Ruby Console if not there
+        Window -> Ruby Console
+
+  -. run the scripts
+        In Rub Console, type
+        load '${where you installed the scripts}/cms.rb'
+
+  -. wait (for a very long time)
+
+----
+Tai Sakuma <sakuma@fnal.gov>
