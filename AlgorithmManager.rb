@@ -12,7 +12,7 @@ class AlgorithmManager
   def initialize
     @inDDLInOrderOfAddition = Array.new
 
-    @entityDisplayer = EntityDisplayer.new('algorithm', -200.m, 0, 0)
+    # @entityDisplayer = EntityDisplayer.new('algorithm', -200.m, 0, 0)
     @eraseAfterDefine = true
   end
   def clear

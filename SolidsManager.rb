@@ -260,7 +260,6 @@ class SolidsManager
     @partsHash = Hash.new
     @partsInOrderOfAddition = Array.new
     @inDDLInOrderOfAddition = Array.new
-    @entityDisplayer = EntityDisplayer.new('solids', 100.m, 0, 0)
     @eraseAfterDefine = true
   end
   def clear

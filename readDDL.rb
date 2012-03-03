@@ -1,119 +1,15 @@
+#!/usr/bin/env ruby
 # Tai Sakuma <sakuma@fnal.gov>
-require 'sketchup'
-
-$LOAD_PATH << '/usr/lib/ruby/1.8/'
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 require 'ddlcallbacks'
-load 'ddlcallbacks.rb'
-
-# require 'solids'
-load 'solids.rb'
-
 require 'GeometryManager'
 
-load 'GeometryManager.rb'
-load 'EntityDisplayer.rb'
-load 'RotationsManager.rb'
-load 'SolidsManager.rb'
-load 'LogicalPartsManager.rb'
-load 'PosPartsManager.rb'
-load 'AlgorithmManager.rb'
 
 ##____________________________________________________________________________||
 def cmsmain
 
   read_xmlfiles
-  draw_all_20111213_01
 
-end
-
-##____________________________________________________________________________||
-def draw_all_20111213_01
-
-  Sketchup.active_model.start_operation("Draw CMS", true)
-
-  def drawChildren lp, depth = 1
-    # return unless lp.isMaterialToHide(lp.materialName)
-    # p "#{lp.name}, #{lp.materialName}"
-    depth -= 1
-    return if depth == -1
-    lp.children.each do |pp|
-      drawChildren(pp.child, depth)
-      begin
-        p pp unless pp.done
-        pp.exec
-      rescue Exception => e
-        puts e.message
-      end
-    end
-    return unless (lp.materialName.to_s =~ /Air$/ or lp.materialName.to_s =~ /free_space$/)
-    if lp.children.size > 0
-      lp.definition.entities.each do |e|
-        next unless e.typename == 'ComponentInstance'
-        next unless e.definition.name =~ /^solid_/
-        e.erase!
-      end
-    end
-  end
-
-  def drawParentUntil lp, pname
-    return if lp.name == pname
-    lp.parents.each do |pp|
-      drawParentUntil pp.parent, pname
-      begin
-        p pp unless pp.done
-        pp.exec
-      rescue Exception => e
-        puts e.message
-      end
-    end
-  end
-
-  # lp = $logicalPartsManager.get("tracker:Tracker".to_sym)
-  # drawChildren lp, 9
-  # drawParentUntil lp, "tracker:Tracker".to_sym
-
-  # lp = $logicalPartsManager.get("caloBase:CALO".to_sym)
-  # drawChildren lp, 10
-
-  # lp = $logicalPartsManager.get("muonBase:MUON".to_sym)
-  # drawChildren lp, 6
-
-  # lp = $logicalPartsManager.get("hcalforwardalgo:VCAL".to_sym)
-  # drawChildren lp, 4
-
-  # lp = $logicalPartsManager.get("forward:TotemT1".to_sym)
-  # drawChildren lp, 3
-  # drawParentUntil lp, "cms:CMSE".to_sym
-  # 
-  # lp = $logicalPartsManager.get("forward:TotemT2".to_sym)
-  # drawChildren lp, 3
-  # drawParentUntil lp, "cms:CMSE".to_sym
-
-  # lp = $logicalPartsManager.get("beampipe:BEAM".to_sym)
-  # drawChildren lp, 5
-  # drawParentUntil lp, "cms:CMSE".to_sym
-  # lp = $logicalPartsManager.get("beampipe:BEAM1".to_sym)
-  # drawChildren lp, 5
-  # drawParentUntil lp, "cms:CMSE".to_sym
-  # lp = $logicalPartsManager.get("beampipe:BEAM2".to_sym)
-  # drawChildren lp, 5
-  # drawParentUntil lp, "cms:CMSE".to_sym
-  # lp = $logicalPartsManager.get("beampipe:BEAM3".to_sym)
-  # drawChildren lp, 5
-  # drawParentUntil lp, "cms:CMSE".to_sym
-
-  lp = $logicalPartsManager.get("cms:CMSE".to_sym)
-  drawChildren lp, 13
-
-  definition = lp.definition
-  entities = Sketchup.active_model.entities
-  transform = Geom::Transformation.new(Geom::Point3d.new(0, 0, 15.m))
-  solidInstance = entities.add_instance definition, transform
-
-  Sketchup.active_model.commit_operation
-  Sketchup.active_model.active_view.zoom_extents
 end
 
 ##____________________________________________________________________________||
@@ -153,9 +49,6 @@ def buildGeometryManager
   $logicalPartsManager = LogicalPartsManager.new
   $posPartsManager = PosPartsManager.new
   $algorithmManager = AlgorithmManager.new
-
-  $solidsManager.entityDisplayer = EntityDisplayer.new('solids', 100.m, 0, 0)
-  $logicalPartsManager.entityDisplayer = EntityDisplayer.new('logicalParts', -100.m, 0, 0)
 
   geometryManager = $geometryManager
   geometryManager.materialsManager = $materialsManager
