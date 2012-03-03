@@ -3,7 +3,6 @@ require 'RotationsManager'
 require 'SolidsManager'
 require 'LogicalPartsManager'
 require 'PosPartsManager'
-require 'AlgorithmManager'
 
 ##____________________________________________________________________________||
 def baseNameName(name)
@@ -158,7 +157,6 @@ end
 class GeometryManager
   attr_accessor :materialsManager, :rotationsManager, :constantsManager
   attr_accessor :solidsManager, :logicalPartsManager, :posPartsManager
-  attr_accessor :algorithmManager
   attr_reader :xmlFilePath
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
@@ -192,9 +190,6 @@ class GeometryManager
     end
   end
 
-  def add_algorithm sectionName, args
-    @algorithmManager.addInDDL @baseName, args
-  end
 end
 
 ##____________________________________________________________________________||

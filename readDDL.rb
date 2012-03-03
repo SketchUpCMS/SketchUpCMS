@@ -48,7 +48,6 @@ def buildGeometryManager
   $solidsManager = SolidsManager.new
   $logicalPartsManager = LogicalPartsManager.new
   $posPartsManager = PosPartsManager.new
-  $algorithmManager = AlgorithmManager.new
 
   geometryManager = $geometryManager
   geometryManager.materialsManager = $materialsManager
@@ -57,7 +56,6 @@ def buildGeometryManager
   geometryManager.solidsManager = $solidsManager
   geometryManager.logicalPartsManager = $logicalPartsManager
   geometryManager.posPartsManager = $posPartsManager
-  geometryManager.algorithmManager = $algorithmManager
 
   $materialsManager.geometryManager = geometryManager
   $rotationsManager.geometryManager = geometryManager
@@ -65,7 +63,6 @@ def buildGeometryManager
   $solidsManager.geometryManager = geometryManager
   $logicalPartsManager.geometryManager = geometryManager
   $posPartsManager.geometryManager = geometryManager
-  $algorithmManager.geometryManager = geometryManager
 
   geometryManager
 end
@@ -79,7 +76,6 @@ def buildDDLCallBacks(geometryManager)
   solidSectionListener = SectionWithPartListener.new("SolidSection", geometryManager)
   logicalPartSectionListener = SectionWithPartListener.new("LogicalPartSection", geometryManager)
   posPartSectionListener = SectionWithPartListener.new("PosPartSection", geometryManager)
-  algorithmListener = AlgorithmListener.new(geometryManager)
 
   mainListenersDispatcher = HashListenersDispatcher.new
   mainListenersDispatcher.add_listner('MaterialSection', materialSectionListener)
@@ -88,7 +84,6 @@ def buildDDLCallBacks(geometryManager)
   mainListenersDispatcher.add_listner('SolidSection', solidSectionListener)
   mainListenersDispatcher.add_listner('LogicalPartSection', logicalPartSectionListener)
   mainListenersDispatcher.add_listner('PosPartSection', posPartSectionListener)
-  mainListenersDispatcher.add_listner('Algorithm', algorithmListener)
 
   callBacks = DDLCallbacks.new
   callBacks.listenersDispatcher = mainListenersDispatcher

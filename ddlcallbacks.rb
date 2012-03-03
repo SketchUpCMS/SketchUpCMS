@@ -183,38 +183,6 @@ class ConstantsSectionListener < DDLListener
 end
 
 ##____________________________________________________________________________||
-class AlgorithmListener < DDLListener
-  # Tags in Algorithm: "rParent", "Numeric", "String", "Vector"
-  def initialize(geometryManager)
-    super()
-    @geometryManager = geometryManager
-    @name = nil
-    @attributes = nil
-  end
-  def listener_enter(name, attributes)
-    @args = attributes.clone
-  end
-  def text(text)
-    @attributes['entry'] = text if @name
-    # p text
-  end
-  def listener_exit(name)
-    @geometryManager.add_algorithm('Algorithm', @args)
-    @args = nil
-  end
-  def tag_start(name, attributes)
-    @name = name
-    @attributes = attributes.clone
-  end
-  def tag_end(name)
-    @args[@name] = Array.new unless @args.key?(@name)
-    @args[@name] << @attributes
-    @name = nil
-    @attributes = nil
-  end
-end
-
-##____________________________________________________________________________||
 class DDLCallbacks
   include REXML::StreamListener
   attr_accessor :listenersDispatcher
