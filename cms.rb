@@ -30,6 +30,9 @@ end
 ##____________________________________________________________________________||
 def draw_all_20111213_01
 
+  $solidsManager.eraseAfterDefine = false
+  $logicalPartsManager.eraseAfterDefine = false
+
   Sketchup.active_model.start_operation("Draw CMS", true)
 
   def drawChildren lp, depth = 1
@@ -76,8 +79,8 @@ def draw_all_20111213_01
   # lp = $logicalPartsManager.get("caloBase:CALO".to_sym)
   # drawChildren lp, 10
 
-  # lp = $logicalPartsManager.get("muonBase:MUON".to_sym)
-  # drawChildren lp, 6
+  lp = $logicalPartsManager.get("muonBase:MUON".to_sym)
+  drawChildren lp, 1
 
   # lp = $logicalPartsManager.get("hcalforwardalgo:VCAL".to_sym)
   # drawChildren lp, 4
@@ -103,8 +106,8 @@ def draw_all_20111213_01
   # drawChildren lp, 5
   # drawParentUntil lp, "cms:CMSE".to_sym
 
-  lp = $logicalPartsManager.get("cms:CMSE".to_sym)
-  drawChildren lp, 13
+  # lp = $logicalPartsManager.get("cms:CMSE".to_sym)
+  # drawChildren lp, 13
 
   definition = lp.definition
   entities = Sketchup.active_model.entities
