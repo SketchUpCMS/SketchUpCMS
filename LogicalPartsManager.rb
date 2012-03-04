@@ -18,10 +18,11 @@ class LogicalPart
   end
   def clear
     @definition = nil
-    @solid = nil if @solidName
-    @solidName = nil if @argsInDDL
-    @material = nil if @materialName
-    @materialName = nil if @argsInDDL
+    @solidInstance = nil
+    @solid = nil
+    @solidName = nil
+    @material = nil
+    @materialName = nil
     @parents = nil
     @children = nil
   end

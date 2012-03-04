@@ -20,6 +20,15 @@ class PosPart
     @partName = partName
     @done = false
   end
+  def clear
+    @done = false
+    @parent = nil
+    @child = nil
+    @parentName = nil
+    @childName = nil
+    @rotation = nil
+    @translation = nil
+  end
   def parent
     return @parent if @parent
     @parent = @geometryManager.logicalPartsManager.get(parentName())
@@ -99,6 +108,9 @@ class PosPartsManager
     @partsHashByChild = Hash.new
     @partsInOrderOfAddition = Array.new
     @inDDLInOrderOfAddition = Array.new
+  end
+  def clear
+    @partsInOrderOfAddition.each {|p| p.clear }
   end
   def getByParent(name)
     return [] unless @partsHashByParent.key?(name)
