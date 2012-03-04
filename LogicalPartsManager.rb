@@ -29,8 +29,6 @@ class LogicalPart
   def definition
     return @definition if (@definition and (not @definition.deleted?))
     return nil
-    ## instantiateSolid()
-    ## @definition
   end
 
   def solid
@@ -126,7 +124,6 @@ class LogicalPartsManager
   attr_accessor :eraseAfterDefine
   attr_accessor :partsHash, :partsInOrderOfAddition
   attr_accessor :entityDisplayer
-  attr_accessor :toHideList
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
@@ -135,7 +132,6 @@ class LogicalPartsManager
     @partsInOrderOfAddition = Array.new
     @inDDLInOrderOfAddition = Array.new
     @eraseAfterDefine = true
-    @toHideList = Array.new
   end
   def clear
     @entityDisplayer.clear
