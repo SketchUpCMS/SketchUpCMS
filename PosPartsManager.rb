@@ -1,7 +1,7 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
 ##____________________________________________________________________________||
-class PosPartBase
+class PosPart
   attr_accessor :geometryManager
   attr_accessor :partName
   attr_accessor :sectionLabel
@@ -10,6 +10,8 @@ class PosPartBase
   attr_accessor :done
   attr_accessor :argsInDDL
   attr_accessor :parent, :child
+  attr_writer :rotation, :translation
+
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} parent=#{parentName()} child=#{childName()}>"
   end
@@ -43,17 +45,6 @@ class PosPartBase
     @childName
   end
 
-  def placeChild childDefinition, transforms
-    parentDefinition = parent().definition
-    return unless parentDefinition
-    transforms.each {|t| parentDefinition.entities.add_instance childDefinition, t}
-    return
-  end
-end
-
-##____________________________________________________________________________||
-class PosPart < PosPartBase
-  attr_writer :rotation, :translation
   def exec
     return if @done
     doPosPart()
@@ -90,6 +81,14 @@ class PosPart < PosPartBase
     return unless childDefinition
     placeChild(childDefinition, [transform])
   end
+
+  def placeChild childDefinition, transforms
+    parentDefinition = parent().definition
+    return unless parentDefinition
+    transforms.each {|t| parentDefinition.entities.add_instance childDefinition, t}
+    return
+  end
+
 end
 
 ##____________________________________________________________________________||
