@@ -113,6 +113,11 @@ class LogicalPart
     return false
   end
 
+  def placeChild childDefinition, transforms
+    return unless definition()
+    transforms.each {|t| definition().entities.add_instance childDefinition, t}
+    return
+  end
 end
 
 ##____________________________________________________________________________||

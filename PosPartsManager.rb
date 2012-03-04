@@ -79,14 +79,7 @@ class PosPart
     return unless child
     childDefinition = child.definition
     return unless childDefinition
-    placeChild(childDefinition, [transform])
-  end
-
-  def placeChild childDefinition, transforms
-    parentDefinition = parent().definition
-    return unless parentDefinition
-    transforms.each {|t| parentDefinition.entities.add_instance childDefinition, t}
-    return
+    parent().placeChild(childDefinition, [transform])
   end
 
 end
