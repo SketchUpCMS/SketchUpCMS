@@ -129,25 +129,9 @@ class ConstantsManager
     value = expand(value)
     value = value.gsub(/([0-9]+)\.([^0-9]|$)/, '\1.0\2')
 
-    # value = value.gsub(/([0-9]+(\.?[0-9]+)?)\*mm/, '\1*1.mm')
-    # value = value.gsub(/([0-9]+(\.?[0-9]+)?)\*cm/, '\1*1.cm')
-    # value = value.gsub(/([0-9]+(\.?[0-9]+)?)\*fm/, '\1*(10**-15).m')
-    # value = value.gsub(/([0-9]+(\.?[0-9]+)?)\*m/, '\1*1.m')
-    # value = value.gsub(/([0-9]+(\.?[0-9]+)?)\*deg/, '\1*1.degrees')
-
-    value = value.gsub(/\*mm/, '*1.mm')
-    value = value.gsub(/\*cm/, '*1.cm')
-    value = value.gsub(/\*fm/, '*(10**-15).m')
     value = value.gsub(/\*m/, '*1.m')
     value = value.gsub(/\*deg/, '*1.degrees')
 
-    value = value.gsub(/([0-9]+(\.?[0-9]+)?)\*rad/, '\1')
-    value = value.gsub(/sin/, 'Math::sin')
-    value = value.gsub(/cos/, 'Math::cos')
-    value = value.gsub(/atan2/, 'Math::atan2')
-    value = value.gsub(/atan\(/, 'Math::atan(')
-    value = value.gsub(/(^|[^a])tan\(/, '\1Math::tan(')
-    value = value.gsub(/sqrt/, 'Math::sqrt')
     value
   end
 end
