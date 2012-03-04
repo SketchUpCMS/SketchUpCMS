@@ -30,9 +30,10 @@ end
 ##____________________________________________________________________________||
 def draw_all_20111213_01
 
-  $solidsManager.eraseAfterDefine = false
-  $logicalPartsManager.eraseAfterDefine = false
+  $solidsManager.eraseAfterDefine = true
+  $logicalPartsManager.eraseAfterDefine = true
 
+  start_time = Time.now
   Sketchup.active_model.start_operation("Draw CMS", true)
 
   def drawChildren lp, depth = 1
@@ -42,19 +43,15 @@ def draw_all_20111213_01
     return if depth == -1
     lp.children.each do |pp|
       drawChildren(pp.child, depth)
+      next if pp.done
       begin
-        p pp unless pp.done
+        # p pp 
+        if depth == 0 or pp.child.children.size == 0 or not (pp.child.materialName.to_s =~ /Air$/ or pp.child.materialName.to_s =~ /free_space$/)
+          pp.child.instantiateSolid()
+        end
         pp.exec
       rescue Exception => e
         puts e.message
-      end
-    end
-    return unless (lp.materialName.to_s =~ /Air$/ or lp.materialName.to_s =~ /free_space$/)
-    if lp.children.size > 0
-      lp.definition.entities.each do |e|
-        next unless e.typename == 'ComponentInstance'
-        next unless e.definition.name =~ /^solid_/
-        e.erase!
       end
     end
   end
@@ -72,6 +69,10 @@ def draw_all_20111213_01
     end
   end
 
+  
+  lp = $logicalPartsManager.get("muonBase:MBWheel_0".to_sym)
+  drawChildren lp, 9
+
   # lp = $logicalPartsManager.get("tracker:Tracker".to_sym)
   # drawChildren lp, 9
   # drawParentUntil lp, "tracker:Tracker".to_sym
@@ -79,8 +80,8 @@ def draw_all_20111213_01
   # lp = $logicalPartsManager.get("caloBase:CALO".to_sym)
   # drawChildren lp, 10
 
-  lp = $logicalPartsManager.get("muonBase:MUON".to_sym)
-  drawChildren lp, 1
+  # lp = $logicalPartsManager.get("muonBase:MUON".to_sym)
+  # drawChildren lp, 1
 
   # lp = $logicalPartsManager.get("hcalforwardalgo:VCAL".to_sym)
   # drawChildren lp, 4
@@ -110,11 +111,16 @@ def draw_all_20111213_01
   # drawChildren lp, 13
 
   definition = lp.definition
-  entities = Sketchup.active_model.entities
-  transform = Geom::Transformation.new(Geom::Point3d.new(0, 0, 15.m))
-  solidInstance = entities.add_instance definition, transform
+  if definition
+    entities = Sketchup.active_model.entities
+    transform = Geom::Transformation.new(Geom::Point3d.new(0, 0, 15.m))
+    solidInstance = entities.add_instance definition, transform
+  end
 
   Sketchup.active_model.commit_operation
+  end_time = Time.now
+  puts "Time elapsed #{(end_time - start_time)*1000} milliseconds"
+
   Sketchup.active_model.active_view.zoom_extents
 end
 

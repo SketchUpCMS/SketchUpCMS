@@ -28,21 +28,19 @@ class LogicalPart
 
   def definition
     return @definition if (@definition and (not @definition.deleted?))
-    @definition = defineLogicalPart()
-    @definition
+    return nil
+    ## instantiateSolid()
+    ## @definition
   end
 
-  attr_writer :solid
   def solid
     return @solid if @solid
     @solid = @geometryManager.solidsManager.get(solidName())
     @solid
   end
 
-  attr_writer :solidName
   def solidName
     return @solidName if @solidName
-    return @solid.name if @solid
     @solidName = baseNameName(@argsInDDL["rSolid"][0]["name"])
     @solidName
   end
@@ -72,22 +70,32 @@ class LogicalPart
     @children
   end
 
-  def defineLogicalPart
-
-    return nil unless solid()
+  def instantiateSolid
+    return if @solidInstance
+    return unless solid()
 
     solidDefinition = solid().definition
 
-    group = Sketchup.active_model.entities.add_group
+    if (@definition and (not @definition.deleted?))
+      entities = @definition.entities
+      instantiateSolidInEntities solidDefinition, entities
+    else
+      group = Sketchup.active_model.entities.add_group
+      entities = group.entities
+      instantiateSolidInEntities solidDefinition, entities
+      @definition = defineFromGroup group
+    end
+  end
 
+  def instantiateSolidInEntities solidDefinition, entities
     transform = Geom::Transformation.new
-    solidInstance = group.entities.add_instance solidDefinition, transform
+    @solidInstance = entities.add_instance solidDefinition, transform
+    @solidInstance.material = material()
+    @solidInstance.name = solidName().to_s + " "  + materialName().to_s
+  end
 
-    solidInstance.material = material()
-    solidInstance.name = solidName().to_s + " "  + materialName().to_s
-
+  def defineFromGroup group
     lpInstance = group.to_component
-
     lpInstance.name = @name.to_s
 
     lpDefinition = lpInstance.definition
@@ -95,12 +103,18 @@ class LogicalPart
 
     @geometryManager.logicalPartsManager.moveInstanceAway(lpInstance)
     lpDefinition
-
   end
 
   def placeChild childDefinition, transforms
-    return unless definition()
-    transforms.each {|t| definition().entities.add_instance childDefinition, t}
+    if (@definition and (not @definition.deleted?))
+      entities = @definition.entities
+      transforms.each {|t| entities.add_instance childDefinition, t}
+    else
+      group = Sketchup.active_model.entities.add_group
+      entities = group.entities
+      transforms.each {|t| entities.add_instance childDefinition, t}
+      @definition = defineFromGroup group
+    end
     return
   end
 end
