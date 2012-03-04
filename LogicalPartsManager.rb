@@ -113,32 +113,6 @@ class LogicalPart
     return false
   end
 
-  ## def su
-  ##   return @su if @su
-  ##   begin
-  ##     @su = ddlToSU()
-  ##   rescue Exception => e
-  ##     puts e.message
-  ##     p "unable to ddolToSU: #{@name}"
-  ##     @su = nil
-  ##   end
-  ##   @su
-  ## end
-  ## 
-  ## def su_dev
-  ##   children.each {|p| p.child.su_dev }
-  ##   children.each {|p| p.exec }
-  ##   return @su if @su
-  ##   begin
-  ##     @su = ddlToSU()
-  ##   rescue Exception => e
-  ##     puts e.message
-  ##     p "unable to ddolToSU: #{@name}"
-  ##     @su = nil
-  ##   end
-  ##   @su
-  ## end
-
 end
 
 ##____________________________________________________________________________||
