@@ -78,12 +78,10 @@ class LogicalPart
 
     solidDefinition = solid().definition
 
-    entities = Sketchup.active_model.entities
-    group = entities.add_group
-    entities = group.entities
+    group = Sketchup.active_model.entities.add_group
 
     transform = Geom::Transformation.new
-    solidInstance = entities.add_instance solidDefinition, transform
+    solidInstance = group.entities.add_instance solidDefinition, transform
 
     solidInstance.material = material()
     solidInstance.name = solidName().to_s + " "  + materialName().to_s
@@ -92,25 +90,12 @@ class LogicalPart
 
     lpInstance.name = @name.to_s
 
-    solidInstance.hidden = @geometryManager.logicalPartsManager.toHideList.include?([@name])
-    solidInstance.hidden = true if isMaterialToHide(materialName())
-
     lpDefinition = lpInstance.definition
     lpDefinition.name = "lp_" + @name.to_s
 
     @geometryManager.logicalPartsManager.moveInstanceAway(lpInstance)
     lpDefinition
-  end
-  def isMaterialToHide(materialName)
-    return false
-    return true if materialName.to_s =~ /Air$/ 
-    return true if materialName.to_s =~ /Gas$/ 
-    return true if materialName.to_s =~ /CO_2$/ 
-    return true if materialName.to_s =~ /space$/ 
-    return true if materialName.to_s =~ /Cables$/ 
-    return true if materialName.to_s =~ /Cables_1$/ 
-    # p materialName if solidInstance.visible?
-    return false
+
   end
 
   def placeChild childDefinition, transforms
