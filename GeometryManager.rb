@@ -126,7 +126,6 @@ class ConstantsManager
     value
   end
   def inSUstring(value)
-    p value
     value = expand(value)
     value = value.gsub(/([0-9]+)\.([^0-9]|$)/, '\1.0\2')
 
