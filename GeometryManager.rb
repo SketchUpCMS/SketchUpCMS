@@ -45,10 +45,9 @@ class MaterialsManager
     @defaultColor = 'silver'
     # @defaultMaterial.color = @defaultColor
   end
-  def addInDDL type, sectionLabel, args
-    inDDL = {:type => type, :sectionLabel => sectionLabel, :args => args}
+  def addInDDL inDDL
     @inDDLInOrderOfAddition << inDDL
-    name = args['name'].to_sym
+    name = inDDL[:args]['name'].to_sym
     @inDDLHash[name] = inDDL
   end
   def getInDDL(name)
@@ -94,12 +93,24 @@ class GeometryManager
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
+  def initialize
+    @inDDLs = Array.new
+  end
   def xmlFilePath=(v)
     @xmlFilePath = v
     @baseName = File::basename(@xmlFilePath).sub(/\.xml/, '').to_sym
   end
 
   def add_entry sectionName, sectionLabel, partName, args
+    inDDL = {:partName => partName.to_sym, :sectionLabel => sectionLabel.to_sym, :args => args}
+    @inDDLs << inDDL
+    add_inDDL_to_sectionManager sectionName, inDDL
+  end
+
+
+  private
+
+  def add_inDDL_to_sectionManager sectionName, inDDL
 
     sectionManagerMap = {
       :SolidSection => @solidsManager,
@@ -110,10 +121,10 @@ class GeometryManager
     }
 
     begin
-      sectionManagerMap[sectionName].addInDDL partName.to_sym, sectionLabel.to_sym, args
+      sectionManagerMap[sectionName].addInDDL inDDL
     rescue Exception => e
       puts e.message
-      p "#{self}: unable to add #{partName}, args=", args
+      p "#{self}: unable to add #{inDDL[:partName]}, args=", inDDL[:args]
     end
 
   end
