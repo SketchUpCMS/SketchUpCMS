@@ -164,25 +164,6 @@ class RotationSectionListener < DDLListener
 end
 
 ##____________________________________________________________________________||
-class ConstantsSectionListener < DDLListener
-  def initialize(geometryManager)
-    super()
-    @geometryManager = geometryManager
-  end
-  def listener_enter(name, attributes)
-    @sectionLabel = attributes['label'].sub(/\.xml/, '')
-  end
-  def listener_exit(name)
-    @sectionLabel = ''
-  end
-  def tag_start(name, attributes)
-    if name == 'Constant'
-      @geometryManager.add_entry(:ConstantsSection, @sectionLabel, name, attributes)
-    end
-  end
-end
-
-##____________________________________________________________________________||
 class DDLCallbacks
   include REXML::StreamListener
   attr_accessor :listenersDispatcher
