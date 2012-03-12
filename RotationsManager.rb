@@ -74,15 +74,16 @@ end
 ##____________________________________________________________________________||
 class RotationsManager
   attr_accessor :geometryManager
-  attr_accessor :inDDLInOrderOfAddition
   attr_accessor :partsHash, :partsInOrderOfAddition
+
+  KnownPartNames = [:Rotation, :ReflectionRotation]
+
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
   def initialize
     @partsHash = Hash.new
     @partsInOrderOfAddition = Array.new
-    @inDDLInOrderOfAddition = Array.new
   end
   def clear
     @partsInOrderOfAddition.each {|p| p.clear if p}
@@ -91,10 +92,8 @@ class RotationsManager
     @partsHash.key?(name) ? @partsHash[name] : nil
   end
   def addInDDL inDDL
-    @inDDLInOrderOfAddition << inDDL
-    addPart buildRotationFromDDL(inDDL, @geometryManager)
-  end
-  def addPart part
+    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(inDDL[:partName])
+    part = buildRotationFromDDL(inDDL, @geometryManager)
     @partsInOrderOfAddition << part
     @partsHash[part.name] = part 
   end

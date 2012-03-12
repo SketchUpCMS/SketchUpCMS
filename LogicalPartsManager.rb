@@ -11,10 +11,9 @@ class LogicalPart
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
-  def initialize geometryManager, partName, name
+  def initialize geometryManager, partName
     @geometryManager = geometryManager
     @partName = partName
-    @name = name
   end
   def clear
     @definition = nil
@@ -119,19 +118,29 @@ class LogicalPart
 end
 
 ##____________________________________________________________________________||
+def buildLogicalPartFromDDL(inDDL, geometryManager)
+  part = LogicalPart.new geometryManager, inDDL[:partName]
+  part.sectionLabel = inDDL[:sectionLabel]
+  part.argsInDDL = inDDL[:args]
+  part.name = inDDL[:args]['name'].to_sym
+  part
+end
+
+##____________________________________________________________________________||
 class LogicalPartsManager
   attr_accessor :geometryManager
-  attr_accessor :inDDLInOrderOfAddition
   attr_accessor :eraseAfterDefine
   attr_accessor :partsHash, :partsInOrderOfAddition
   attr_accessor :entityDisplayer
+
+  KnownPartNames = [:LogicalPart]
+
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
   def initialize
     @partsHash = Hash.new
     @partsInOrderOfAddition = Array.new
-    @inDDLInOrderOfAddition = Array.new
     @eraseAfterDefine = true
   end
   def clear
@@ -139,33 +148,13 @@ class LogicalPartsManager
     @partsInOrderOfAddition.each {|p| p.clear }
   end
   def get(name)
-    return nil unless @partsHash.key?(name)
-    @partsHash[name]
-  end
-  def addPart name, part
-    @partsInOrderOfAddition << part
-    @partsHash[name] = part 
+    @partsHash.key?(name)? @partsHash[name] : nil
   end
   def addInDDL inDDL
-    @inDDLInOrderOfAddition << inDDL
-    addToPartsHash inDDL
-  end
-  def addToPartsHash inDDL
-    name = inDDL[:args]['name'].to_sym
-    part = buildPart(inDDL)
-    addPart name, part 
-  end
-  def buildPart inDDL
-    name = inDDL[:args]['name'].to_sym
-    if inDDL[:partName] == :LogicalPart
-      part = LogicalPart.new @geometryManager, inDDL[:partName], name
-    else
-      p "unknown partName #{inDDL[:partName]} #{name}"
-      part = LogicalPart.new @geometryManager, inDDL[:partName], name
-    end
-    part.sectionLabel = inDDL[:sectionLabel]
-    part.argsInDDL = inDDL[:args]
-    part
+    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(inDDL[:partName])
+    part = buildLogicalPartFromDDL(inDDL, @geometryManager)
+    @partsInOrderOfAddition << part
+    @partsHash[part.name] = part 
   end
   def moveInstanceAway(instance)
     @entityDisplayer.display instance

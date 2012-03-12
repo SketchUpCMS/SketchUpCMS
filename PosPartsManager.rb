@@ -90,7 +90,6 @@ end
 ##____________________________________________________________________________||
 class PosPartsManager
   attr_accessor :geometryManager
-  attr_accessor :inDDLInOrderOfAddition
   attr_accessor :partsHashByParent
   attr_accessor :partsHashByChild
   attr_accessor :partsInOrderOfAddition
@@ -104,7 +103,6 @@ class PosPartsManager
     @partsHashByParent = Hash.new
     @partsHashByChild = Hash.new
     @partsInOrderOfAddition = Array.new
-    @inDDLInOrderOfAddition = Array.new
   end
   def clear
     @partsInOrderOfAddition.each {|p| p.clear }
@@ -117,10 +115,7 @@ class PosPartsManager
   end
   def addInDDL inDDL
     raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(inDDL[:partName])
-    @inDDLInOrderOfAddition << inDDL
-    addPart buildPosPartFromDDL(inDDL, @geometryManager)
-  end
-  def addPart part 
+    part = buildPosPartFromDDL(inDDL, @geometryManager)
     @partsInOrderOfAddition << part
     @partsHashByParent[part.parentName] = Array.new unless @partsHashByParent.key?(part.parentName)
     @partsHashByParent[part.parentName] << part

@@ -11,10 +11,9 @@ class Solid
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
-  def initialize geometryManager, partName, name
+  def initialize geometryManager, partName
     @geometryManager = geometryManager
     @partName = partName
-    @name = name
   end
   def clear
     @definition = nil
@@ -247,9 +246,27 @@ class UnknownSolid < Solid
 end
 
 ##____________________________________________________________________________||
+def buildSolidFromDDL(inDDL, geometryManager)
+  basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
+  compoundSolidNames = [:UnionSolid, :SubtractionSolid]
+
+  if basicSolidNames.include?(inDDL[:partName])
+    part = BasicSolid.new geometryManager, inDDL[:partName]
+  elsif compoundSolidNames.include?(inDDL[:partName])
+    part = CompoundSolid.new geometryManager, inDDL[:partName]
+  else
+    part = UnknownSolid.new geometryManager, inDDL[:partName]
+    p "#{self}: unknown solid #{inDDL[:partName]} #{part.name}"
+  end
+  part.sectionLabel = inDDL[:sectionLabel]
+  part.argsInDDL = inDDL[:args]
+  part.name = inDDL[:args]['name'].to_sym
+  part
+end
+
+##____________________________________________________________________________||
 class SolidsManager
   attr_accessor :geometryManager
-  attr_accessor :inDDLInOrderOfAddition
   attr_accessor :eraseAfterDefine
   attr_accessor :partsHash, :partsInOrderOfAddition
   attr_accessor :entityDisplayer
@@ -259,7 +276,6 @@ class SolidsManager
   def initialize
     @partsHash = Hash.new
     @partsInOrderOfAddition = Array.new
-    @inDDLInOrderOfAddition = Array.new
     @eraseAfterDefine = true
   end
   def clear
@@ -267,40 +283,14 @@ class SolidsManager
     @partsInOrderOfAddition.each {|p| p.clear if p}
   end
   def get(name)
-    return nil unless @partsHash.key?(name)
-    @partsHash[name]
-  end
-  def addPart name, part
-    @partsInOrderOfAddition << part
-    @partsHash[name] = part 
+    @partsHash.key?(name)? @partsHash[name] : nil
   end
   def addInDDL inDDL
-    @inDDLInOrderOfAddition << inDDL
-    addToPartsHash inDDL
+    part = buildSolidFromDDL(inDDL, @geometryManager)
+    @partsInOrderOfAddition << part
+    @partsHash[part.name] = part 
   end
-  def addToPartsHash inDDL
-    name = inDDL[:args]['name'].to_sym
-    part = buildPart(inDDL)
-    addPart name, part 
-  end
-  def buildPart inDDL
-    name = inDDL[:args]['name'].to_sym
 
-    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
-    compoundSolidNames = [:UnionSolid, :SubtractionSolid]
-
-    if basicSolidNames.include?(inDDL[:partName])
-      part = BasicSolid.new @geometryManager, inDDL[:partName], name
-    elsif compoundSolidNames.include?(inDDL[:partName])
-      part = CompoundSolid.new @geometryManager, inDDL[:partName], name
-    else
-      p "#{self}: unknown solid #{inDDL[:partName]} #{name}"
-      part = UnknownSolid.new @geometryManager, inDDL[:partName], name
-    end
-    part.sectionLabel = inDDL[:sectionLabel]
-    part.argsInDDL = inDDL[:args]
-    part
-  end
   def moveInstanceAway(instance)
     @entityDisplayer.display instance
     instance.erase! if @eraseAfterDefine

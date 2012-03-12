@@ -26,7 +26,6 @@ end
 ##____________________________________________________________________________||
 class MaterialsManager
   attr_accessor :geometryManager
-  attr_accessor :inDDLInOrderOfAddition
   attr_accessor :inSUHash
   attr_accessor :defaultMaterial, :defaultColor
   def inspect
@@ -34,7 +33,6 @@ class MaterialsManager
   end
   def initialize
     @inDDLHash = Hash.new
-    @inDDLInOrderOfAddition = Array.new
 
     # @defaultMaterial = Sketchup.active_model.materials.add 'defaultMaterial'
 
@@ -46,7 +44,6 @@ class MaterialsManager
     # @defaultMaterial.color = @defaultColor
   end
   def addInDDL inDDL
-    @inDDLInOrderOfAddition << inDDL
     name = inDDL[:args]['name'].to_sym
     @inDDLHash[name] = inDDL
   end
