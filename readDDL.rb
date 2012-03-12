@@ -4,11 +4,15 @@
 require 'ddlcallbacks'
 require 'GeometryManager'
 
+require "benchmark"
 
 ##____________________________________________________________________________||
 def cmsmain
 
-  read_xmlfiles
+  puts Benchmark::CAPTION
+  puts Benchmark.measure {
+    read_xmlfiles()
+  }
 
 end
 

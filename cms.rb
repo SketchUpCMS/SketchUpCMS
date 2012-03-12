@@ -1,7 +1,8 @@
 # Tai Sakuma <sakuma@fnal.gov>
 require 'sketchup'
 
-$LOAD_PATH << '/usr/lib/ruby/1.8/'
+# $LOAD_PATH << '/usr/lib/ruby/1.8/'
+$LOAD_PATH.push("/opt/local/lib/ruby/site_ruby/1.8", "/opt/local/lib/ruby/site_ruby/1.8/i686-darwin10", "/opt/local/lib/ruby/site_ruby", "/opt/local/lib/ruby/vendor_ruby/1.8", "/opt/local/lib/ruby/vendor_ruby/1.8/i686-darwin10", "/opt/local/lib/ruby/vendor_ruby", "/opt/local/lib/ruby/1.8", "/opt/local/lib/ruby/1.8/i686-darwin10")
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 require 'ddlcallbacks'
@@ -19,6 +20,7 @@ load 'SolidsManager.rb'
 load 'LogicalPartsManager.rb'
 load 'PosPartsManager.rb'
 
+
 ##____________________________________________________________________________||
 def cmsmain
 
@@ -29,6 +31,11 @@ end
 
 ##____________________________________________________________________________||
 def draw_all_20111213_01
+
+  $solidsManager.clear
+  $logicalPartsManager.clear
+  $posPartsManager.clear
+  Sketchup.active_model.definitions.purge_unused
 
   $solidsManager.eraseAfterDefine = true
   $logicalPartsManager.eraseAfterDefine = true
@@ -45,7 +52,7 @@ def draw_all_20111213_01
       drawChildren(pp.child, depth)
       next if pp.done
       begin
-        # p pp 
+        ## p pp 
         if depth == 0 or pp.child.children.size == 0 or not (pp.child.materialName.to_s =~ /Air$/ or pp.child.materialName.to_s =~ /free_space$/)
           pp.child.instantiateSolid()
         end
@@ -81,7 +88,7 @@ def draw_all_20111213_01
   # drawChildren lp, 10
 
   # lp = $logicalPartsManager.get("muonBase:MUON".to_sym)
-  # drawChildren lp, 1
+  # drawChildren lp, 9
 
   # lp = $logicalPartsManager.get("hcalforwardalgo:VCAL".to_sym)
   # drawChildren lp, 4
