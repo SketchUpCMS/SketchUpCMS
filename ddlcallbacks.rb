@@ -108,7 +108,7 @@ class PartListener < DDLListener
   def initialize(geometryManager, sectionaName)
     super()
     @geometryManager = geometryManager
-    @sectionaName = sectionaName
+    @sectionaName = sectionaName.to_sym
   end
   def listener_enter(name, attributes, sectionLabel)
     @sectionLabel = sectionLabel
@@ -117,7 +117,7 @@ class PartListener < DDLListener
   end
   def listener_exit(name)
     super
-    @geometryManager.add_geometry(@sectionaName, @sectionLabel, @partName, @args)
+    @geometryManager.add_entry(@sectionaName, @sectionLabel, @partName, @args)
   end
   def tag_start(name, attributes)
     @args[name] = Array.new if !(@args.key?(name))
@@ -159,7 +159,7 @@ class RotationSectionListener < DDLListener
     @sectionLabel = ''
   end
   def tag_start(name, attributes)
-    @geometryManager.add_rotation('RotationSection', @sectionLabel, name, attributes)
+    @geometryManager.add_entry(:RotationSection, @sectionLabel, name, attributes)
   end
 end
 
@@ -177,7 +177,7 @@ class ConstantsSectionListener < DDLListener
   end
   def tag_start(name, attributes)
     if name == 'Constant'
-      @geometryManager.add_constant('ConstantsSection', @sectionLabel, name, attributes)
+      @geometryManager.add_entry(:ConstantsSection, @sectionLabel, name, attributes)
     end
   end
 end

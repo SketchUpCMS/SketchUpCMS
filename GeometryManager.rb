@@ -126,6 +126,7 @@ class ConstantsManager
     value
   end
   def inSUstring(value)
+    p value
     value = expand(value)
     value = value.gsub(/([0-9]+)\.([^0-9]|$)/, '\1.0\2')
 
@@ -142,6 +143,7 @@ class GeometryManager
   attr_accessor :materialsManager, :rotationsManager, :constantsManager
   attr_accessor :solidsManager, :logicalPartsManager, :posPartsManager
   attr_reader :xmlFilePath
+
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
@@ -149,29 +151,25 @@ class GeometryManager
     @xmlFilePath = v
     @baseName = File::basename(@xmlFilePath).sub(/\.xml/, '').to_sym
   end
-  def add_constant sectionName, sectionLabel, partName, args
-    @constantsManager.addInDDL partName.to_sym, sectionLabel.to_sym, args
-  end
 
-  def add_rotation sectionName, sectionLabel, partName, args
-    @rotationsManager.addInDDL partName.to_sym, sectionLabel.to_sym, args
-  end
+  def add_entry sectionName, sectionLabel, partName, args
 
-  def add_geometry sectionName, sectionLabel, partName, args
+    sectionManagerMap = {
+      :SolidSection => @solidsManager,
+      :LogicalPartSection => @logicalPartsManager,
+      :PosPartSection =>  @posPartsManager,
+      :MaterialSection => @materialsManager,
+      :RotationSection => @rotationsManager,
+      :ConstantsSection => @constantsManager
+    }
+
     begin
-      if sectionName == "SolidSection"
-        @solidsManager.addInDDL partName.to_sym, sectionLabel.to_sym, args
-      elsif sectionName == "LogicalPartSection"
-        @logicalPartsManager.addInDDL partName.to_sym, sectionLabel.to_sym, args
-      elsif sectionName == "PosPartSection"
-        @posPartsManager.addInDDL partName.to_sym, sectionLabel.to_sym, args
-      elsif sectionName == "MaterialSection"
-        @materialsManager.addInDDL partName.to_sym, sectionLabel.to_sym, args
-      end
+      sectionManagerMap[sectionName].addInDDL partName.to_sym, sectionLabel.to_sym, args
     rescue Exception => e
       puts e.message
       p "#{self}: unable to add #{partName}, args=", args
     end
+
   end
 
 end
