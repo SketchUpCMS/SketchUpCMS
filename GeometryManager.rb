@@ -84,76 +84,10 @@ class MaterialsManager
   end
 end
 
-##____________________________________________________________________________||
-class ConstantsManager
-  attr_accessor :geometryManager
-  attr_accessor :inDDLInOrderOfAddition
-  def inspect
-    "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
-  end
-  def initialize
-    @inDDLHash = Hash.new
-    @inDDLInOrderOfAddition = Array.new
-  end
-  def addInDDL type, sectionLabel, args
-    @inDDLInOrderOfAddition << {:sectionLabel => sectionLabel, :args => args}
-    name, value = args["name"], args["value"]
-    name = name.to_sym
-    value = value.gsub(/\r/," ")
-    value = value.gsub(/\n/," ")
-    @inDDLHash[name] = value
-  end
-  def get(name)
-    raise StandardError, "no such constant \"#{name}\"" unless @inDDLHash.key?(name)
-    ret = @inDDLHash[name]
-    ret
-  end
-  def expand(value)
-    begin
-      ret = value
-      maxLoop = 100
-      re = /^[^\[]*\[([^\]]*)\].*$/
-      while ret =~ re
-        name = ret.sub(re, '\1')
-        nameV = name.to_sym
-        v1 = get(nameV)
-        v1 = expand(v1)
-        ret = ret.sub('[' + name + ']', '(' + v1 + ')')
-        maxLoop -= 1
-        raise StandardError, "too many loops" if maxLoop <= 0 
-      end
-      return ret
-    rescue Exception => e
-      puts e.message
-      raise StandardError, "cannot expand \"#{value}\""
-    end
-    value
-  end
-  def inSU(value)
-    value = inSUstring(value)
-    begin
-      value = eval(value)
-    rescue Exception => e
-      puts e.message
-      raise StandardError, "cannot eval \"#{value}\""
-    end
-    value
-  end
-  def inSUstring(value)
-    value = expand(value)
-    value = value.gsub(/([0-9]+)\.([^0-9]|$)/, '\1.0\2')
-
-    value = value.gsub(/\*m/, '*1.m')
-    value = value.gsub(/\*deg/, '*1.degrees')
-
-    value
-  end
-end
-
 
 ##____________________________________________________________________________||
 class GeometryManager
-  attr_accessor :materialsManager, :rotationsManager, :constantsManager
+  attr_accessor :materialsManager, :rotationsManager
   attr_accessor :solidsManager, :logicalPartsManager, :posPartsManager
   attr_reader :xmlFilePath
 
@@ -173,7 +107,6 @@ class GeometryManager
       :PosPartSection =>  @posPartsManager,
       :MaterialSection => @materialsManager,
       :RotationSection => @rotationsManager,
-      :ConstantsSection => @constantsManager
     }
 
     begin
