@@ -56,9 +56,9 @@ class PosPart
   def translation
     return @translation if @translation
     if @argsInDDL and @argsInDDL.key?("Translation")
-      x = @geometryManager.constantsManager.inSU(@argsInDDL["Translation"][0]['x'])
-      y = @geometryManager.constantsManager.inSU(@argsInDDL["Translation"][0]['y'])
-      z = @geometryManager.constantsManager.inSU(@argsInDDL["Translation"][0]['z'])
+      x = stringToSUNumeric(@argsInDDL["Translation"][0]['x'])
+      y = stringToSUNumeric(@argsInDDL["Translation"][0]['y'])
+      z = stringToSUNumeric(@argsInDDL["Translation"][0]['z'])
       vector = Geom::Vector3d.new z, x, y
       @translation = Geom::Transformation.translation vector
     else

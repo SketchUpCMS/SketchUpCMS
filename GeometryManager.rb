@@ -10,6 +10,20 @@ def baseNameName(name)
 end
 
 ##____________________________________________________________________________||
+def stringToSUNumeric(value)
+  value = value.gsub(/([0-9]+)\.([^0-9]|$)/, '\1.0\2')
+  value = value.gsub(/\*m/, '*1.m')
+  value = value.gsub(/\*deg/, '*1.degrees')
+  begin
+    value = eval(value)
+  rescue Exception => e
+    puts e.message
+    raise StandardError, "cannot eval \"#{value}\""
+  end
+  value
+end
+
+##____________________________________________________________________________||
 class MaterialsManager
   attr_accessor :geometryManager
   attr_accessor :inDDLInOrderOfAddition

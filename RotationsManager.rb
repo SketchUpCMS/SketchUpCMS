@@ -47,7 +47,7 @@ class Rotation
 
     scalarNumericArgs.each do |name|
       next unless argsInDDL.key?(name)
-      argsInSU[name] = @geometryManager.constantsManager.inSU(argsInDDL[name])
+      argsInSU[name] = stringToSUNumeric(argsInDDL[name])
     end
 
     argsInSU

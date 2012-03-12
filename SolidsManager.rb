@@ -80,7 +80,7 @@ class BasicSolid < Solid
 
     scalarNumericArgs.each do |name|
       next unless argsInDDL.key?(name)
-      argsInSU[name] = @geometryManager.constantsManager.inSU(argsInDDL[name])
+      argsInSU[name] = stringToSUNumeric(argsInDDL[name])
     end
 
     knownNamesForZSection = ['z', 'rMin', 'rMax']
@@ -92,7 +92,7 @@ class BasicSolid < Solid
           p "#{self}: unknown argument #{k}" unless knownNamesForZSection.include?(k)
         end
         knownNamesForZSection.each do |k|
-          zsecInSU[k] = @geometryManager.constantsManager.inSU(zsecInDDL[k])
+          zsecInSU[k] = stringToSUNumeric(zsecInDDL[k])
         end
         zSectionsInSU << zsecInSU
       end
@@ -211,9 +211,9 @@ class CompoundSolid < Solid
         ret[name] = baseNameName(value[0]['name'])
       elsif name == 'Translation'
         raise StandardError, "length should be 1" unless value.length == 1
-        x = @geometryManager.constantsManager.inSU(value[0]['x'])
-        y = @geometryManager.constantsManager.inSU(value[0]['y'])
-        z = @geometryManager.constantsManager.inSU(value[0]['z'])
+        x = stringToSUNumeric(value[0]['x'])
+        y = stringToSUNumeric(value[0]['y'])
+        z = stringToSUNumeric(value[0]['z'])
         ret[name] = {'x' => x, 'y' => y, 'z' => z}
       else
         p 'unknown argument ', name
