@@ -11,10 +11,9 @@ class Rotation
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
-  def initialize geometryManager, partName, name
+  def initialize geometryManager, partName
     @geometryManager = geometryManager
     @partName = partName
-    @name = name
   end
   def clear
     @transformation = nil
@@ -64,6 +63,15 @@ class Rotation
 end
 
 ##____________________________________________________________________________||
+def buildRotationFromDDL(inDDL, geometryManager)
+  part = Rotation.new geometryManager, inDDL[:partName]
+  part.sectionLabel = inDDL[:sectionLabel]
+  part.argsInDDL = inDDL[:args]
+  part.name = inDDL[:args]['name'].to_sym
+  part
+end
+
+##____________________________________________________________________________||
 class RotationsManager
   attr_accessor :geometryManager
   attr_accessor :inDDLInOrderOfAddition
@@ -79,38 +87,22 @@ class RotationsManager
   def clear
     @partsInOrderOfAddition.each {|p| p.clear if p}
   end
+  def get(name)
+    @partsHash.key?(name) ? @partsHash[name] : nil
+  end
   def addInDDL partName, sectionLabel, args
     inDDL = {:partName => partName, :sectionLabel => sectionLabel, :args => args}
     @inDDLInOrderOfAddition << inDDL
-    addToPartsHash inDDL
+    addPart buildRotationFromDDL(inDDL, @geometryManager)
   end
   def buildPartsHash
     @partsInOrderOfAddition = Array.new
     @partsHash = Hash.new
-    @inDDLInOrderOfAddition.each {|inDDL| addToPartsHash inDDL}
+    @inDDLInOrderOfAddition.each {|inDDL| addPart buildRotationFromDDL(inDDL, @geometryManager)}
   end
-  def addToPartsHash inDDL
-    name = inDDL[:args]['name'].to_sym
-    part = buildPart(inDDL)
-    addPart name, part 
-  end
-  def buildPart inDDL
-    name = inDDL[:args]['name'].to_sym
-    part = Rotation.new @geometryManager, inDDL[:partName], name
-    part.sectionLabel = inDDL[:sectionLabel]
-    part.argsInDDL = inDDL[:args]
-    part
-  end
-  def addPart name, part
+  def addPart part
     @partsInOrderOfAddition << part
-    @partsHash[name] = part 
-  end
-  def get(name)
-    return nil unless @partsHash.key?(name)
-    @partsHash[name]
-  end
-
-  def getInSU name
+    @partsHash[part.name] = part 
   end
 end
 
