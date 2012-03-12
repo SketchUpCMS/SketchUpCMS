@@ -90,15 +90,9 @@ class RotationsManager
   def get(name)
     @partsHash.key?(name) ? @partsHash[name] : nil
   end
-  def addInDDL partName, sectionLabel, args
-    inDDL = {:partName => partName, :sectionLabel => sectionLabel, :args => args}
+  def addInDDL inDDL
     @inDDLInOrderOfAddition << inDDL
     addPart buildRotationFromDDL(inDDL, @geometryManager)
-  end
-  def buildPartsHash
-    @partsInOrderOfAddition = Array.new
-    @partsHash = Hash.new
-    @inDDLInOrderOfAddition.each {|inDDL| addPart buildRotationFromDDL(inDDL, @geometryManager)}
   end
   def addPart part
     @partsInOrderOfAddition << part

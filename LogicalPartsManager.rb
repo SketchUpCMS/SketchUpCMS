@@ -146,15 +146,9 @@ class LogicalPartsManager
     @partsInOrderOfAddition << part
     @partsHash[name] = part 
   end
-  def addInDDL partName, sectionLabel, args
-    inDDL = {:partName => partName, :sectionLabel => sectionLabel, :args => args}
+  def addInDDL inDDL
     @inDDLInOrderOfAddition << inDDL
     addToPartsHash inDDL
-  end
-  def buildPartsHash
-    @partsInOrderOfAddition = Array.new
-    @partsHash = Hash.new
-    @inDDLInOrderOfAddition.each {|inDDL| addToPartsHash inDDL}
   end
   def addToPartsHash inDDL
     name = inDDL[:args]['name'].to_sym

@@ -115,17 +115,10 @@ class PosPartsManager
   def getByChild(name)
     @partsHashByChild.key?(name) ? @partsHashByChild[name] : [ ]
   end
-  def addInDDL partName, sectionLabel, args
-    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(partName)
-    inDDL = {:partName => partName, :sectionLabel => sectionLabel, :args => args}
+  def addInDDL inDDL
+    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(inDDL[:partName])
     @inDDLInOrderOfAddition << inDDL
     addPart buildPosPartFromDDL(inDDL, @geometryManager)
-  end
-  def buildPartsHash
-    @partsInOrderOfAddition = Array.new
-    @partsHashByParent = Hash.new
-    @partsHashByChild = Hash.new
-    @inDDLInOrderOfAddition.each {|inDDL| addPart buildPosPartFromDDL(inDDL, @geometryManager)}
   end
   def addPart part 
     @partsInOrderOfAddition << part
