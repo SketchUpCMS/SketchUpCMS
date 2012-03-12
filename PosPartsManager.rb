@@ -5,11 +5,10 @@ class PosPart
   attr_accessor :geometryManager
   attr_accessor :partName
   attr_accessor :sectionLabel
-  attr_writer :parentName
-  attr_writer :childName
+  attr_accessor :parentName, :childName
+  attr_accessor :parent, :child
   attr_accessor :done
   attr_accessor :argsInDDL
-  attr_accessor :parent, :child
   attr_writer :rotation, :translation
 
   def inspect
@@ -24,8 +23,6 @@ class PosPart
     @done = false
     @parent = nil
     @child = nil
-    @parentName = nil
-    @childName = nil
     @rotation = nil
     @translation = nil
   end
@@ -41,19 +38,6 @@ class PosPart
     p "#{self}: not found: #{childName()}" unless @child
     @child
   end
-  def parentName
-    return @parentName if @parentName
-    return @parent.name if @parent
-    @parentName = baseNameName(@argsInDDL["rParent"][0]["name"])
-    @parentName
-  end
-  def childName
-    return @childName if @childName
-    return @child.name if @child
-    @childName = baseNameName(@argsInDDL["rChild"][0]["name"])
-    @childName
-  end
-
   def exec
     return if @done
     doPosPart()
@@ -62,7 +46,7 @@ class PosPart
   def rotation
     return @rotation if @rotation
     if @argsInDDL and @argsInDDL.key?("rRotation")
-      name = baseNameName(@argsInDDL["rRotation"][0]["name"])
+      name = @argsInDDL["rRotation"][0]["name"].to_sym
       @rotation = @geometryManager.rotationsManager.get(name).transformation
     else
       @rotation = Geom::Transformation.new
@@ -94,12 +78,25 @@ class PosPart
 end
 
 ##____________________________________________________________________________||
+def buildPosPartFromDDL(inDDL, geometryManager)
+  part = PosPart.new geometryManager, inDDL[:partName]
+  part.sectionLabel = inDDL[:sectionLabel]
+  part.argsInDDL = inDDL[:args]
+  part.parentName = inDDL[:args]["rParent"][0]["name"].to_sym
+  part.childName = inDDL[:args]["rChild"][0]["name"].to_sym
+  part
+end
+
+##____________________________________________________________________________||
 class PosPartsManager
   attr_accessor :geometryManager
   attr_accessor :inDDLInOrderOfAddition
   attr_accessor :partsHashByParent
   attr_accessor :partsHashByChild
   attr_accessor :partsInOrderOfAddition
+
+  KnownPartNames = [:PosPart]
+
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
@@ -113,14 +110,22 @@ class PosPartsManager
     @partsInOrderOfAddition.each {|p| p.clear }
   end
   def getByParent(name)
-    return [] unless @partsHashByParent.key?(name)
-    parts = @partsHashByParent[name]
-    parts
+    @partsHashByParent.key?(name) ? @partsHashByParent[name] : [ ]
   end
   def getByChild(name)
-    return [] unless @partsHashByChild.key?(name)
-    parts = @partsHashByChild[name]
-    parts
+    @partsHashByChild.key?(name) ? @partsHashByChild[name] : [ ]
+  end
+  def addInDDL partName, sectionLabel, args
+    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(partName)
+    inDDL = {:partName => partName, :sectionLabel => sectionLabel, :args => args}
+    @inDDLInOrderOfAddition << inDDL
+    addPart buildPosPartFromDDL(inDDL, @geometryManager)
+  end
+  def buildPartsHash
+    @partsInOrderOfAddition = Array.new
+    @partsHashByParent = Hash.new
+    @partsHashByChild = Hash.new
+    @inDDLInOrderOfAddition.each {|inDDL| addPart buildPosPartFromDDL(inDDL, @geometryManager)}
   end
   def addPart part 
     @partsInOrderOfAddition << part
@@ -128,32 +133,6 @@ class PosPartsManager
     @partsHashByParent[part.parentName] << part
     @partsHashByChild[part.childName] = Array.new unless @partsHashByChild.key?(part.childName)
     @partsHashByChild[part.childName] << part
-  end
-  def addInDDL partName, sectionLabel, args
-    knownPartNames = [:PosPart]
-    raise StandardError, "unknown part name \"#{partName}\"" unless knownPartNames.include?(partName)
-    inDDL = {:partName => partName, :sectionLabel => sectionLabel, :args => args}
-    @inDDLInOrderOfAddition << inDDL
-    addToPartsHash inDDL
-  end
-  def buildPartsHash
-    @partsInOrderOfAddition = Array.new
-    @partsHashByParent = Hash.new
-    @partsHashByChild = Hash.new
-    @inDDLInOrderOfAddition.each {|inDDL| addToPartsHash inDDL}
-  end
-  def addToPartsHash inDDL
-    part = buildPart(inDDL)
-    addPart part 
-  end
-  def buildPart inDDL
-    part = PosPart.new @geometryManager, inDDL[:partName]
-    part.sectionLabel = inDDL[:sectionLabel]
-    part.argsInDDL = inDDL[:args]
-    part
-  end
-  def execute
-    @inDDLInOrderOfAddition.each {|inDDL| execInDDL inDDL }
   end
 
 end
