@@ -92,7 +92,7 @@ class PosPartsManager
   attr_accessor :geometryManager
   attr_accessor :partsHashByParent
   attr_accessor :partsHashByChild
-  attr_accessor :partsInOrderOfAddition
+  attr_accessor :parts
 
   KnownPartNames = [:PosPart]
 
@@ -102,10 +102,10 @@ class PosPartsManager
   def initialize
     @partsHashByParent = Hash.new
     @partsHashByChild = Hash.new
-    @partsInOrderOfAddition = Array.new
+    @parts = Array.new
   end
   def clear
-    @partsInOrderOfAddition.each {|p| p.clear }
+    @parts.each {|p| p.clear }
   end
   def getByParent(name)
     @partsHashByParent.key?(name) ? @partsHashByParent[name] : [ ]
@@ -115,7 +115,7 @@ class PosPartsManager
   end
   def add part
     raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
-    @partsInOrderOfAddition << part
+    @parts << part
     @partsHashByParent[part.parentName] = Array.new unless @partsHashByParent.key?(part.parentName)
     @partsHashByParent[part.parentName] << part
     @partsHashByChild[part.childName] = Array.new unless @partsHashByChild.key?(part.childName)

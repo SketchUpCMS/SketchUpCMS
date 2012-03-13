@@ -74,7 +74,7 @@ end
 ##____________________________________________________________________________||
 class RotationsManager
   attr_accessor :geometryManager
-  attr_accessor :partsHash, :partsInOrderOfAddition
+  attr_accessor :partsHash, :parts
 
   KnownPartNames = [:Rotation, :ReflectionRotation]
 
@@ -83,17 +83,17 @@ class RotationsManager
   end
   def initialize
     @partsHash = Hash.new
-    @partsInOrderOfAddition = Array.new
+    @parts = Array.new
   end
   def clear
-    @partsInOrderOfAddition.each {|p| p.clear if p}
+    @parts.each {|p| p.clear if p}
   end
   def get(name)
     @partsHash.key?(name) ? @partsHash[name] : nil
   end
   def add part
     raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
-    @partsInOrderOfAddition << part
+    @parts << part
     @partsHash[part.name] = part 
   end
 end

@@ -49,21 +49,21 @@ end
 ##____________________________________________________________________________||
 class MaterialsManager
   attr_accessor :geometryManager
-  attr_accessor :partsHash, :partsInOrderOfAddition
+  attr_accessor :partsHash, :parts
   attr_accessor :defaultColor
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
   def initialize
     @partsHash = Hash.new
-    @partsInOrderOfAddition = Array.new
+    @parts = Array.new
     clear
   end
   def clear
     @defaultColor = 'silver'
   end
   def add part
-    @partsInOrderOfAddition << part
+    @parts << part
     @partsHash[part.name] = part 
   end
   def get(name)
