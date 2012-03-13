@@ -150,9 +150,8 @@ class LogicalPartsManager
   def get(name)
     @partsHash.key?(name)? @partsHash[name] : nil
   end
-  def addInDDL inDDL
-    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(inDDL[:partName])
-    part = buildLogicalPartFromDDL(inDDL, @geometryManager)
+  def add part
+    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
     @partsInOrderOfAddition << part
     @partsHash[part.name] = part 
   end

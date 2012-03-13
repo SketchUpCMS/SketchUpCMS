@@ -285,8 +285,7 @@ class SolidsManager
   def get(name)
     @partsHash.key?(name)? @partsHash[name] : nil
   end
-  def addInDDL inDDL
-    part = buildSolidFromDDL(inDDL, @geometryManager)
+  def add part
     @partsInOrderOfAddition << part
     @partsHash[part.name] = part 
   end

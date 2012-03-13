@@ -113,9 +113,8 @@ class PosPartsManager
   def getByChild(name)
     @partsHashByChild.key?(name) ? @partsHashByChild[name] : [ ]
   end
-  def addInDDL inDDL
-    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(inDDL[:partName])
-    part = buildPosPartFromDDL(inDDL, @geometryManager)
+  def add part
+    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
     @partsInOrderOfAddition << part
     @partsHashByParent[part.parentName] = Array.new unless @partsHashByParent.key?(part.parentName)
     @partsHashByParent[part.parentName] << part

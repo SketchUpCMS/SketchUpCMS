@@ -52,6 +52,14 @@ class GeometryManager
 
   def add_inDDL_to_sectionManager sectionName, inDDL
 
+    sectionBuilderMap = {
+      :SolidSection => :buildSolidFromDDL,
+      :LogicalPartSection => :buildLogicalPartFromDDL,
+      :PosPartSection =>  :buildPosPartFromDDL,
+      :MaterialSection => :buildMaterialFromDDL,
+      :RotationSection => :buildRotationFromDDL,
+    }
+
     sectionManagerMap = {
       :SolidSection => @solidsManager,
       :LogicalPartSection => @logicalPartsManager,
@@ -60,8 +68,10 @@ class GeometryManager
       :RotationSection => @rotationsManager,
     }
 
+
     # begin
-       sectionManagerMap[sectionName].addInDDL inDDL
+        part = send(sectionBuilderMap[sectionName], inDDL, self)
+        sectionManagerMap[sectionName].add part
     # rescue Exception => e
     #   puts e.message
     #   p "#{self}: unable to add #{inDDL[:partName]}, args=", inDDL[:args]

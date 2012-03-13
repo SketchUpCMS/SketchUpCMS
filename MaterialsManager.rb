@@ -62,8 +62,7 @@ class MaterialsManager
   def clear
     @defaultColor = 'silver'
   end
-  def addInDDL inDDL
-    part = buildMaterialFromDDL(inDDL, @geometryManager)
+  def add part
     @partsInOrderOfAddition << part
     @partsHash[part.name] = part 
   end

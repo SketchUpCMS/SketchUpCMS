@@ -91,9 +91,8 @@ class RotationsManager
   def get(name)
     @partsHash.key?(name) ? @partsHash[name] : nil
   end
-  def addInDDL inDDL
-    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(inDDL[:partName])
-    part = buildRotationFromDDL(inDDL, @geometryManager)
+  def add part
+    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
     @partsInOrderOfAddition << part
     @partsHash[part.name] = part 
   end
