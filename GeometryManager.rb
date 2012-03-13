@@ -24,51 +24,31 @@ def stringToSUNumeric(value)
 end
 
 ##____________________________________________________________________________||
-class MaterialsManager
+class Material
   attr_accessor :geometryManager
-  attr_accessor :inSUHash
-  attr_accessor :defaultMaterial, :defaultColor
+  attr_accessor :name
+  attr_accessor :partName
+  attr_accessor :sectionLabel
+  attr_accessor :argsInDDL
+  attr_accessor :defaultColor
   def inspect
-    "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
+    "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
-  def initialize
-    @inDDLHash = Hash.new
-
-    # @defaultMaterial = Sketchup.active_model.materials.add 'defaultMaterial'
-
-    clear
-  end
-  def clear
-    @inSUHash = Hash.new
+  def initialize geometryManager, partName
+    @geometryManager = geometryManager
+    @partName = partName
     @defaultColor = 'silver'
-    # @defaultMaterial.color = @defaultColor
   end
-  def addInDDL inDDL
-    name = inDDL[:args]['name'].to_sym
-    @inDDLHash[name] = inDDL
-  end
-  def getInDDL(name)
-    raise StandardError, "no such name \"#{name}\"" unless @inDDLHash.key?(name)
-    ret = @inDDLHash[name]
-    ret
-  end
-  def getInSU name
-    if @inSUHash.key?(name)
-      inSU = @inSUHash[name] 
-      return inSU
-    end
+  def inSU
+    return @inSU if @inSU
     begin
-      inDDL = getInDDL(name)
-      inSU = ddlToSU(inDDL)
+      @inSU = ddlToSU(@argsInDDL)
     rescue Exception => e
       puts e.message
-      # inSU = @defaultMaterial
     end
-    @inSUHash[name] = inSU
-    inSU
+    @inSU
   end
-  def ddlToSU inDDL
-    args = inDDL[:args]
+  def ddlToSU args
     materials = Sketchup.active_model.materials
     m = materials.add args['name']
     m.color = @defaultColor
@@ -76,7 +56,43 @@ class MaterialsManager
     m.alpha = eval(args['alpha']) if args.key?('alpha')
     # 'M_Steel-008'
     # m.color = 0x333399
+    p m
     m
+  end
+end
+
+##____________________________________________________________________________||
+def buildMaterialFromDDL(inDDL, geometryManager)
+  part = Material.new geometryManager, inDDL[:partName]
+  part.sectionLabel = inDDL[:sectionLabel]
+  part.argsInDDL = inDDL[:args]
+  part.name = inDDL[:args]['name'].to_sym
+  part
+end
+
+##____________________________________________________________________________||
+class MaterialsManager
+  attr_accessor :geometryManager
+  attr_accessor :partsHash, :partsInOrderOfAddition
+  attr_accessor :defaultColor
+  def inspect
+    "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
+  end
+  def initialize
+    @partsHash = Hash.new
+    @partsInOrderOfAddition = Array.new
+    clear
+  end
+  def clear
+    @defaultColor = 'silver'
+  end
+  def addInDDL inDDL
+    part = buildMaterialFromDDL(inDDL, @geometryManager)
+    @partsInOrderOfAddition << part
+    @partsHash[part.name] = part 
+  end
+  def get(name)
+    @partsHash.key?(name) ? @partsHash[name] : nil
   end
 end
 
@@ -117,12 +133,12 @@ class GeometryManager
       :RotationSection => @rotationsManager,
     }
 
-    begin
-      sectionManagerMap[sectionName].addInDDL inDDL
-    rescue Exception => e
-      puts e.message
-      p "#{self}: unable to add #{inDDL[:partName]}, args=", inDDL[:args]
-    end
+    # begin
+       sectionManagerMap[sectionName].addInDDL inDDL
+    # rescue Exception => e
+    #   puts e.message
+    #   p "#{self}: unable to add #{inDDL[:partName]}, args=", inDDL[:args]
+    # end
 
   end
 

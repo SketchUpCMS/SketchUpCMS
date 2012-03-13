@@ -46,7 +46,7 @@ class LogicalPart
   attr_writer :material
   def material
     return @material if @material
-    @material = @geometryManager.materialsManager.getInSU(materialName())
+    @material = @geometryManager.materialsManager.get(materialName()).inSU
     @material
   end
 
