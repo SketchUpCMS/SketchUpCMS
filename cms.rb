@@ -19,7 +19,7 @@ load 'RotationsManager.rb'
 load 'SolidsManager.rb'
 load 'LogicalPartsManager.rb'
 load 'PosPartsManager.rb'
-
+load 'MaterialsManager.rb'
 
 ##____________________________________________________________________________||
 def cmsmain
