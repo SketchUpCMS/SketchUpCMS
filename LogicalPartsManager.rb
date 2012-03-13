@@ -88,7 +88,7 @@ class LogicalPart
   def instantiateSolidInEntities solidDefinition, entities
     transform = Geom::Transformation.new
     @solidInstance = entities.add_instance solidDefinition, transform
-    @solidInstance.material = material()
+    # @solidInstance.material = material()
     @solidInstance.name = solidName().to_s + " "  + materialName().to_s
   end
 
