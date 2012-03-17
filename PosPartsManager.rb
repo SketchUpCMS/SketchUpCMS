@@ -92,6 +92,7 @@ class PosPartsManager
   attr_accessor :geometryManager
   attr_accessor :partsHashByParent
   attr_accessor :partsHashByChild
+  attr_accessor :partsHashByParentChild
   attr_accessor :parts
 
   KnownPartNames = [:PosPart]
@@ -102,6 +103,7 @@ class PosPartsManager
   def initialize
     @partsHashByParent = Hash.new
     @partsHashByChild = Hash.new
+    @partsHashByParentChild = Hash.new
     @parts = Array.new
   end
   def clear
@@ -120,6 +122,8 @@ class PosPartsManager
     @partsHashByParent[part.parentName] << part
     @partsHashByChild[part.childName] = Array.new unless @partsHashByChild.key?(part.childName)
     @partsHashByChild[part.childName] << part
+    @partsHashByParentChild[[part.parentName, part.childName]] = Array.new unless @partsHashByParentChild.key?([part.parentName, part.childName])
+    @partsHashByParentChild[[part.parentName, part.childName]] << part
   end
 
 end
