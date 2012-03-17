@@ -115,6 +115,9 @@ class PosPartsManager
   def getByChild(name)
     @partsHashByChild.key?(name) ? @partsHashByChild[name] : [ ]
   end
+  def getByParentChild(parentName, childName)
+    @partsHashByParentChild.key?([parentName, childName]) ? @partsHashByParentChild[[parentName, childName]] : [ ]
+  end
   def add part
     raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
     @parts << part
