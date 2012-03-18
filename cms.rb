@@ -36,6 +36,26 @@ end
 
 ##____________________________________________________________________________||
 def draw_gratr_20120317_02
+  def create_array_to_draw graph
+
+    # GRATR::Digraph
+    graphFromCMSE = subgraph_from(graph, :"cms:CMSE")
+
+    name = :"muonBase:MBWheel_0"
+    # name = :"mb4:MB4FeetN"
+
+    # Array (e.g. [:"muonBase:MBWheel_0", :"muonBase:MB", :"muonBase:MUON", :"cms:CMSE"])
+    topSortFromCMSEToName = topsort_from_to(graphFromCMSE, :"cms:CMSE", name)
+
+    # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
+    topSortFromName = topsort_from_depth(graphFromCMSE, name, 4)
+
+    # Array (e.g. [:"mb1:MB1RPC_OP", ... , :"muonBase:MUON", :"cms:CMSE"])
+    toDrawNames = topSortFromCMSEToName[0..-2] + topSortFromName
+
+    toDrawNames
+  end
+
   # all PosParts in the XML file
   graphAll = GRATR::Digraph.new
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName) }

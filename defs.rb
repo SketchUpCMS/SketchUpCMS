@@ -7,27 +7,6 @@ require 'GeometryManager'
 require 'gratr'
 
 ##____________________________________________________________________________||
-def create_array_to_draw graph
-
-  # GRATR::Digraph
-  graphFromCMSE = subgraph_from(graph, :"cms:CMSE")
-
-  name = :"muonBase:MBWheel_0"
-  # name = :"mb4:MB4FeetN"
-
-  # Array (e.g. [:"muonBase:MBWheel_0", :"muonBase:MB", :"muonBase:MUON", :"cms:CMSE"])
-  topSortFromCMSEToName = topsort_from_to(graphFromCMSE, :"cms:CMSE", name)
-
-  # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
-  topSortFromName = topsort_from_depth(graphFromCMSE, name, 4)
-
-  # Array (e.g. [:"mb1:MB1RPC_OP", ... , :"muonBase:MUON", :"cms:CMSE"])
-  toDrawNames = topSortFromCMSEToName[0..-2] + topSortFromName
-
-  toDrawNames
-end
-
-##____________________________________________________________________________||
 def subgraph_from(graph, from, depth = -1)
   # tree from from
   hashPredecessorBFSTreeFrom = graph.bfs_tree_from_vertex(from)
