@@ -22,8 +22,6 @@ class LogicalPart
     @solidName = nil
     @material = nil
     @materialName = nil
-    @parents = nil
-    @children = nil
   end
 
   def definition
@@ -55,17 +53,6 @@ class LogicalPart
     return @materialName if @materialName
     @materialName = baseNameName(@argsInDDL["rMaterial"][0]["name"])
     @materialName
-  end
-
-  def parents
-    return @parents if @parents
-    @parents = @geometryManager.posPartsManager.getByChild(@name)
-    @parents
-  end
-  def children
-    return @children if @children
-    @children = @geometryManager.posPartsManager.getByParent(@name)
-    @children
   end
 
   def instantiateSolid
@@ -103,14 +90,27 @@ class LogicalPart
     lpDefinition
   end
 
-  def placeChild childDefinition, transforms
+  def placeChild child, translation, rotation
+
+    # translation
+    x = stringToSUNumeric(translation['x'])
+    y = stringToSUNumeric(translation['y'])
+    z = stringToSUNumeric(translation['z'])
+    vector = Geom::Vector3d.new z, x, y
+    translation = Geom::Transformation.translation vector
+
+    rotation = rotation ? rotation.transformation : Geom::Transformation.new
+
+    transform = translation*rotation
+    childDefinition = child.definition
+    return unless childDefinition
     if (@definition and (not @definition.deleted?))
       entities = @definition.entities
-      transforms.each {|t| entities.add_instance childDefinition, t}
+      entities.add_instance childDefinition, transform
     else
       group = Sketchup.active_model.entities.add_group
       entities = group.entities
-      transforms.each {|t| entities.add_instance childDefinition, t}
+      entities.add_instance childDefinition, transform
       @definition = defineFromGroup group
     end
     return

@@ -47,32 +47,21 @@ class PosPart
     return @rotation if @rotation
     if @argsInDDL and @argsInDDL.key?("rRotation")
       name = @argsInDDL["rRotation"][0]["name"].to_sym
-      @rotation = @geometryManager.rotationsManager.get(name).transformation
+      @rotation = @geometryManager.rotationsManager.get(name)
     else
-      @rotation = Geom::Transformation.new
+      @rotation = nil
     end
     @rotation
   end
   def translation
     return @translation if @translation
-    if @argsInDDL and @argsInDDL.key?("Translation")
-      x = stringToSUNumeric(@argsInDDL["Translation"][0]['x'])
-      y = stringToSUNumeric(@argsInDDL["Translation"][0]['y'])
-      z = stringToSUNumeric(@argsInDDL["Translation"][0]['z'])
-      vector = Geom::Vector3d.new z, x, y
-      @translation = Geom::Transformation.translation vector
-    else
-      @translation =  Geom::Transformation.new
-    end
+    @translation = (@argsInDDL and @argsInDDL.key?("Translation")) ? @argsInDDL["Translation"][0] : {"z"=>"0*mm", "y"=>"0*mm", "x"=>"0*mm"}
     @translation
   end
   def doPosPart
-    transform = translation()*rotation()
     child = child()
     return unless child
-    childDefinition = child.definition
-    return unless childDefinition
-    parent().placeChild(childDefinition, [transform])
+    parent().placeChild(child, translation(), rotation())
   end
 
 end
