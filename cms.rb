@@ -34,33 +34,33 @@ end
 
 ##____________________________________________________________________________||
 def draw_gratr_20120317_02
-  $arrayToDraw = create_array_to_draw
-  draw_array $graphAll, $arrayToDraw.reverse
+  # all PosParts in the XML file
+  graphAll = GRATR::Digraph.new
+  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName) }
+
+  arrayToDraw = create_array_to_draw graphAll
+  draw_array graphAll, arrayToDraw.reverse
 end
 
 ##____________________________________________________________________________||
-def create_array_to_draw
+def create_array_to_draw graph
 
-  # all PosParts in the XML file
-  $graphAll = GRATR::Digraph.new
-  $posPartsManager.parts.each { |pp| $graphAll.add_edge!(pp.parentName, pp.childName) }
-
-  # GRATR::Digraph.new
-  $graphFromCMSE = subgraph_from($graphAll, :"cms:CMSE")
+  # GRATR::Digraph
+  graphFromCMSE = subgraph_from(graph, :"cms:CMSE")
 
   name = :"muonBase:MBWheel_0"
   # name = :"mb4:MB4FeetN"
 
   # Array (e.g. [:"muonBase:MBWheel_0", :"muonBase:MB", :"muonBase:MUON", :"cms:CMSE"])
-  $topSortFromCMSEToName = topsort_from_to($graphFromCMSE, :"cms:CMSE", name)
+  topSortFromCMSEToName = topsort_from_to(graphFromCMSE, :"cms:CMSE", name)
 
   # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
-  $topSortFromName = topsort_from_depth($graphFromCMSE, name, 4)
+  topSortFromName = topsort_from_depth(graphFromCMSE, name, 4)
 
   # Array (e.g. [:"mb1:MB1RPC_OP", ... , :"muonBase:MUON", :"cms:CMSE"])
-  $toDrawNames = $topSortFromCMSEToName[0..-2] + $topSortFromName
+  toDrawNames = topSortFromCMSEToName[0..-2] + topSortFromName
 
-  $toDrawNames
+  toDrawNames
 end
 
 ##____________________________________________________________________________||
@@ -80,7 +80,6 @@ def subgraph_from(graph, from, depth = -1)
 
   graphFromDepth = GRATR::Digraph.new
   graphFrom.edges.each { |a| graphFromDepth.add_edge!(a.source, a.target) if distance[a.target] <= depth }
-  $graphFromDepth = graphFromDepth
   graphFromDepth
 end
 
