@@ -7,10 +7,9 @@ class PosPart
   attr_accessor :sectionLabel
   attr_accessor :parentName, :childName
   attr_accessor :rotationName
+  attr_accessor :translation
   attr_accessor :done
   attr_accessor :argsInDDL
-  attr_writer :rotation, :translation
-
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} parent=#{parentName()} child=#{childName()}>"
   end
@@ -24,18 +23,17 @@ class PosPart
     @parent = nil
     @child = nil
     @rotation = nil
-    @translation = nil
   end
   def parent
     return @parent if @parent
-    @parent = @geometryManager.logicalPartsManager.get(parentName())
-    p "#{self}: not found: #{parentName()}" unless @parent
+    @parent = @geometryManager.logicalPartsManager.get(@parentName)
+    p "#{self}: not found: #{@parentName}" unless @parent
     @parent
   end
   def child
     return @child if @child
-    @child = @geometryManager.logicalPartsManager.get(childName())
-    p "#{self}: not found: #{childName()}" unless @child
+    @child = @geometryManager.logicalPartsManager.get(@childName)
+    p "#{self}: not found: #{@childName}" unless @child
     @child
   end
   def exec
@@ -53,11 +51,6 @@ class PosPart
     end
     @rotation
   end
-  def translation
-    return @translation if @translation
-    @translation = (@argsInDDL and @argsInDDL.key?("Translation")) ? @argsInDDL["Translation"][0] : {"z"=>"0*mm", "y"=>"0*mm", "x"=>"0*mm"}
-    @translation
-  end
   def doPosPart
     child = child()
     return unless child
@@ -74,6 +67,7 @@ def buildPosPartFromDDL(inDDL, geometryManager)
   part.parentName = inDDL[:args]["rParent"][0]["name"].to_sym
   part.childName = inDDL[:args]["rChild"][0]["name"].to_sym
   part.rotationName = inDDL[:args]["rRotation"] ? inDDL[:args]["rRotation"][0]["name"].to_sym : nil
+  part.translation = inDDL[:args]["Translation"] ? inDDL[:args]["Translation"][0] : {"z"=>"0*mm", "y"=>"0*mm", "x"=>"0*mm"}
   part
 end
 
