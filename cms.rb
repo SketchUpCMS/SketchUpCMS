@@ -38,7 +38,6 @@ def draw_gratr_20120317_02
   draw_array $graphAll, $arrayToDraw.reverse
 end
 
-
 ##____________________________________________________________________________||
 def create_array_to_draw
 
@@ -53,7 +52,7 @@ def create_array_to_draw
   # name = :"mb4:MB4FeetN"
 
   # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
-  $topSortFromName = topsort_from_all($graphFromCMSE, name)
+  $topSortFromName = topsort_from_depth($graphFromCMSE, name, 4)
 
   # Array (e.g. [:"muonBase:MBWheel_0", :"muonBase:MB", :"muonBase:MUON", :"cms:CMSE"])
   $topSortFromCMSEToName = topsort_from_to($graphFromCMSE, :"cms:CMSE", name)
@@ -65,7 +64,7 @@ def create_array_to_draw
 end
 
 ##____________________________________________________________________________||
-def subgraph_from(graph, from)
+def subgraph_from(graph, from, depth = -1)
   # tree from from
   hashPredecessorBFSTreeFrom = graph.bfs_tree_from_vertex(from)
   arrayBFSTreeFrom = hashPredecessorBFSTreeFrom.collect { |k, v| k }.uniq
@@ -73,19 +72,28 @@ def subgraph_from(graph, from)
 
   graphFrom = GRATR::Digraph.new
   graph.edges.each { |a| graphFrom.add_edge!(a.source, a.target) if arrayBFSTreeFrom.include?(a.source) and arrayBFSTreeFrom.include?(a.target) }
-  graphFrom
+
+  return graphFrom if depth < 0
+
+  simple_weight = Proc.new {|e| 1}
+  distance, path = graphFrom.shortest_path(from, simple_weight)
+
+  graphFromDepth = GRATR::Digraph.new
+  graphFrom.edges.each { |a| graphFromDepth.add_edge!(a.source, a.target) if distance[a.target] <= depth }
+  $graphFromDepth = graphFromDepth
+  graphFromDepth
 end
 
 ##____________________________________________________________________________||
-def topsort_from_all(graph, from)
-  graphFrom = subgraph_from(graph, from)
+def topsort_from_depth(graph, from, depth = -1)
+  graphFrom = subgraph_from(graph, from, depth)
 
   # distance from from
   simple_weight = Proc.new {|e| 1}
   # $hashDistanceFromMBWheel_0, $hashPathToMBWheel_0 = graphFrom.shortest_path(from, simple_weight)
 
   # topological sort from from
-  graphFrom.topsort(from)
+  graphFrom.size > 0 ? graphFrom.topsort(from) : [from]
 end
 
 ##____________________________________________________________________________||
