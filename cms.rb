@@ -51,11 +51,11 @@ def create_array_to_draw
   name = :"muonBase:MBWheel_0"
   # name = :"mb4:MB4FeetN"
 
-  # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
-  $topSortFromName = topsort_from_depth($graphFromCMSE, name, 4)
-
   # Array (e.g. [:"muonBase:MBWheel_0", :"muonBase:MB", :"muonBase:MUON", :"cms:CMSE"])
   $topSortFromCMSEToName = topsort_from_to($graphFromCMSE, :"cms:CMSE", name)
+
+  # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
+  $topSortFromName = topsort_from_depth($graphFromCMSE, name, 4)
 
   # Array (e.g. [:"mb1:MB1RPC_OP", ... , :"muonBase:MUON", :"cms:CMSE"])
   $toDrawNames = $topSortFromCMSEToName[0..-2] + $topSortFromName
@@ -87,10 +87,6 @@ end
 ##____________________________________________________________________________||
 def topsort_from_depth(graph, from, depth = -1)
   graphFrom = subgraph_from(graph, from, depth)
-
-  # distance from from
-  simple_weight = Proc.new {|e| 1}
-  # $hashDistanceFromMBWheel_0, $hashPathToMBWheel_0 = graphFrom.shortest_path(from, simple_weight)
 
   # topological sort from from
   graphFrom.size > 0 ? graphFrom.topsort(from) : [from]
