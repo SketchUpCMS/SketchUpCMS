@@ -74,24 +74,6 @@ def topsort_from_to graph, from, to
 end
 
 ##____________________________________________________________________________||
-def read_xmlfiles
-  topDir = File.expand_path(File.dirname(__FILE__)) + '/'
-  xmlfileListTest = [
-        'fred_01.xml'
-                    ]
-
-  xmlfileList = xmlfileListTest
-
-  xmlfileList.map! {|f| f = topDir + f }
-
-  p xmlfileList
-
-  geometryManager = buildGeometryManager()
-  callBacks = buildDDLCallBacks(geometryManager)
-  readXMLFiles(xmlfileList, callBacks, geometryManager)
-end
-
-##____________________________________________________________________________||
 def readXMLFiles(xmlfileList, callBacks, geometryManager)
   xmlfileList.each do |file| 
     p file

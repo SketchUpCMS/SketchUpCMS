@@ -192,6 +192,24 @@ def draw_all_20111213_01
 end
 
 ##____________________________________________________________________________||
+def read_xmlfiles
+  topDir = File.expand_path(File.dirname(__FILE__)) + '/'
+  xmlfileListTest = [
+        'fred_01.xml'
+                    ]
+
+  xmlfileList = xmlfileListTest
+
+  xmlfileList.map! {|f| f = topDir + f }
+
+  p xmlfileList
+
+  geometryManager = buildGeometryManager()
+  callBacks = buildDDLCallBacks(geometryManager)
+  readXMLFiles(xmlfileList, callBacks, geometryManager)
+end
+
+##____________________________________________________________________________||
 def buildGeometryManager
   $materialsManager = MaterialsManager.new
   $rotationsManager = RotationsManager.new
