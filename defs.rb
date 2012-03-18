@@ -70,7 +70,7 @@ def topsort_from_to graph, from, to
   end
   localGraph = GRATR::Digraph.new
   localGraph = buildLocalGraph graph, localGraph, from, to 
-  localGraph.topsort(from)
+  localGraph.size > 0 ? localGraph.topsort(from) : [from]
 end
 
 ##____________________________________________________________________________||
