@@ -6,7 +6,7 @@ class PosPart
   attr_accessor :partName
   attr_accessor :sectionLabel
   attr_accessor :parentName, :childName
-  attr_accessor :parent, :child
+  attr_accessor :rotationName
   attr_accessor :done
   attr_accessor :argsInDDL
   attr_writer :rotation, :translation
@@ -45,9 +45,9 @@ class PosPart
   end
   def rotation
     return @rotation if @rotation
-    if @argsInDDL and @argsInDDL.key?("rRotation")
-      name = @argsInDDL["rRotation"][0]["name"].to_sym
-      @rotation = @geometryManager.rotationsManager.get(name)
+    if @rotationName
+      @rotation = @geometryManager.rotationsManager.get(@rotationName)
+      p "#{self}: not found: #{@rotationName}" unless @rotation
     else
       @rotation = nil
     end
@@ -73,6 +73,7 @@ def buildPosPartFromDDL(inDDL, geometryManager)
   part.argsInDDL = inDDL[:args]
   part.parentName = inDDL[:args]["rParent"][0]["name"].to_sym
   part.childName = inDDL[:args]["rChild"][0]["name"].to_sym
+  part.rotationName = inDDL[:args]["rRotation"] ? inDDL[:args]["rRotation"][0]["name"].to_sym : nil
   part
 end
 
