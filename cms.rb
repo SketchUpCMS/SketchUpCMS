@@ -5,6 +5,8 @@ require 'sketchup'
 $LOAD_PATH.push("/opt/local/lib/ruby/site_ruby/1.8", "/opt/local/lib/ruby/site_ruby/1.8/i686-darwin10", "/opt/local/lib/ruby/site_ruby", "/opt/local/lib/ruby/vendor_ruby/1.8", "/opt/local/lib/ruby/vendor_ruby/1.8/i686-darwin10", "/opt/local/lib/ruby/vendor_ruby", "/opt/local/lib/ruby/1.8", "/opt/local/lib/ruby/1.8/i686-darwin10")
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
+require 'gratr'
+
 require 'ddlcallbacks'
 load 'ddlcallbacks.rb'
 
@@ -25,7 +27,123 @@ load 'MaterialsManager.rb'
 def cmsmain
 
   read_xmlfiles
-  draw_all_20111213_01
+  draw_gratr_20120317_02
+  # draw_all_20111213_01
+
+end
+
+##____________________________________________________________________________||
+def draw_gratr_20120317_02
+  $arrayToDraw = create_array_to_draw
+  draw_array $arrayToDraw, $graphAll
+end
+
+
+##____________________________________________________________________________||
+def create_array_to_draw
+
+  # all PosParts in the XML file
+  $graphAll = GRATR::Digraph.new
+  $posPartsManager.parts.each { |pp| $graphAll.add_edge!(pp.parentName, pp.childName) }
+
+  $graphFromCMSE = subgraph_from(:"cms:CMSE", $graphAll)
+
+  from = :"muonBase:MBWheel_0"
+  # from = :"mb4:MB4FeetN"
+
+  $arrayTopSrotFromMBWheel_0 = paths_downward_topsort(from, $graphFromCMSE)
+
+  $arrayMBWheel_0toCMSE = paths_upward_topsort(from, :"cms:CMSE", $graphFromCMSE)
+
+  $arrayToDraw = $arrayTopSrotFromMBWheel_0.reverse + $arrayMBWheel_0toCMSE[1..-1]
+
+  $arrayToDraw
+end
+
+##____________________________________________________________________________||
+def subgraph_from(from, graph)
+  # tree from from
+  hashPredecessorBFSTreeFrom = graph.bfs_tree_from_vertex(from)
+  arrayBFSTreeFrom = hashPredecessorBFSTreeFrom.collect { |k, v| k }.uniq
+  arrayBFSTreeFrom << from
+
+  graphFrom = GRATR::Digraph.new
+  graph.edges.each { |a| graphFrom.add_edge!(a.source, a.target) if arrayBFSTreeFrom.include?(a.source) and arrayBFSTreeFrom.include?(a.target) }
+  graphFrom
+end
+
+##____________________________________________________________________________||
+def paths_downward_topsort(from, graph)
+  graphFrom = subgraph_from(from, graph)
+
+  # distance from from
+  simple_weight = Proc.new {|e| 1}
+  # $hashDistanceFromMBWheel_0, $hashPathToMBWheel_0 = graphFrom.shortest_path(from, simple_weight)
+
+  # topological sort from from
+  graphFrom.topsort(from)
+end
+
+##____________________________________________________________________________||
+def paths_upward_topsort from, to, graph
+  def buildLocalGraph from, to, graph, localGraph
+    children = [from]
+    children.each do |child|
+      parents = graph.adjacent(child, {:direction => :in})
+      parents.each do |parent|
+        localGraph.add_edge!(parent, child)
+        buildLocalGraph(parent, to, graph, localGraph) unless parent == to
+      end
+    end
+    localGraph
+  end
+  localGraph = GRATR::Digraph.new
+  localGraph = buildLocalGraph from, to, graph, localGraph
+  localGraph.topsort(to).reverse
+end
+
+##____________________________________________________________________________||
+def draw_array arrayToDraw, graph
+
+  Sketchup.active_model.definitions.purge_unused
+  start_time = Time.now
+  Sketchup.active_model.start_operation("Draw CMS", true)
+
+  arrayToDraw.each do |parent|
+    logicalPart = $logicalPartsManager.get(parent)
+    # puts "logicalPart #{logicalPart.name}"
+    children = graph.neighborhood(parent, :out)
+    children = children.select { |e| arrayToDraw.include?(e) }
+    children.each do |child|
+      posParts = $posPartsManager.getByParentChild(parent, child)
+      posParts.each do |posPart|
+        # puts "  exec posPart #{posPart.parentName} - #{posPart.childName}"
+        posPart.exec
+      end
+    end
+    if children.size == 0
+      # puts "  instantiate solid for logicalPart #{logicalPart.name} #{logicalPart.materialName}"
+      logicalPart.instantiateSolid()
+    elsif not (logicalPart.materialName.to_s =~ /Air$/ or logicalPart.materialName.to_s =~ /free_space$/)
+      # puts "  instantiate solid for logicalPart #{logicalPart.name} #{logicalPart.materialName}"
+      logicalPart.instantiateSolid()
+    else
+      # puts "  not instantiate solid for logicalPart #{logicalPart.name} #{logicalPart.materialName}"
+    end
+  end
+
+  lp = $logicalPartsManager.get("cms:CMSE".to_sym)
+  definition = lp.definition
+  if definition
+    entities = Sketchup.active_model.entities
+    transform = Geom::Transformation.new(Geom::Point3d.new(0, 0, 15.m))
+    solidInstance = entities.add_instance definition, transform
+  end
+
+  Sketchup.active_model.commit_operation
+  end_time = Time.now
+  puts "Time elapsed #{(end_time - start_time)*1000} milliseconds"
+
 
 end
 
