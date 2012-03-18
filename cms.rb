@@ -35,7 +35,7 @@ end
 ##____________________________________________________________________________||
 def draw_gratr_20120317_02
   $arrayToDraw = create_array_to_draw
-  draw_array $arrayToDraw, $graphAll
+  draw_array $graphAll, $arrayToDraw.reverse
 end
 
 
@@ -46,22 +46,26 @@ def create_array_to_draw
   $graphAll = GRATR::Digraph.new
   $posPartsManager.parts.each { |pp| $graphAll.add_edge!(pp.parentName, pp.childName) }
 
-  $graphFromCMSE = subgraph_from(:"cms:CMSE", $graphAll)
+  # GRATR::Digraph.new
+  $graphFromCMSE = subgraph_from($graphAll, :"cms:CMSE")
 
-  from = :"muonBase:MBWheel_0"
-  # from = :"mb4:MB4FeetN"
+  name = :"muonBase:MBWheel_0"
+  # name = :"mb4:MB4FeetN"
 
-  $arrayTopSrotFromMBWheel_0 = paths_downward_topsort(from, $graphFromCMSE)
+  # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
+  $topSortFromName = topsort_from_all($graphFromCMSE, name)
 
-  $arrayMBWheel_0toCMSE = paths_upward_topsort(from, :"cms:CMSE", $graphFromCMSE)
+  # Array (e.g. [:"muonBase:MBWheel_0", :"muonBase:MB", :"muonBase:MUON", :"cms:CMSE"])
+  $topSortFromCMSEToName = topsort_from_to($graphFromCMSE, :"cms:CMSE", name)
 
-  $arrayToDraw = $arrayTopSrotFromMBWheel_0.reverse + $arrayMBWheel_0toCMSE[1..-1]
+  # Array (e.g. [:"mb1:MB1RPC_OP", ... , :"muonBase:MUON", :"cms:CMSE"])
+  $toDrawNames = $topSortFromCMSEToName[0..-2] + $topSortFromName
 
-  $arrayToDraw
+  $toDrawNames
 end
 
 ##____________________________________________________________________________||
-def subgraph_from(from, graph)
+def subgraph_from(graph, from)
   # tree from from
   hashPredecessorBFSTreeFrom = graph.bfs_tree_from_vertex(from)
   arrayBFSTreeFrom = hashPredecessorBFSTreeFrom.collect { |k, v| k }.uniq
@@ -73,8 +77,8 @@ def subgraph_from(from, graph)
 end
 
 ##____________________________________________________________________________||
-def paths_downward_topsort(from, graph)
-  graphFrom = subgraph_from(from, graph)
+def topsort_from_all(graph, from)
+  graphFrom = subgraph_from(graph, from)
 
   # distance from from
   simple_weight = Proc.new {|e| 1}
@@ -85,25 +89,25 @@ def paths_downward_topsort(from, graph)
 end
 
 ##____________________________________________________________________________||
-def paths_upward_topsort from, to, graph
-  def buildLocalGraph from, to, graph, localGraph
-    children = [from]
+def topsort_from_to graph, from, to
+  def buildLocalGraph graph, localGraph, from, to
+    children = [to]
     children.each do |child|
       parents = graph.adjacent(child, {:direction => :in})
       parents.each do |parent|
         localGraph.add_edge!(parent, child)
-        buildLocalGraph(parent, to, graph, localGraph) unless parent == to
+        buildLocalGraph(graph, localGraph, from, parent) unless parent == from
       end
     end
     localGraph
   end
   localGraph = GRATR::Digraph.new
-  localGraph = buildLocalGraph from, to, graph, localGraph
-  localGraph.topsort(to).reverse
+  localGraph = buildLocalGraph graph, localGraph, from, to 
+  localGraph.topsort(from)
 end
 
 ##____________________________________________________________________________||
-def draw_array arrayToDraw, graph
+def draw_array graph, arrayToDraw
 
   Sketchup.active_model.definitions.purge_unused
   start_time = Time.now
