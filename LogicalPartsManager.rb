@@ -7,6 +7,8 @@ class LogicalPart
   attr_accessor :name
   attr_accessor :partName
   attr_accessor :sectionLabel
+  attr_accessor :solidName
+  attr_accessor :materialName
   attr_accessor :argsInDDL
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
@@ -19,9 +21,7 @@ class LogicalPart
     @definition = nil
     @solidInstance = nil
     @solid = nil
-    @solidName = nil
     @material = nil
-    @materialName = nil
   end
 
   def definition
@@ -31,14 +31,8 @@ class LogicalPart
 
   def solid
     return @solid if @solid
-    @solid = @geometryManager.solidsManager.get(solidName())
+    @solid = @geometryManager.solidsManager.get(@solidName)
     @solid
-  end
-
-  def solidName
-    return @solidName if @solidName
-    @solidName = baseNameName(@argsInDDL["rSolid"][0]["name"])
-    @solidName
   end
 
   attr_writer :material
@@ -46,13 +40,6 @@ class LogicalPart
     return @material if @material
     @material = @geometryManager.materialsManager.get(materialName()).inSU
     @material
-  end
-
-  attr_writer :materialName
-  def materialName
-    return @materialName if @materialName
-    @materialName = baseNameName(@argsInDDL["rMaterial"][0]["name"])
-    @materialName
   end
 
   def instantiateSolid
@@ -76,7 +63,7 @@ class LogicalPart
     transform = Geom::Transformation.new
     @solidInstance = entities.add_instance solidDefinition, transform
     # @solidInstance.material = material()
-    @solidInstance.name = solidName().to_s + " "  + materialName().to_s
+    @solidInstance.name = @solidName.to_s + " "  + materialName().to_s
   end
 
   def defineFromGroup group
@@ -123,6 +110,8 @@ def buildLogicalPartFromDDL(inDDL, geometryManager)
   part.sectionLabel = inDDL[:sectionLabel]
   part.argsInDDL = inDDL[:args]
   part.name = inDDL[:args]['name'].to_sym
+  part.solidName = inDDL[:args]["rSolid"][0]["name"].to_sym
+  part.materialName = inDDL[:args]["rMaterial"][0]["name"].to_sym
   part
 end
 
