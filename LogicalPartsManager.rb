@@ -47,28 +47,12 @@ class LogicalPart
     @material
   end
 
-  def instantiateSolid
-    return if @solidInstance
-    return unless solid()
-
-    solidDefinition = solid().definition
-
-    if (@definition and (not @definition.deleted?))
-      entities = @definition.entities
-      instantiateSolidInEntities solidDefinition, entities
-    else
-      group = Sketchup.active_model.entities.add_group
-      entities = group.entities
-      instantiateSolidInEntities solidDefinition, entities
-      @definition = defineFromGroup group
-    end
+  def placeSolid 
+    @solidInPlace = solid()
   end
 
-  def instantiateSolidInEntities solidDefinition, entities
-    transform = Geom::Transformation.new
-    @solidInstance = entities.add_instance solidDefinition, transform
-    # @solidInstance.material = material()
-    @solidInstance.name = @solidName.to_s + " "  + @materialName.to_s
+  def placeChild child, translation, rotation
+    @children << {:child => child, :translation => translation, :rotation => rotation }
   end
 
   def defineFromGroup group
@@ -81,53 +65,42 @@ class LogicalPart
     @geometryManager.logicalPartsManager.moveInstanceAway(lpInstance)
     lpDefinition
   end
-
   def define
-    # return if (@definition and (not @definition.deleted?))
+    return if (@definition and (not @definition.deleted?))
+
+    definitions = [ ]
 
     @children.each do |child|
-      placeChild_old child[:child], child[:translation], child[:rotation]
+      childDefinition = child[:child].definition
+      x = stringToSUNumeric(child[:translation]['x'])
+      y = stringToSUNumeric(child[:translation]['y'])
+      z = stringToSUNumeric(child[:translation]['z'])
+      vector = Geom::Vector3d.new z, x, y
+      translation = Geom::Transformation.translation vector
+      rotation = child[:rotation] ? child[:rotation].transformation : Geom::Transformation.new
+      transform = translation*rotation
+      definitions << {:definition => childDefinition, :transform => transform, :material => nil, :name => nil}
     end
 
     if @solidInPlace
-      instantiateSolid()
+      solidDefinition = solid().definition
+      transform = Geom::Transformation.new
+      # material = material()
+      name = @solidName.to_s + " "  + @materialName.to_s
+      definitions << {:definition => solidDefinition, :transform => transform, :material => nil, :name => name}
     end
 
-  end
-
-  def placeSolid 
-    @solidInPlace = solid()
-  end
-
-  def placeChild child, translation, rotation
-    @children << {:child => child, :translation => translation, :rotation => rotation }
-  end
-
-  def placeChild_old child, translation, rotation
-
-    # translation
-    x = stringToSUNumeric(translation['x'])
-    y = stringToSUNumeric(translation['y'])
-    z = stringToSUNumeric(translation['z'])
-    vector = Geom::Vector3d.new z, x, y
-    translation = Geom::Transformation.translation vector
-
-    rotation = rotation ? rotation.transformation : Geom::Transformation.new
-
-    transform = translation*rotation
-    childDefinition = child.definition
-    return unless childDefinition
-    if (@definition and (not @definition.deleted?))
-      entities = @definition.entities
-      entities.add_instance childDefinition, transform
-    else
-      group = Sketchup.active_model.entities.add_group
-      entities = group.entities
-      entities.add_instance childDefinition, transform
-      @definition = defineFromGroup group
+    group = Sketchup.active_model.entities.add_group
+    entities = group.entities
+    definitions.each do |definition|
+      instance = entities.add_instance definition[:definition], definition[:transform]
+      instance.material = definition[:material] if definition[:material]
+      instance.name = definition[:name] if definition[:name]
     end
-    return
+    @definition = defineFromGroup group
+
   end
+
 end
 
 ##____________________________________________________________________________||
