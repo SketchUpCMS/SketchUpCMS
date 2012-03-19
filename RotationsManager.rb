@@ -7,7 +7,6 @@ class Rotation
   attr_accessor :partName
   attr_accessor :sectionLabel
   attr_accessor :argsInDDL
-  attr_writer :argsInSU
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
@@ -17,17 +16,11 @@ class Rotation
   end
   def clear
     @transformation = nil
-    @argsInSU = nil if @argsInDDL
   end
   def transformation
     return @transformation if @transformation 
     @transformation = defineTransformation()
     @transformation
-  end
-  def argsInSU
-    return @argsInSU if @argsInSU
-    @argsInSU = convertArguments(@argsInDDL)
-    @argsInSU
   end
   def convertArguments argsInDDL
     nonnumericArgs = ['name']
@@ -53,7 +46,7 @@ class Rotation
     argsInSU
   end
   def defineTransformation
-    args = argsInSU()
+    args = convertArguments(@argsInDDL)
     origin = Geom::Point3d.new 0, 0, 0
     xaxis = Geom::Vector3d.new Math::cos(args['thetaX']), Math::sin(args['thetaX'])*Math::cos(args['phiX']), Math::sin(args['thetaX'])*Math::sin(args['phiX'])
     yaxis = Geom::Vector3d.new Math::cos(args['thetaY']), Math::sin(args['thetaY'])*Math::cos(args['phiY']), Math::sin(args['thetaY'])*Math::sin(args['phiY'])
