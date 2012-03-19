@@ -10,18 +10,23 @@ class LogicalPart
   attr_accessor :solidName
   attr_accessor :materialName
   attr_accessor :argsInDDL
+  attr_accessor :children
+  attr_accessor :solidInPlace
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
   def initialize geometryManager, partName
     @geometryManager = geometryManager
     @partName = partName
+    @children = [ ]
   end
   def clear
     @definition = nil
     @solidInstance = nil
     @solid = nil
     @material = nil
+    @children = [ ]
+    @solidInPlace = nil
   end
 
   def definition
@@ -38,7 +43,7 @@ class LogicalPart
   attr_writer :material
   def material
     return @material if @material
-    @material = @geometryManager.materialsManager.get(materialName()).inSU
+    @material = @geometryManager.materialsManager.get(@materialName).inSU
     @material
   end
 
@@ -63,7 +68,7 @@ class LogicalPart
     transform = Geom::Transformation.new
     @solidInstance = entities.add_instance solidDefinition, transform
     # @solidInstance.material = material()
-    @solidInstance.name = @solidName.to_s + " "  + materialName().to_s
+    @solidInstance.name = @solidName.to_s + " "  + @materialName.to_s
   end
 
   def defineFromGroup group
@@ -77,7 +82,28 @@ class LogicalPart
     lpDefinition
   end
 
+  def define
+    # return if (@definition and (not @definition.deleted?))
+
+    @children.each do |child|
+      placeChild_old child[:child], child[:translation], child[:rotation]
+    end
+
+    if @solidInPlace
+      instantiateSolid()
+    end
+
+  end
+
+  def placeSolid 
+    @solidInPlace = solid()
+  end
+
   def placeChild child, translation, rotation
+    @children << {:child => child, :translation => translation, :rotation => rotation }
+  end
+
+  def placeChild_old child, translation, rotation
 
     # translation
     x = stringToSUNumeric(translation['x'])

@@ -41,14 +41,15 @@ def draw_gratr_20120317_02
     # GRATR::Digraph
     graphFromCMSE = subgraph_from(graph, :"cms:CMSE")
 
-    name = :"muonBase:MBWheel_0"
+    name = :"tob:TOB"
+    # name = :"muonBase:MBWheel_0"
     # name = :"mb4:MB4FeetN"
 
     # Array (e.g. [:"muonBase:MBWheel_0", :"muonBase:MB", :"muonBase:MUON", :"cms:CMSE"])
     topSortFromCMSEToName = topsort_from_to(graphFromCMSE, :"cms:CMSE", name)
 
     # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
-    topSortFromName = topsort_from_depth(graphFromCMSE, name, 4)
+    topSortFromName = topsort_from_depth(graphFromCMSE, name, 3)
 
     # Array (e.g. [:"mb1:MB1RPC_OP", ... , :"muonBase:MUON", :"cms:CMSE"])
     toDrawNames = topSortFromCMSEToName[0..-2] + topSortFromName
@@ -72,8 +73,6 @@ def draw_array graph, arrayToDraw
   Sketchup.active_model.start_operation("Draw CMS", true)
 
   arrayToDraw.each do |parent|
-    logicalPart = $logicalPartsManager.get(parent)
-    # puts "logicalPart #{logicalPart.name}"
     children = graph.neighborhood(parent, :out)
     children = children.select { |e| arrayToDraw.include?(e) }
     children.each do |child|
@@ -83,18 +82,22 @@ def draw_array graph, arrayToDraw
         posPart.exec
       end
     end
-    if children.size == 0
-      # puts "  instantiate solid for logicalPart #{logicalPart.name} #{logicalPart.materialName}"
-      logicalPart.instantiateSolid()
-    elsif not (logicalPart.materialName.to_s =~ /Air$/ or logicalPart.materialName.to_s =~ /free_space$/)
-      # puts "  instantiate solid for logicalPart #{logicalPart.name} #{logicalPart.materialName}"
-      logicalPart.instantiateSolid()
-    else
-      # puts "  not instantiate solid for logicalPart #{logicalPart.name} #{logicalPart.materialName}"
-    end
   end
 
-  lp = $logicalPartsManager.get("cms:CMSE".to_sym)
+  arrayToDraw.each do |v|
+    logicalPart = $logicalPartsManager.get(v)
+    next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /Air$/
+    next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /free_space$/
+    logicalPart.placeSolid()
+  end
+
+  arrayToDraw.each do |v|
+    logicalPart = $logicalPartsManager.get(v)
+    logicalPart.define()
+  end
+
+  # lp = $logicalPartsManager.get("cms:CMSE".to_sym)
+  lp = $logicalPartsManager.get("tob:TOB".to_sym)
   definition = lp.definition
   if definition
     entities = Sketchup.active_model.entities
@@ -215,7 +218,8 @@ end
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__)) + '/'
   xmlfileListTest = [
-        'fred_01.xml'
+        # 'fred_01.xml'
+        'tob_03.xml'
                     ]
 
   xmlfileList = xmlfileListTest
