@@ -39,20 +39,29 @@ def draw_gratr_20120317_02
   def create_array_to_draw graph
 
     # GRATR::Digraph
-    graphFromCMSE = subgraph_from(graph, :"cms:CMSE")
+    topName = :"cms:CMSE"
+    graphFromCMSE = subgraph_from(graph, topName)
 
-    name = :"tob:TOB"
-    # name = :"muonBase:MBWheel_0"
-    # name = :"mb4:MB4FeetN"
+    nameDepthList = [ {:name => :"tob:TOBLayer0", :depth => 2},
+                      {:name => :"tob:TOBLayer1", :depth => 2},
+                      {:name => :"tob:TOBLayer2", :depth => 2},
+                      {:name => :"tob:TOBLayer3", :depth => 2},
+                      {:name => :"tob:TOBLayer4", :depth => 2},
+                      {:name => :"tob:TOBLayer5", :depth => 2},
+                    ]
 
-    # Array (e.g. [:"muonBase:MBWheel_0", :"muonBase:MB", :"muonBase:MUON", :"cms:CMSE"])
-    topSortFromCMSEToName = topsort_from_to(graphFromCMSE, :"cms:CMSE", name)
+    names = nameDepthList.collect { |e| e[:name] }
+    graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
 
-    # Array (e.g. [:"muonBase:MBWheel_0", :"muonYoke:YB2_w0_t4", .. ])
-    topSortFromName = topsort_from_depth(graphFromCMSE, name, 3)
+    graphFromNames = GRATR::Digraph.new
+    nameDepthList.each do |e|
+      graphFromNames = graphFromNames + subgraph_from_depth(graphFromCMSE, e[:name], e[:depth])
+    end
 
-    # Array (e.g. [:"mb1:MB1RPC_OP", ... , :"muonBase:MUON", :"cms:CMSE"])
-    toDrawNames = topSortFromCMSEToName[0..-2] + topSortFromName
+    graphToDraw = graphFromCMSEToNames + graphFromNames
+
+    # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
+    toDrawNames = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
 
     toDrawNames
   end
