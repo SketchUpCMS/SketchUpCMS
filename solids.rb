@@ -1059,6 +1059,6 @@ def test_draw_solids
   # test_draw_UnionSolid entities
   # test_draw_SubtractionSolid entities
   # test_draw_Torus entities
-  test_draw_Polyhedra entities
+  # test_draw_Polyhedra entities
 end
 

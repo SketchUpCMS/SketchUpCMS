@@ -1,13 +1,25 @@
 # Tai Sakuma <sakuma@fnal.gov>
 require 'sketchup'
 
-# $LOAD_PATH << '/usr/lib/ruby/1.8/'
+$LOAD_PATH.push('/usr/lib/ruby/1.8/')
+$LOAD_PATH.push('/Library/Ruby/Site')
+$LOAD_PATH.push('/Library/Ruby/Gems/1.8')
+$LOAD_PATH.push('/Users/mccauley/.gem/ruby/1.8')
+$LOAD_PATH.push('/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8')
+
+
+#$LOAD_PATH.push('/Library/Ruby/Site')
+#$LOAD_PATH.push('/Library/Ruby/Gems/1.8')
+#$LOAD_PATH.push('/Users/mccauley/.gem/ruby/1.8')
+#$LOAD_PATH.push('/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8')
 $LOAD_PATH.push("/opt/local/lib/ruby/site_ruby/1.8", "/opt/local/lib/ruby/site_ruby/1.8/i686-darwin10", "/opt/local/lib/ruby/site_ruby", "/opt/local/lib/ruby/vendor_ruby/1.8", "/opt/local/lib/ruby/vendor_ruby/1.8/i686-darwin10", "/opt/local/lib/ruby/vendor_ruby", "/opt/local/lib/ruby/1.8", "/opt/local/lib/ruby/1.8/i686-darwin10")
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
-require 'gratr'
+#require 'gratr'
+load 'priority_queue.rb'
+load 'gratr.rb'
 
-require 'ddlcallbacks'
+#require 'ddlcallbacks'
 load 'ddlcallbacks.rb'
 
 # require 'solids'
@@ -24,12 +36,13 @@ load 'PosPartsManager.rb'
 load 'MaterialsManager.rb'
 
 load 'defs.rb'
-
+load 'ig2skp.rb'
 ##____________________________________________________________________________||
 def cmsmain
 
   read_xmlfiles
   draw_gratr_20120317_02
+  draw_event
 
 end
 
@@ -153,11 +166,11 @@ def draw_gratr_20120317_02
 
                   ]
 
+
     nameDepthHE = [ {:name => :"hcalalgo:HEC1", :depth => 0},
                     {:name => :"hcalalgo:HEC2", :depth => 0},
                     {:name => :"hcalendcapalgo:HEModule", :depth => 0},
                   ]
-
 
     nameDepthHF = [ {:name => :"hcalforwardalgo:VCAL", :depth => 2},
                   ]
@@ -494,7 +507,9 @@ def draw_gratr_20120317_02
     nameDepthOQUA = [ {:name => :"forwardshield:OQUA", :depth => 1},
                     ]
 
-    nameDepthList = nameDepthOQUA + nameDepthBEAM + nameDepthMUON + nameDepthHCAL + nameDepthECAL + nameDepthTracker
+    #tpm does this prevent drawing everything?
+    #nameDepthList = nameDepthOQUA + nameDepthBEAM + nameDepthMUON + nameDepthHCAL + nameDepthECAL + nameDepthTracker
+    nameDepthList = nameDepthMUON
 
     names = nameDepthList.collect { |e| e[:name] }
     graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
@@ -558,7 +573,7 @@ def draw_array graph, arrayToDraw, topName
   definition = lp.definition
   if definition
     entities = Sketchup.active_model.entities
-    transform = Geom::Transformation.new(Geom::Point3d.new(0, 0, 15.m))
+    transform = Geom::Transformation.new(Geom::Point3d.new(0, 0, 0))
     solidInstance = entities.add_instance definition, transform
   end
 
@@ -616,6 +631,40 @@ def buildGeometryManager
 
   geometryManager
 end
+
+def draw_event
+  event = Ig2Skp.read_event("/Users/mccauley/rbig.git/Events/Run_210534/Event_68185478")
+  
+  types = event["Types"]
+  collections = event["Collections"]
+  associations = event["Associations"]
+
+  materials = Sketchup.active_model.materials
+
+  muon_chamber_material = materials.add "MuonChamber"
+  muon_chamber_material.alpha = 0.1
+  muon_chamber_material.color = [1.0,0.0,0.0]
+
+  entities = Sketchup.active_model.entities
+
+  Ig2Skp.draw_as_faces(entities, collections["MuonChambers_V1"], muon_chamber_material)
+  Ig2Skp.draw_tracks(entities, collections["Tracks_V2"], collections["Extras_V1"], associations["TrackExtras_V1"], 2, 1.0)
+
+  ecal_rechit_material = materials.add "EcalRecHit"
+  ecal_rechit_material.alpha = 0.5
+  ecal_rechit_material.color = [1.0,0.2,0.0]
+
+  hcal_rechit_material = materials.add "HcalRecHit"
+  hcal_rechit_material.alpha = 0.5
+  hcal_rechit_material.color = [0.4,0.8,1.0]
+
+  Ig2Skp.draw_rechits(entities, collections["HBRecHits_V2"], hcal_rechit_material, 0.5, 0.5)
+  Ig2Skp.draw_rechits(entities, collections["HERecHits_V2"], hcal_rechit_material, 0.5, 0.05)
+  Ig2Skp.draw_rechits(entities, collections["EBRecHits_V2"], ecal_rechit_material, 0.25, 0.5)
+  Ig2Skp.draw_rechits(entities, collections["EERecHits_V2"], ecal_rechit_material, 0.5, 0.5)
+
+end
+
 
 ##____________________________________________________________________________||
 
