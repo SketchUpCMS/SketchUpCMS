@@ -509,7 +509,7 @@ def draw_gratr_20120317_02
 
     #tpm does this prevent drawing everything?
     #nameDepthList = nameDepthOQUA + nameDepthBEAM + nameDepthMUON + nameDepthHCAL + nameDepthECAL + nameDepthTracker
-    nameDepthList = nameDepthMUON
+    nameDepthList = nameDepthECAL + nameDepthHCAL + nameDepthMUON + nameDepthBEAM
 
     names = nameDepthList.collect { |e| e[:name] }
     graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
