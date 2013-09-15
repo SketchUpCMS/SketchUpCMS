@@ -1,29 +1,20 @@
 # Tai Sakuma <sakuma@fnal.gov>
 require 'sketchup'
 
-# $LOAD_PATH << '/usr/lib/ruby/1.8/'
-$LOAD_PATH.push("/opt/local/lib/ruby/site_ruby/1.8", "/opt/local/lib/ruby/site_ruby/1.8/i686-darwin10", "/opt/local/lib/ruby/site_ruby", "/opt/local/lib/ruby/vendor_ruby/1.8", "/opt/local/lib/ruby/vendor_ruby/1.8/i686-darwin10", "/opt/local/lib/ruby/vendor_ruby", "/opt/local/lib/ruby/1.8", "/opt/local/lib/ruby/1.8/i686-darwin10")
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
+require File.dirname(__FILE__) + '/sitecfg.rb'
 
 require 'gratr'
 
 require 'ddlcallbacks'
-load 'ddlcallbacks.rb'
-
-# require 'solids'
-load 'solids.rb'
-
+require 'solids'
 require 'GeometryManager'
-
-load 'GeometryManager.rb'
-load 'EntityDisplayer.rb'
-load 'RotationsManager.rb'
-load 'SolidsManager.rb'
-load 'LogicalPartsManager.rb'
-load 'PosPartsManager.rb'
-load 'MaterialsManager.rb'
-
-load 'defs.rb'
+require 'EntityDisplayer.rb'
+require 'RotationsManager.rb'
+require 'SolidsManager.rb'
+require 'LogicalPartsManager.rb'
+require 'PosPartsManager.rb'
+require 'MaterialsManager.rb'
+require 'defs.rb'
 
 ##____________________________________________________________________________||
 def cmsmain
