@@ -573,9 +573,7 @@ end
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__)) + '/'
   xmlfileListTest = [
-                     'fred.xml'
-                     #'fred_01.xml'
-                     #'tob_03.xml'
+                     'GeometryExtended.xml'
                     ]
 
   xmlfileList = xmlfileListTest
