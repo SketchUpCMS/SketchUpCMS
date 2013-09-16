@@ -5,6 +5,7 @@ require 'ddlcallbacks'
 require 'GeometryManager'
 
 require "benchmark"
+require 'defs'
 
 ##____________________________________________________________________________||
 def cmsmain
@@ -66,27 +67,6 @@ def buildGeometryManager
   $posPartsManager.geometryManager = geometryManager
 
   geometryManager
-end
-
-##____________________________________________________________________________||
-def buildDDLCallBacks(geometryManager)
-
-  materialSectionListener = SectionWithPartListener.new("MaterialSection", geometryManager)
-  rotationSectionListener = RotationSectionListener.new(geometryManager)
-  solidSectionListener = SectionWithPartListener.new("SolidSection", geometryManager)
-  logicalPartSectionListener = SectionWithPartListener.new("LogicalPartSection", geometryManager)
-  posPartSectionListener = SectionWithPartListener.new("PosPartSection", geometryManager)
-
-  mainListenersDispatcher = HashListenersDispatcher.new
-  mainListenersDispatcher.add_listner('MaterialSection', materialSectionListener)
-  mainListenersDispatcher.add_listner('RotationSection', rotationSectionListener)
-  mainListenersDispatcher.add_listner('SolidSection', solidSectionListener)
-  mainListenersDispatcher.add_listner('LogicalPartSection', logicalPartSectionListener)
-  mainListenersDispatcher.add_listner('PosPartSection', posPartSectionListener)
-
-  callBacks = DDLCallbacks.new
-  callBacks.listenersDispatcher = mainListenersDispatcher
-  callBacks
 end
 
 ##____________________________________________________________________________||
