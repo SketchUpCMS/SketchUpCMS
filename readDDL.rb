@@ -14,8 +14,63 @@ def cmsmain
   puts Benchmark.measure {
     read_xmlfiles()
   }
+  puts Benchmark.measure {
+    draw_geom()
+  }
+
 
 end
+
+##____________________________________________________________________________||
+def draw_geom
+
+  def create_array_to_draw graph, topName
+
+
+    # GRATR::Digraph
+    graphFromCMSE = subgraph_from(graph, topName)
+
+
+    nameDepthTOB = [ {:name => :"tob:TOBLayer0", :depth => 2},
+                     {:name => :"tob:TOBLayer1", :depth => 2},
+                     {:name => :"tob:TOBLayer2", :depth => 2},
+                     {:name => :"tob:TOBLayer3", :depth => 2},
+                     {:name => :"tob:TOBLayer4", :depth => 2},
+                     {:name => :"tob:TOBLayer5", :depth => 2},
+                   ]
+
+    # nameDepthTracker = nameDepthPixelBarrel + nameDepthPixelForward + nameDepthTIB + nameDepthTID + nameDepthTOB + nameDepthTEC
+    nameDepthTracker = nameDepthTOB
+
+
+    nameDepthList = nameDepthTracker
+
+    names = nameDepthList.collect { |e| e[:name] }
+    graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
+
+    graphFromNames = GRATR::Digraph.new
+    nameDepthList.each do |e|
+      graphFromNames = graphFromNames + subgraph_from_depth(graphFromCMSE, e[:name], e[:depth])
+    end
+
+    graphToDraw = graphFromCMSEToNames + graphFromNames
+
+    # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
+    toDrawNames = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
+
+    toDrawNames
+  end
+
+  # all PosParts in the XML file
+  graphAll = GRATR::Digraph.new
+  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName) }
+
+  topName = :"cms:CMSE"
+  arrayToDraw = create_array_to_draw graphAll, topName
+
+  p arrayToDraw
+end
+
 
 ##____________________________________________________________________________||
 def read_xmlfiles
