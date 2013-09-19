@@ -10,6 +10,7 @@ $LOAD_PATH.push("/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/
 
 ##____________________________________________________________________________||
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)) + "/lib")
 
 ##____________________________________________________________________________||
 # The path to gratr.
