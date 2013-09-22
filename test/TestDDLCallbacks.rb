@@ -4,7 +4,7 @@
 require 'test/unit'
 require "stringio"
 
-require "lib/ddlcallbacks_listeners"
+require "lib/DDLCallbacks"
   
 ##____________________________________________________________________________||
 class TestDDLCallbacks < Test::Unit::TestCase
