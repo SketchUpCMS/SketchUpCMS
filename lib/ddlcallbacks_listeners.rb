@@ -1,6 +1,6 @@
 # Tai Sakuma <sakuma@fnal.gov>
-require "rexml/document"
-require "rexml/streamlistener"
+
+require "DDLCallbacks"
 
 ##____________________________________________________________________________||
 class DDLListener
@@ -18,13 +18,6 @@ class NullListener < DDLListener
   def text(text) end
   def listener_enter(name, attributes) end
   def listener_exit(name) end
-end
-
-##____________________________________________________________________________||
-class ListenerDispatcher
-  def tag_start(name, attributes) end
-  def text(text) end
-  def tag_end(name) end
 end
 
 ##____________________________________________________________________________||
@@ -160,23 +153,6 @@ class RotationSectionListener < DDLListener
   end
   def tag_start(name, attributes)
     @geometryManager.add_entry(:RotationSection, @sectionLabel, name, attributes)
-  end
-end
-
-##____________________________________________________________________________||
-class DDLCallbacks
-  include REXML::StreamListener
-  attr_accessor :listenersDispatcher
-  def tag_start(name, attributes)
-    return if name == "DDDefinition"
-    @listenersDispatcher.tag_start name, attributes
-  end
-  def text(text)
-    @listenersDispatcher.text text
-  end
-  def tag_end(name)
-    return if name == "DDDefinition"
-    @listenersDispatcher.tag_end name
   end
 end
 
