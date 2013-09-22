@@ -22,10 +22,11 @@ class NullListener < DDLListener
 end
 
 ##____________________________________________________________________________||
-class RotationSectionListener < DDLListener
-  def initialize(geometryManager)
+class SectionListener < DDLListener
+  def initialize(sectionaName, geometryManager)
     super()
     @geometryManager = geometryManager
+    @sectionaName = sectionaName.to_sym
   end
   def listener_enter(name, attributes)
     @sectionLabel = attributes['label'].sub(/\.xml/, '')
@@ -34,7 +35,7 @@ class RotationSectionListener < DDLListener
     @sectionLabel = ''
   end
   def tag_start(name, attributes)
-    @geometryManager.add_entry(:RotationSection, @sectionLabel, name, attributes)
+    @geometryManager.add_entry(@sectionaName, @sectionLabel, name, attributes)
   end
 end
 

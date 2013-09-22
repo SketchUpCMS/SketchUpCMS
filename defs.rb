@@ -78,7 +78,7 @@ end
 def buildDDLCallBacks(geometryManager)
 
   materialSectionListener = SectionWithPartListener.new("MaterialSection", geometryManager)
-  rotationSectionListener = RotationSectionListener.new(geometryManager)
+  rotationSectionListener = SectionListener.new("RotationSection", geometryManager)
   solidSectionListener = SectionWithPartListener.new("SolidSection", geometryManager)
   logicalPartSectionListener = SectionWithPartListener.new("LogicalPartSection", geometryManager)
   posPartSectionListener = SectionWithPartListener.new("PosPartSection", geometryManager)
