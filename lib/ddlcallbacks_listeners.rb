@@ -22,6 +22,8 @@ end
 
 ##____________________________________________________________________________||
 class HashListenersDispatcher < ListenerDispatcher
+  attr_reader :currentListener, :currentTagName
+
   def initialize()
     @currentListener = nil
     @currentTagName = nil
