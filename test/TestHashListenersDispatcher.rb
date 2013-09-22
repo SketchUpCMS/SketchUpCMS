@@ -4,6 +4,7 @@
 require 'test/unit'
 require "stringio"
 
+require "lib/HashListenersDispatcher"
 require "lib/ddlcallbacks_listeners"
   
 ##____________________________________________________________________________||
