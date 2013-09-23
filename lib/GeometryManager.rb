@@ -1,6 +1,6 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
-require 'buildFromDDLs'
+require 'PartBuilder'
 
 ##____________________________________________________________________________||
 def baseNameName(name)
