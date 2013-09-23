@@ -2,7 +2,7 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)) + "/lib")
-require 'ddlcallbacks_listeners'
+require 'buildDDLCallBacks'
 require 'GeometryManager'
 
 require "benchmark"

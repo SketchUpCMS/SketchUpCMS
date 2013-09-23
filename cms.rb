@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + '/sitecfg.rb'
 
 require 'gratr'
 
-require 'ddlcallbacks_listeners'
+require 'buildDDLCallBacks'
 require 'solids'
 require 'GeometryManager'
 require 'EntityDisplayer.rb'
