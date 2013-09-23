@@ -104,17 +104,6 @@ class LogicalPart
 end
 
 ##____________________________________________________________________________||
-def buildLogicalPartFromDDL(inDDL, geometryManager)
-  part = LogicalPart.new geometryManager, inDDL[:partName]
-  part.sectionLabel = inDDL[:sectionLabel]
-  part.argsInDDL = inDDL[:args]
-  part.name = inDDL[:args]['name'].to_sym
-  part.solidName = inDDL[:args]["rSolid"][0]["name"].to_sym
-  part.materialName = inDDL[:args]["rMaterial"][0]["name"].to_sym
-  part
-end
-
-##____________________________________________________________________________||
 class LogicalPartsManager
   attr_accessor :geometryManager
   attr_accessor :eraseAfterDefine

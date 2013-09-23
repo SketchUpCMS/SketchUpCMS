@@ -38,15 +38,6 @@ class Material
 end
 
 ##____________________________________________________________________________||
-def buildMaterialFromDDL(inDDL, geometryManager)
-  part = Material.new geometryManager, inDDL[:partName]
-  part.sectionLabel = inDDL[:sectionLabel]
-  part.argsInDDL = inDDL[:args]
-  part.name = inDDL[:args]['name'].to_sym
-  part
-end
-
-##____________________________________________________________________________||
 class MaterialsManager
   attr_accessor :geometryManager
   attr_accessor :partsHash, :parts

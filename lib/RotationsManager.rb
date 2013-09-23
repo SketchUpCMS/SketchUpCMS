@@ -60,15 +60,6 @@ def define_transformation_for_rotation_from_DDL(ddl)
 end
 
 ##____________________________________________________________________________||
-def buildRotationFromDDL(inDDL, geometryManager)
-  part = Rotation.new geometryManager, inDDL[:partName]
-  part.sectionLabel = inDDL[:sectionLabel]
-  part.argsInDDL = inDDL[:args]
-  part.name = inDDL[:args]['name'].to_sym
-  part
-end
-
-##____________________________________________________________________________||
 class RotationsManager
   attr_accessor :geometryManager
   attr_accessor :partsHash, :parts

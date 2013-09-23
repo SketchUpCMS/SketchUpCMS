@@ -246,25 +246,6 @@ class UnknownSolid < Solid
 end
 
 ##____________________________________________________________________________||
-def buildSolidFromDDL(inDDL, geometryManager)
-  basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
-  compoundSolidNames = [:UnionSolid, :SubtractionSolid]
-
-  if basicSolidNames.include?(inDDL[:partName])
-    part = BasicSolid.new geometryManager, inDDL[:partName]
-  elsif compoundSolidNames.include?(inDDL[:partName])
-    part = CompoundSolid.new geometryManager, inDDL[:partName]
-  else
-    part = UnknownSolid.new geometryManager, inDDL[:partName]
-    p "#{self}: unknown solid #{inDDL[:partName]} #{part.name}"
-  end
-  part.sectionLabel = inDDL[:sectionLabel]
-  part.argsInDDL = inDDL[:args]
-  part.name = inDDL[:args]['name'].to_sym
-  part
-end
-
-##____________________________________________________________________________||
 class SolidsManager
   attr_accessor :geometryManager
   attr_accessor :eraseAfterDefine

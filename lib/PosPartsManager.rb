@@ -56,18 +56,6 @@ class PosPart
 end
 
 ##____________________________________________________________________________||
-def buildPosPartFromDDL(inDDL, geometryManager)
-  part = PosPart.new geometryManager, inDDL[:partName]
-  part.sectionLabel = inDDL[:sectionLabel]
-  part.argsInDDL = inDDL[:args]
-  part.parentName = inDDL[:args]["rParent"][0]["name"].to_sym
-  part.childName = inDDL[:args]["rChild"][0]["name"].to_sym
-  part.rotationName = inDDL[:args]["rRotation"] ? inDDL[:args]["rRotation"][0]["name"].to_sym : nil
-  part.translation = inDDL[:args]["Translation"] ? inDDL[:args]["Translation"][0] : {"z"=>"0*mm", "y"=>"0*mm", "x"=>"0*mm"}
-  part
-end
-
-##____________________________________________________________________________||
 class PosPartsManager
   attr_accessor :geometryManager
   attr_accessor :partsHashByParent

@@ -1,9 +1,6 @@
 # Tai Sakuma <sakuma@fnal.gov>
-require 'RotationsManager'
-require 'SolidsManager'
-require 'LogicalPartsManager'
-require 'PosPartsManager'
-require 'MaterialsManager'
+
+require 'buildFromDDLs'
 
 ##____________________________________________________________________________||
 def baseNameName(name)
