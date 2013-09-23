@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 # Tai Sakuma <sakuma@fnal.gov>
 
-require 'ddlcallbacks_listeners'
 require 'GeometryManager'
-
 require 'gratr'
 
 
