@@ -35,7 +35,11 @@ class SectionListener < DDLListener
     @sectionLabel = ''
   end
   def tag_start(name, attributes)
-    @geometryManager.add_entry(@sectionaName, @sectionLabel, name, attributes)
+    @name = name
+    @attributes = attributes
+  end
+  def tag_end(name)
+    @geometryManager.add_entry(@sectionaName, @sectionLabel, @name, @attributes)
   end
 end
 
