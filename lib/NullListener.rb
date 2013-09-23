@@ -1,10 +1,7 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
-require "DDLCallbacks"
-require "HashListenersDispatcher"
-
 ##____________________________________________________________________________||
-class DDLListener
+class NullListener < DDLListener
   def tag_start(name, attributes) end
   def tag_end(name) end
   def text(text) end
@@ -13,6 +10,3 @@ class DDLListener
 end
 
 ##____________________________________________________________________________||
-require "NullListener"
-require "SectionListener"
-require "SectionWithPartListener"
