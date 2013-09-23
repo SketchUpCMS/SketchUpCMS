@@ -1,7 +1,5 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
-require 'PartBuilder'
-
 ##____________________________________________________________________________||
 def baseNameName(name)
   return name.to_sym
@@ -25,13 +23,13 @@ end
 class GeometryManager
   attr_accessor :materialsManager, :rotationsManager
   attr_accessor :solidsManager, :logicalPartsManager, :posPartsManager
+  attr_accessor :partBuilder
 
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
   def initialize
     @inDDLs = Array.new
-    @partBuilder = PartBuilder.new
   end
 
   def add_entry sectionName, sectionLabel, partName, args

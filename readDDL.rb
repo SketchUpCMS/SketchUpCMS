@@ -4,6 +4,7 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)) + "/lib")
 require 'buildDDLCallBacks'
 require 'readXMLFiles'
+require 'PartBuilder'
 require 'GeometryManager'
 
 require "benchmark"
@@ -100,6 +101,8 @@ def buildGeometryManager
   $solidsManager = SolidsManager.new
   $logicalPartsManager = LogicalPartsManager.new
   $posPartsManager = PosPartsManager.new
+
+  $geometryManager.partBuilder = PartBuilder.new
 
   geometryManager = $geometryManager
   geometryManager.materialsManager = $materialsManager

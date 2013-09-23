@@ -7,6 +7,7 @@ require 'gratr'
 
 require 'buildDDLCallBacks'
 require 'readXMLFiles'
+require 'PartBuilder'
 require 'solids'
 require 'GeometryManager'
 require 'EntityDisplayer.rb'
@@ -587,6 +588,8 @@ def buildGeometryManager
   $solidsManager = SolidsManager.new
   $logicalPartsManager = LogicalPartsManager.new
   $posPartsManager = PosPartsManager.new
+
+  $geometryManager.partBuilder = PartBuilder.new
 
   $solidsManager.entityDisplayer = EntityDisplayer.new('solids', 100.m, 0, 0)
   $logicalPartsManager.entityDisplayer = EntityDisplayer.new('logicalParts', -100.m, 0, 0)
