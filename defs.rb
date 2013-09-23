@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 # Tai Sakuma <sakuma@fnal.gov>
 
-require 'GeometryManager'
 require 'gratr'
 
 
@@ -61,15 +60,6 @@ end
 def topsort_from_to graph, from, to
   localGraph = subgraph_from_to(graph, from, to)
   localGraph.size > 0 ? localGraph.topsort(from) : [from]
-end
-
-##____________________________________________________________________________||
-def readXMLFiles(xmlfileList, callBacks, geometryManager)
-  xmlfileList.each do |file| 
-    p file
-    geometryManager.xmlFilePath = file
-    REXML::Document.parse_stream(File.new(file), callBacks)
-  end
 end
 
 ##____________________________________________________________________________||

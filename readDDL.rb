@@ -3,6 +3,7 @@
 
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)) + "/lib")
 require 'buildDDLCallBacks'
+require 'readXMLFiles'
 require 'GeometryManager'
 
 require "benchmark"
@@ -89,15 +90,6 @@ def read_xmlfiles
   geometryManager = buildGeometryManager()
   callBacks = buildDDLCallBacks(geometryManager)
   readXMLFiles(xmlfileList, callBacks, geometryManager)
-end
-
-##____________________________________________________________________________||
-def readXMLFiles(xmlfileList, callBacks, geometryManager)
-  xmlfileList.each do |file| 
-    p file
-    geometryManager.xmlFilePath = file
-    REXML::Document.parse_stream(File.new(file), callBacks)
-  end
 end
 
 ##____________________________________________________________________________||
