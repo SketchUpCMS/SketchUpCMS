@@ -1,5 +1,8 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
+require "DDLCallbacks/ListenerDispatcher"
+require "DDLCallbacks/NullListener"
+
 ##____________________________________________________________________________||
 class HashListenersDispatcher < ListenerDispatcher
   attr_reader :currentListener, :currentTagName

@@ -1,5 +1,8 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
+require "DDLCallbacks/ListenerDispatcher"
+require "DDLCallbacks/DDLListener"
+
 ##____________________________________________________________________________||
 class PartListenerDispatcher < ListenerDispatcher
   attr_accessor :listener

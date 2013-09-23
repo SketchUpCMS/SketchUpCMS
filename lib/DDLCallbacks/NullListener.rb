@@ -1,5 +1,7 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
+require "DDLCallbacks/DDLListener"
+
 ##____________________________________________________________________________||
 class NullListener < DDLListener
   def tag_start(name, attributes) end

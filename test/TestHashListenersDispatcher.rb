@@ -2,9 +2,9 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
 require 'test/unit'
-require "stringio"
 
-require "ddlcallbacks_listeners"
+require "DDLCallbacks/HashListenersDispatcher"
+require "DDLCallbacks/DDLListener"
   
 ##____________________________________________________________________________||
 class TestHashListenersDispatcher < Test::Unit::TestCase
