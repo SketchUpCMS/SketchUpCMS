@@ -28,17 +28,12 @@ end
 class GeometryManager
   attr_accessor :materialsManager, :rotationsManager
   attr_accessor :solidsManager, :logicalPartsManager, :posPartsManager
-  attr_reader :xmlFilePath
 
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
   end
   def initialize
     @inDDLs = Array.new
-  end
-  def xmlFilePath=(v)
-    @xmlFilePath = v
-    @baseName = File::basename(@xmlFilePath).sub(/\.xml/, '').to_sym
   end
 
   def add_entry sectionName, sectionLabel, partName, args

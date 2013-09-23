@@ -7,10 +7,6 @@ require 'readXMLFiles'
 
 ##____________________________________________________________________________||
 class GeometryManagerDump
-  def xmlFilePath=(v)
-    @xmlFilePath = v
-    @baseName = File::basename(@xmlFilePath).sub(/\.xml/, '').to_sym
-  end
   def add_entry sectionName, sectionLabel, partName, args
     print "add_entry\n"
     p sectionName, sectionLabel, partName, args
