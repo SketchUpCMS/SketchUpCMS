@@ -3,7 +3,7 @@
 
 require 'test/unit'
 
-require "lib/ddlcallbacks_listeners"
+require "ddlcallbacks_listeners"
   
 ##____________________________________________________________________________||
 class TestSectionWithPartListener < Test::Unit::TestCase
