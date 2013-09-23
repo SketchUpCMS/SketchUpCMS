@@ -31,6 +31,7 @@ class GeometryManager
   end
   def initialize
     @inDDLs = Array.new
+    @partBuilder = PartBuilder.new
   end
 
   def add_entry sectionName, sectionLabel, partName, args
@@ -44,14 +45,6 @@ class GeometryManager
 
   def add_inDDL_to_sectionManager sectionName, inDDL
 
-    sectionBuilderMap = {
-      :SolidSection => :buildSolidFromDDL,
-      :LogicalPartSection => :buildLogicalPartFromDDL,
-      :PosPartSection =>  :buildPosPartFromDDL,
-      :MaterialSection => :buildMaterialFromDDL,
-      :RotationSection => :buildRotationFromDDL,
-    }
-
     sectionManagerMap = {
       :SolidSection => @solidsManager,
       :LogicalPartSection => @logicalPartsManager,
@@ -60,9 +53,8 @@ class GeometryManager
       :RotationSection => @rotationsManager,
     }
 
-
     # begin
-        part = send(sectionBuilderMap[sectionName], inDDL, self)
+        part = @partBuilder.build(sectionName, inDDL, self)
         sectionManagerMap[sectionName].add part
     # rescue Exception => e
     #   puts e.message

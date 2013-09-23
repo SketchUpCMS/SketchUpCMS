@@ -68,3 +68,18 @@ def buildPosPartFromDDL(inDDL, geometryManager)
 end
 
 ##____________________________________________________________________________||
+class PartBuilder
+    SECTIONBUILDERMAP = {
+      :SolidSection => :buildSolidFromDDL,
+      :LogicalPartSection => :buildLogicalPartFromDDL,
+      :PosPartSection =>  :buildPosPartFromDDL,
+      :MaterialSection => :buildMaterialFromDDL,
+      :RotationSection => :buildRotationFromDDL,
+    }
+
+  def build(sectionName, inDDL, geometryManager)
+    send(SECTIONBUILDERMAP[sectionName], inDDL, geometryManager)
+  end
+end
+
+##____________________________________________________________________________||
