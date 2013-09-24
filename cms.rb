@@ -40,8 +40,8 @@ load 'ig2skp.rb'
 ##____________________________________________________________________________||
 def cmsmain
 
-  read_xmlfiles
-  draw_gratr_20120317_02
+  #read_xmlfiles
+  #draw_gratr_20120317_02
   draw_event
 
 end
@@ -633,8 +633,10 @@ def buildGeometryManager
 end
 
 def draw_event
-  event = Ig2Skp.read_event("/Users/mccauley/rbig.git/Events/Run_210534/Event_68185478")
-  
+  #event = Ig2Skp.read_event("/Users/mccauley/SketchUpCMS/Events/Run_195099/Event_137440354")
+  event = Ig2Skp.read_event("/Users/mccauley/SketchUpCMS/Events/Run_178424/Event_666626491")
+  #event = Ig2Skp.read_event("/Users/mccauley/SketchUpCMS/Events/Run_193575/Event_400912970")
+
   types = event["Types"]
   collections = event["Collections"]
   associations = event["Associations"]
@@ -648,20 +650,25 @@ def draw_event
   entities = Sketchup.active_model.entities
 
   Ig2Skp.draw_as_faces(entities, collections["MuonChambers_V1"], muon_chamber_material)
-  Ig2Skp.draw_tracks(entities, collections["Tracks_V2"], collections["Extras_V1"], associations["TrackExtras_V1"], 2, 1.0)
+  
+  #Ig2Skp.draw_tracks(entities, collections["Tracks_V3"], collections["Extras_V1"], associations["TrackExtras_V1"], 2, 1.0)
+  #Ig2Skp.draw_tracks(entities, collections["Tracks_V2"], collections["Extras_V1"], associations["TrackExtras_V1"], 2, 1.0)
+
+  Ig2Skp.draw_tracks(entities, collections["GsfElectrons_V1"], collections["Extras_V1"], associations["GsfElectronExtras_V1"], 0, 5.0)
+  Ig2Skp.draw_muons(entities, collections["GlobalMuons_V1"], collections["Points_V1"], associations["MuonGlobalPoints_V1"])
 
   ecal_rechit_material = materials.add "EcalRecHit"
   ecal_rechit_material.alpha = 0.5
-  ecal_rechit_material.color = [1.0,0.2,0.0]
+  ecal_rechit_material.color = [0.1,1.0,0.1]
 
   hcal_rechit_material = materials.add "HcalRecHit"
   hcal_rechit_material.alpha = 0.5
   hcal_rechit_material.color = [0.4,0.8,1.0]
 
-  Ig2Skp.draw_rechits(entities, collections["HBRecHits_V2"], hcal_rechit_material, 0.5, 0.5)
-  Ig2Skp.draw_rechits(entities, collections["HERecHits_V2"], hcal_rechit_material, 0.5, 0.05)
-  Ig2Skp.draw_rechits(entities, collections["EBRecHits_V2"], ecal_rechit_material, 0.25, 0.5)
-  Ig2Skp.draw_rechits(entities, collections["EERecHits_V2"], ecal_rechit_material, 0.5, 0.5)
+  Ig2Skp.draw_rechits(entities, collections["HBRecHits_V2"], hcal_rechit_material, 0.5, 0.1)
+  Ig2Skp.draw_rechits(entities, collections["HERecHits_V2"], hcal_rechit_material, 0.5, 0.1)
+  Ig2Skp.draw_rechits(entities, collections["EBRecHits_V2"], ecal_rechit_material, 0.25, 0.05)
+  Ig2Skp.draw_rechits(entities, collections["EERecHits_V2"], ecal_rechit_material, 0.5, 0.05)
 
 end
 

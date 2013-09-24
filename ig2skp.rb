@@ -114,6 +114,30 @@ def Ig2Skp.draw_tracks(entities, tracks, extras, assocs, pt_index, min_pt)
   end
 end
 
+def Ig2Skp.draw_muons(entities, muons, points, assoc)
+  puts "Draw muons"
+  
+  curve_points = {}
+
+  for i in 0..muons.length-1
+    curve_points[i] = []
+  end
+
+  assoc.each do |asc|
+    mi = asc[0][1]
+    pi = asc[1][1]
+
+    points[pi][0].transform! $rotationAboutZ
+    points[pi][0].transform! $rotationAboutY
+
+    curve_points[mi].push(Geom::Point3d.new points[pi][0][0].m, points[pi][0][1].m, points[pi][0][2].m)
+  end
+
+  curve_points.each do |key, val|
+    entities.add_curve val
+  end
+end
+
 def Ig2Skp.draw_as_faces(entities, collection, material)
 	puts "Draw as faces"
 
