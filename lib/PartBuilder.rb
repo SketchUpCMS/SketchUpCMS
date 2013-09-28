@@ -11,6 +11,13 @@ require 'MaterialsManager'
 class PartBuilder
 
   def buildRotationFromDDL(inDDL, geometryManager)
+    # e.g.,
+    # inDDL = {
+    #   :sectionLabel=>:GeometryExtended, :partName=>:Rotation,
+    #   :args=>{"name"=>"DdBlNa:DdBlNa1306",
+    #     "phiZ"=>"0.00*deg", "phiY"=>"90.00*deg", "phiX"=>"0.00*deg",
+    #     "thetaZ"=>"0.00*deg", "thetaY"=>"90.00*deg", "thetaX"=>"90.00*deg"}
+    # }
     part = Rotation.new geometryManager, inDDL[:partName]
     part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
