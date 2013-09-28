@@ -53,11 +53,13 @@ class MaterialsManager
   def clear
     @defaultColor = 'silver'
   end
+  def get(name)
+    @partsHash.key?(name) ? @partsHash[name] : nil
+  end
   def add part
     @parts << part
     @partsHash[part.name] = part 
   end
-  def get(name)
-    @partsHash.key?(name) ? @partsHash[name] : nil
-  end
 end
+
+##____________________________________________________________________________||
