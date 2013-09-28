@@ -80,7 +80,10 @@ class RotationsManager
     @partsHash.key?(name) ? @partsHash[name] : nil
   end
   def add part
-    raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
+    if ! KnownPartNames.include?(part.partName)
+      $stderr.write self.class.name + ": Unknown part name: \"#{part.partName}\"\n"
+      return
+    end
     @parts << part
     @partsHash[part.name] = part 
   end
