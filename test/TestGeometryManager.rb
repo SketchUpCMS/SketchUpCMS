@@ -2,6 +2,7 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
 require 'test/unit'
+require "stringio"
 
 require "GeometryManager"
   
@@ -89,9 +90,11 @@ class TestGeometryManager < Test::Unit::TestCase
   end
 
   def test_wrong_section
-
+    ioerr = StringIO.new
+    $stderr = ioerr
     @geometryManager.add_entry(:NoSuchSection, "sectionLabelNoSuch", "partNameNoSuch", {"name"=>"nosuch:A"})
-
+    $stderr = STDERR
+    assert_equal("GeometryManager: Unknown section: \"NoSuchSection\"\n", ioerr.string)
   end
   
 end
