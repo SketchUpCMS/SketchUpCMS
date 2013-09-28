@@ -43,6 +43,18 @@ class TestRotationsManager < Test::Unit::TestCase
 
   end
 
+  def test_get
+
+    part = Rotation.new(@geometryManager, :Rotation)
+    part.name = :"DdBlNa:DdBlNa1306"
+
+    @rotationsManager.add part
+
+    assert_equal(part, @rotationsManager.get(:"DdBlNa:DdBlNa1306"))
+    assert_nil(@rotationsManager.get(:wrongname))
+
+  end
+
 end
 
 ##____________________________________________________________________________||
