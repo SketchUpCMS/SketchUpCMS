@@ -26,6 +26,31 @@ class PartBuilder
   end
 
   def buildMaterialFromDDL(inDDL, geometryManager)
+    # e.g.,
+    # inDDL = {
+    #   :sectionLabel=>:GeometryExtended, :partName=>:ElementaryMaterial,
+    #   :args=>{
+    #     "atomicWeight"=>"12.01099*g/mole",
+    #     "name"=>"materials:Carbon",
+    #     "atomicNumber"=>"6",
+    #     "density"=>"2.26500e+03*mg/cm3"
+    #   }
+    # }
+    # inDDL = {:sectionLabel=>:GeometryExtended, :partName=>:CompositeMaterial,
+    #   :args=>{
+    #     "method"=>"mixture by weight",
+    #     "MaterialFraction"=>[{"fraction"=>"0.749400000"},
+    #                          {"fraction"=>"0.236900000"},
+    #                          {"fraction"=>"0.012900000"},
+    #                          {"fraction"=>"0.000800000"}],
+    #     "name"=>"materials:Air",
+    #     "rMaterial"=>[{"name"=>"materials:Nitrogen"},
+    #                   {"name"=>"materials:Oxygen"},
+    #                   {"name"=>"materials:Argon"},
+    #                   {"name"=>"materials:Hydrogen"}],
+    #     "density"=>"1.21400e+00*mg/cm3"}
+    # }
+
     part = Material.new geometryManager, inDDL[:partName]
     part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
