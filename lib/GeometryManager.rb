@@ -24,6 +24,7 @@ class GeometryManager
   attr_accessor :materialsManager, :rotationsManager
   attr_accessor :solidsManager, :logicalPartsManager, :posPartsManager
   attr_accessor :partBuilder
+  attr_reader :inDDLs
 
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"
@@ -33,6 +34,7 @@ class GeometryManager
   end
 
   def add_entry sectionName, sectionLabel, partName, args
+    # e.g. :SolidSection, "GeometryTOB", "Polycone", {"ZSection"= ... }
     inDDL = {:partName => partName.to_sym, :sectionLabel => sectionLabel.to_sym, :args => args}
     @inDDLs << inDDL
     add_inDDL_to_sectionManager sectionName, inDDL
@@ -51,13 +53,13 @@ class GeometryManager
       :RotationSection => @rotationsManager,
     }
 
-    # begin
-        part = @partBuilder.build(sectionName, inDDL, self)
-        sectionManagerMap[sectionName].add part
-    # rescue Exception => e
-    #   puts e.message
-    #   p "#{self}: unable to add #{inDDL[:partName]}, args=", inDDL[:args]
-    # end
+    if ! sectionManagerMap.has_key?(sectionName)
+      $stderr.puts self.class.name + ": Unknown section: \"#{sectionName}\"\n"
+      return
+    end
+
+    part = @partBuilder.build(sectionName, inDDL, self)
+    sectionManagerMap[sectionName].add part
 
   end
 
