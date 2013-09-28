@@ -94,6 +94,14 @@ class PartBuilder
   end
 
   def buildLogicalPartFromDDL(inDDL, geometryManager)
+    # e.g.,
+    # inDDL = {
+    #   :sectionLabel=>:GeometryExtended, :partName=>:LogicalPart,
+    #   :args=>{
+    #     "rMaterial"=>[{"name"=>"materials:Air"}],
+    #     "name"=>"tracker:Tracker",
+    #     "rSolid"=>[{"name"=>"tracker:Tracker"}]}}
+
     part = LogicalPart.new geometryManager, inDDL[:partName]
     part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
@@ -104,6 +112,16 @@ class PartBuilder
   end
 
   def buildPosPartFromDDL(inDDL, geometryManager)
+    # e.g.,
+    # inDDL = {
+    #   :sectionLabel=>:GeometryTOB, :partName=>:PosPart,
+    #   :args=>{
+    #     "copyNumber"=>"4",
+    #     "rChild"=>[{"name"=>"tobmodule0:TOBModule0"}],
+    #     "rParent"=>[{"name"=>"tobrod1l:TOBRodCentral1L"}],
+    #     "Translation"=>[{"z"=>"77.086*mm", "y"=>"-5.425*mm", "x"=>"0.00*mm"}],
+    #     "rRotation"=>[{"name"=>"tobrodpar:180X"}]}}
+
     part = PosPart.new geometryManager, inDDL[:partName]
     part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
