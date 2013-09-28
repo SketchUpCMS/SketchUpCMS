@@ -10,7 +10,7 @@ class TestGeometryManager < Test::Unit::TestCase
 
   class MockPartBuilder
     def build(sectionName, inDDL, geometryManager)
-      [sectionName, inDDL, geometryManager]
+      inDDL
     end
   end
 
@@ -24,19 +24,32 @@ class TestGeometryManager < Test::Unit::TestCase
     end
   end
 
-  def test_one
+  def setup
+    @geometryManager = GeometryManager.new
 
-    materialsManager = MockPartManager.new
+    @materialsManager = MockPartManager.new
+    @rotationsManager = MockPartManager.new
+    @solidsManager = MockPartManager.new
+    @logicalPartsManager = MockPartManager.new
+    @posPartsManager = MockPartManager.new
 
-    partBuilder = MockPartBuilder.new
+    @geometryManager.materialsManager = @materialsManager
+    @geometryManager.rotationsManager = @rotationsManager
+    @geometryManager.solidsManager = @solidsManager
+    @geometryManager.logicalPartsManager = @logicalPartsManager
+    @geometryManager.posPartsManager = @posPartsManager
 
-    geometryManager = GeometryManager.new
-    geometryManager.materialsManager = materialsManager
-    geometryManager.partBuilder = partBuilder
+    @partBuilder = MockPartBuilder.new
+    @geometryManager.partBuilder = @partBuilder
 
-    geometryManager.add_entry(:MaterialSection, "sectionLabelA", "partNameA", {"name"=>"materials::materialA"}) 
+  end
 
-    p materialsManager.parts
+  def test_add_entry
+
+    @geometryManager.add_entry(:MaterialSection, "sectionLabelA", "partNameA", {"name"=>"materials::materialA"}) 
+
+    assert_equal([{:sectionLabel=>:sectionLabelA, :partName=>:partNameA, :args=>{"name"=>"materials::materialA"}}], @materialsManager.parts)
+
   end
   
 end
