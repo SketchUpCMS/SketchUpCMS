@@ -1,11 +1,6 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
 ##____________________________________________________________________________||
-def baseNameName(name)
-  return name.to_sym
-end
-
-##____________________________________________________________________________||
 def stringToSUNumeric(value)
   value = value.gsub(/([0-9]+)\.([^0-9]|$)/, '\1.0\2')
   value = value.gsub(/\*m/, '*1.m')

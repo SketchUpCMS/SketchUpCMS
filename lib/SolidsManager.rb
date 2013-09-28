@@ -203,11 +203,11 @@ class CompoundSolid < Solid
       elsif name == 'rSolid'
         raise StandardError, "length should be 2" unless value.length == 2
         ret[name] = Array.new
-        ret[name] << baseNameName(value[0]['name'])
-        ret[name] << baseNameName(value[1]['name'])
+        ret[name] << value[0]['name'].to_sym
+        ret[name] << value[1]['name'].to_sym
       elsif name == 'rRotation'
         raise StandardError, "length should be 1" unless value.length == 1
-        ret[name] = baseNameName(value[0]['name'])
+        ret[name] = value[0]['name'].to_sym
       elsif name == 'Translation'
         raise StandardError, "length should be 1" unless value.length == 1
         x = stringToSUNumeric(value[0]['x'])
