@@ -54,7 +54,7 @@ class GeometryManager
     }
 
     if ! sectionManagerMap.has_key?(sectionName)
-      $stderr.puts self.class.name + ": Unknown section: \"#{sectionName}\"\n"
+      $stderr.write self.class.name + ": Unknown section: \"#{sectionName}\"\n"
       return
     end
 
