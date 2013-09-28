@@ -59,6 +59,23 @@ class PartBuilder
   end
 
   def buildSolidFromDDL(inDDL, geometryManager)
+    # e.g.,
+    # inDDL = {
+    #   :sectionLabel=>:GeometryExtended, :partName=>:Tubs,
+    #   :args=>{
+    #     "dz"=>"830.00*mm", "deltaPhi"=>"9.00*deg",
+    #     "rMax"=>"1169.00*mm", "rMin"=>"1160.00*mm",
+    #     "startPhi"=>"141.00*deg",
+    #     "name"=>"tob:TOBAxService_8C"}}
+    #
+    # inDDL = {
+    #   :sectionLabel=>:GeometryExtended, :partName=>:SubtractionSolid,
+    #   :args=>{
+    #     "rRotation"=>[{"name"=>"rotations:RMCHIMHOLEN"}],
+    #     "rSolid"=>[{"name"=>"mgnt:MGNT_1"}, {"name"=>"mgnt:CHIMNEY_HOLE_N"}],
+    #     "Translation"=>[{"z"=>"-1560.00*mm", "y"=>"2931.495991810324994731*mm", "x"=>"1692.499999999999772626*mm"}],
+    #     "name"=>"mgnt:MGNT"}}
+
     basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
     compoundSolidNames = [:UnionSolid, :SubtractionSolid]
 
