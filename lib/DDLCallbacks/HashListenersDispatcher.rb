@@ -29,7 +29,7 @@ class HashListenersDispatcher < ListenerDispatcher
 
     if not (@listenersHash.key?(name) or @unknownTags.include?(name))
       @unknownTags << name
-      print "unknown tag: #{name}\n"
+      $stderr.puts self.class.name + ": Unknown tag: \"#{name}\"\n"
     end
   end
   def text(text)
