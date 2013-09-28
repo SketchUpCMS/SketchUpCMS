@@ -46,9 +46,51 @@ class TestGeometryManager < Test::Unit::TestCase
 
   def test_add_entry
 
-    @geometryManager.add_entry(:MaterialSection, "sectionLabelA", "partNameA", {"name"=>"materials::materialA"}) 
+    @geometryManager.add_entry(:MaterialSection, "GeometryExtended", "ElementaryMaterial", {"name"=>"materials:materialA"}) 
+    @geometryManager.add_entry(:MaterialSection, "GeometryExtended", "ElementaryMaterial", {"name"=>"materials:materialB"}) 
+    @geometryManager.add_entry(:MaterialSection, "GeometryExtended", "CompositeMaterial", {"name"=>"materials:materialC"}) 
 
-    assert_equal([{:sectionLabel=>:sectionLabelA, :partName=>:partNameA, :args=>{"name"=>"materials::materialA"}}], @materialsManager.parts)
+    @geometryManager.add_entry(:RotationSection, "GeometryExtended", "Rotation", {"name"=>"rotations:rotationA"})
+    @geometryManager.add_entry(:RotationSection, "GeometryExtended", "Rotation", {"name"=>"rotations:rotationB"})
+    @geometryManager.add_entry(:RotationSection, "GeometryExtended", "ReflectionRotation", {"name"=>"rotations:rotationC"})
+
+    @geometryManager.add_entry(:SolidSection, "GeometryExtended", "Polyhedra", {"name"=>"solids:polyhedraA"})
+    @geometryManager.add_entry(:SolidSection, "GeometryExtended", "Tubs", {"name"=>"solids:tubsA"})
+
+    @geometryManager.add_entry(:LogicalPartSection, "GeometryExtended", "LogicalPart", {"name"=>"tracker:Tracker"})
+
+    @geometryManager.add_entry(:PosPartSection, "GeometryExtended", "PosPart", {"copyNumber"=>"1"})
+
+    assert_equal([
+                  {:sectionLabel=>:GeometryExtended, :partName=>:ElementaryMaterial, :args=>{"name"=>"materials:materialA"}},
+                  {:sectionLabel=>:GeometryExtended, :partName=>:ElementaryMaterial, :args=>{"name"=>"materials:materialB"}},
+                  {:sectionLabel=>:GeometryExtended, :partName=>:CompositeMaterial, :args=>{"name"=>"materials:materialC"}},
+                 ], @materialsManager.parts)
+
+    assert_equal([
+                  {:sectionLabel=>:GeometryExtended, :partName=>:Rotation, :args=>{"name"=>"rotations:rotationA"}},
+                  {:sectionLabel=>:GeometryExtended, :partName=>:Rotation, :args=>{"name"=>"rotations:rotationB"}},
+                  {:sectionLabel=>:GeometryExtended, :partName=>:ReflectionRotation, :args=>{"name"=>"rotations:rotationC"}},
+                 ], @rotationsManager.parts)
+
+    assert_equal([
+                  {:sectionLabel=>:GeometryExtended, :partName=>:Polyhedra, :args=>{"name"=>"solids:polyhedraA"}},
+                  {:sectionLabel=>:GeometryExtended, :partName=>:Tubs, :args=>{"name"=>"solids:tubsA"}},
+                 ], @solidsManager.parts)
+
+    assert_equal([
+                  {:sectionLabel=>:GeometryExtended, :partName=>:LogicalPart, :args=>{"name"=>"tracker:Tracker"}},
+                 ], @logicalPartsManager.parts)
+
+    assert_equal([
+                  {:sectionLabel=>:GeometryExtended, :partName=>:PosPart, :args=>{"copyNumber"=>"1"}},
+                 ], @posPartsManager.parts)
+
+  end
+
+  def test_wrong_section
+
+    @geometryManager.add_entry(:NoSuchSection, "sectionLabelNoSuch", "partNameNoSuch", {"name"=>"nosuch:A"})
 
   end
   
