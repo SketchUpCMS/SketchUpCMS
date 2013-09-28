@@ -34,7 +34,7 @@ class GeometryManager
   end
 
   def add_entry sectionName, sectionLabel, partName, args
-    # e.g. :SolidSection, "GeometryTOB", "Polycone", {"ZSection"= ... }
+    # e.g. :SolidSection, "GeometryExtended", "Polycone", {"ZSection"= ... }
     inDDL = {:partName => partName.to_sym, :sectionLabel => sectionLabel.to_sym, :args => args}
     @inDDLs << inDDL
     add_inDDL_to_sectionManager sectionName, inDDL
