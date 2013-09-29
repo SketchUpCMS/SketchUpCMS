@@ -17,12 +17,16 @@ class EntityDisplayer
   end
   def display instance
     instance.layer = @layer
-    x = instance.bounds.height
+    x = instance.bounds.height/2*1.5
     @x += x
-    vector = Geom::Vector3d.new(@z, @x, @y + instance.bounds.depth/2*1.05)
-    @x += x
+    vector = Geom::Vector3d.new(@z + instance.bounds.width/2 - instance.bounds.center.x, @x - instance.bounds.center.y, @y + instance.bounds.depth/2*1.05)
     transformation = Geom::Transformation.translation vector
     instance.transform! transformation
+
+    instance.model.entities.add_text instance.definition.name, [@z, @x, 0]
+
+    @x += x
+
   end
 end
 
