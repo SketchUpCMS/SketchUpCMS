@@ -31,7 +31,7 @@ class BasicSolidDefiner
     knownArgs = nonnumericArgs + scalarNumericArgs + vectorArgs
 
     argsInDDL.keys.each do |k|
-      p "#{self}: unknown argument #{k}" unless knownArgs.include?(k)
+      $stderr.write self.class.name + ": Unknown argument: \"#{k}\"\n" unless knownArgs.include?(k)
     end
     
     argsInSU = Hash.new
@@ -63,6 +63,115 @@ class BasicSolidDefiner
     end
 
     argsInSU
+  end
+
+end
+
+##____________________________________________________________________________||
+class CompoundSolidDefiner
+
+  def initialize geometryManager
+    @geometryManager = geometryManager
+  end
+
+  def define(partName, name, ddl, s)
+
+    verifyDDL(ddl)
+
+    definition1 =  definition1(ddl)
+    definition2 =  definition2(ddl)
+    translation = translation(ddl)
+    rotation = rotation(ddl)
+
+    transform2 = translation*rotation
+    solid = doSolidTool(partName, definition1, definition2, transform2)
+    instance = solid.to_component
+    definition = instance.definition
+    definition.name = "solid_" + name.to_s
+    $geometryManager.solidsManager.moveInstanceAway(instance)
+    return definition
+  end
+
+  def definition1 ddl
+    name = ddl['rSolid'][0]['name'].to_sym
+    solid = @geometryManager.solidsManager.get(name)
+    solid.definition
+  end
+
+  def definition2 ddl
+    name = ddl['rSolid'][1]['name'].to_sym
+    solid = @geometryManager.solidsManager.get(name)
+    solid.definition
+  end
+
+  def translation ddl
+    if ddl.has_key?('Translation')
+      x = stringToSUNumeric(ddl['Translation'][0]['x'])
+      y = stringToSUNumeric(ddl['Translation'][0]['y'])
+      z = stringToSUNumeric(ddl['Translation'][0]['z'])
+      vector = Geom::Vector3d.new z, x, y
+      translation = Geom::Transformation.translation vector
+    else
+      translation = Geom::Transformation.new
+    end
+    translation
+  end
+
+  def rotation ddl
+    if ddl.key?('rRotation')
+      name = ddl['rRotation'][0]['name'].to_sym
+      rotation =  @geometryManager.rotationsManager.get(name).transformation
+    else
+      rotation =  Geom::Transformation.new
+    end
+    rotation
+  end
+
+  def verifyDDL ddl
+    knownArgs = ['name', 'rSolid', 'rRotation', 'Translation']
+
+    ddl.keys.each do |k|
+      next if knownArgs.include?(k)
+      $stderr.write self.class.name + ": Unknown argument: \"#{k}\"\n"
+    end
+
+    if ddl['rSolid'].length != 2
+      $stderr.write self.class.name + ": Length is not 2\n"
+    end
+
+    if ddl.has_key?('rRotation') and ddl['rRotation'].length != 1
+      $stderr.write self.class.name + ": Length is not 1\n"
+    end
+
+    if ddl.has_key?('Translation') and ddl['Translation'].length != 1
+      $stderr.write self.class.name + ": Length is not 1\n"
+    end
+
+  end
+
+  def doSolidTool partName, definition1, definition2, transform2
+
+    transform1 = Geom::Transformation.new
+
+    entities = Sketchup.active_model.entities
+
+    group = entities.add_group
+    entities = group.entities
+
+    instance1 = entities.add_instance definition1, transform1
+    instance2 = entities.add_instance definition2, transform2
+
+    if partName == :UnionSolid
+      instance = instance2.union(instance1)
+    elsif partName == :SubtractionSolid
+      instance = instance2.subtract(instance1)
+    else
+      $stderr.write self.class.name + ": Unknown partName: #{partName}\n"
+    end
+
+    instance.explode
+
+    group
   end
 
 end
@@ -118,122 +227,21 @@ end
 
 ##____________________________________________________________________________||
 class CompoundSolid < Solid
-  attr_accessor :solid1, :solid2, :rotation, :translation
-  attr_writer :argsInSU
   def clear
     super
-    @solid1 = nil if @argsInSU
-    @solid2 = nil if @argsInSU
-    @rotation = nil if @argsInSU
-    @translation = nil if @argsInSU
-    @argsInSU = nil if @argsInDDL
   end
-  def argsInSU
-    return @argsInSU if @argsInSU
-    @argsInSU = convertArguments(@argsInDDL)
-    @argsInSU
-  end
-  def solid1
-    return @solid1 if @solid1
-    name = argsInSU()['rSolid'][0]
-    @solid1 = $geometryManager.solidsManager.get(name)
-    @solid1
-  end
-  def solid2
-    return @solid2 if @solid2
-    name = argsInSU()['rSolid'][1]
-    @solid2 = $geometryManager.solidsManager.get(name)
-    @solid2
-  end
-  def rotation
-    return @rotation if @rotation
-    if argsInSU().key?('rRotation')
-      name = argsInSU()['rRotation']
-      @rotation =  @geometryManager.rotationsManager.get(name).transformation
-    else
-      @rotation =  Geom::Transformation.new
-    end
-    @rotation
-  end
-  def translation
-    return @translation if @translation
-    if argsInSU().key?('Translation')
-      tr = argsInSU()['Translation']
-      vector = Geom::Vector3d.new tr['z'], tr['x'], tr['y']
-      @translation = Geom::Transformation.translation vector
-    else
-      @translation =  Geom::Transformation.new
-    end
-    @translation
-  end
+
   def defineSolid
     begin
-      args = argsInSU()
-      solid = doSolidTool(args)
-      instance = solid.to_component
-      definition = instance.definition
-      definition.name = "solid_" + @name.to_s
-      $geometryManager.solidsManager.moveInstanceAway(instance)
-      return definition
+      definer = CompoundSolidDefiner.new(@geometryManager)
+      return definer.define(@partName, @name, @argsInDDL, self)
     rescue Exception => e
       puts e.message
       p "#{self}: unable to defineSolid: #{@name}"
       return nil
     end
   end
-  def doSolidTool args
 
-    definition1 =  solid1().definition
-    definition2 =  solid2().definition
-
-    transform1 = Geom::Transformation.new
-    transform2 = translation()*rotation()
-
-    entities = Sketchup.active_model.entities
-
-    group = entities.add_group
-    entities = group.entities
-
-    instance1 = entities.add_instance definition1, transform1
-    instance2 = entities.add_instance definition2, transform2
-
-    if @partName == :UnionSolid
-      instance = instance2.union(instance1)
-    elsif @partName == :SubtractionSolid
-      instance = instance2.subtract(instance1)
-    else
-      p "#{self}: unknown @partName: #{@partName}"
-    end
-
-    instance.explode
-
-    group
-  end
-  def convertArguments args
-    ret = Hash.new
-    args.each do |name, value|
-      if name == 'name'
-        next
-      elsif name == 'rSolid'
-        raise StandardError, "length should be 2" unless value.length == 2
-        ret[name] = Array.new
-        ret[name] << value[0]['name'].to_sym
-        ret[name] << value[1]['name'].to_sym
-      elsif name == 'rRotation'
-        raise StandardError, "length should be 1" unless value.length == 1
-        ret[name] = value[0]['name'].to_sym
-      elsif name == 'Translation'
-        raise StandardError, "length should be 1" unless value.length == 1
-        x = stringToSUNumeric(value[0]['x'])
-        y = stringToSUNumeric(value[0]['y'])
-        z = stringToSUNumeric(value[0]['z'])
-        ret[name] = {'x' => x, 'y' => y, 'z' => z}
-      else
-        p 'unknown argument ', name
-      end
-    end
-    ret
-  end
 end
 
 ##____________________________________________________________________________||
@@ -246,7 +254,7 @@ class UnknownSolid < Solid
       instance = solid.to_component
       definition = instance.definition
       definition.name = "solid_" + @name.to_s
-      $geometryManager.solidsManager.moveInstanceAway(instance)
+      @geometryManager.solidsManager.moveInstanceAway(instance)
       return definition
     rescue Exception => e
       puts e.message
