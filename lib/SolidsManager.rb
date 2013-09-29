@@ -29,7 +29,7 @@ class SolidsManager
   end
 
   def moveInstanceAway(instance)
-    @entityDisplayer.display instance
+    @entityDisplayer.display instance unless @eraseAfterDefine
     instance.erase! if @eraseAfterDefine
     instance
   end
