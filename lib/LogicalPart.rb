@@ -71,6 +71,7 @@ class LogicalPart
 
     @children.each do |child|
       childDefinition = child[:child].definition
+      next if childDefinition.nil?
       x = stringToSUNumeric(child[:translation]['x'])
       y = stringToSUNumeric(child[:translation]['y'])
       z = stringToSUNumeric(child[:translation]['z'])
