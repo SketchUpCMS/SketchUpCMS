@@ -85,7 +85,7 @@ class PartBuilder
       part = CompoundSolid.new geometryManager, inDDL[:partName]
     else
       part = UnknownSolid.new geometryManager, inDDL[:partName]
-      p "#{self}: unknown solid #{inDDL[:partName]} #{part.name}"
+      $stderr.write self.class.name + ": Unknown solid: #{inDDL[:partName]} #{part.name}\n"
     end
     part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
