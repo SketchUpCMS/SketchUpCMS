@@ -2,60 +2,24 @@
 require 'EntityDisplayer'
 
 ##____________________________________________________________________________||
-class Solid
-  attr_accessor :geometryManager
-  attr_accessor :name
-  attr_accessor :partName
-  attr_accessor :sectionLabel
-  attr_accessor :argsInDDL
-  def inspect
-    "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
-  end
-  def initialize geometryManager, partName
-    @geometryManager = geometryManager
-    @partName = partName
-  end
-  def clear
-    @definition = nil
-  end
-  def definition
-    return @definition if (@definition and (not @definition.deleted?))
-    @definition = defineSolid()
-    @definition
-  end
-end
+class BasicSolidDefiner
 
-##____________________________________________________________________________||
-class BasicSolid < Solid
-  attr_writer :argsInSU
-  def clear
-    super
-    @argsInSU = nil if @argsInDDL
+  def define(partName, name, ddl)
+    args = convertArguments(ddl)
+    entities = Sketchup.active_model.entities
+    solid = drawMethod(partName).call(entities, args)
+    instance = solid.to_component
+    definition = instance.definition
+    definition.name = "solid_" + name.to_s
+    $geometryManager.solidsManager.moveInstanceAway(instance)
+    return definition
+
   end
-  def argsInSU
-    return @argsInSU if @argsInSU
-    @argsInSU = convertArguments(@argsInDDL)
-    @argsInSU
+
+  def drawMethod partName
+    method("draw_#{partName}")
   end
-  def defineSolid
-    begin
-      args = argsInSU()
-      entities = Sketchup.active_model.entities
-      solid = drawMethod().call(entities, args)
-      instance = solid.to_component
-      definition = instance.definition
-      definition.name = "solid_" + @name.to_s
-      $geometryManager.solidsManager.moveInstanceAway(instance)
-      return definition
-    rescue Exception => e
-      puts e.message
-      p "#{self}: unable to defineSolid: #{@name}"
-      return nil
-    end
-  end
-  def drawMethod 
-    method("draw_#{@partName}")
-  end
+
   def convertArguments argsInDDL
     nonnumericArgs = ['name']
     scalarNumericArgs = Array.new
@@ -99,6 +63,56 @@ class BasicSolid < Solid
     end
 
     argsInSU
+  end
+
+end
+
+
+##____________________________________________________________________________||
+class Solid
+  attr_accessor :geometryManager
+  attr_accessor :name
+  attr_accessor :partName
+  attr_accessor :sectionLabel
+  attr_accessor :argsInDDL
+  def inspect
+    "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
+  end
+  def initialize geometryManager, partName
+    @geometryManager = geometryManager
+    @partName = partName
+  end
+  def clear
+    @definition = nil
+  end
+  def definition
+    return @definition if (@definition and (not @definition.deleted?))
+    @definition = defineSolid()
+    @definition
+  end
+end
+
+##____________________________________________________________________________||
+class BasicSolid < Solid
+  attr_writer :argsInSU
+  def clear
+    super
+    @argsInSU = nil if @argsInDDL
+  end
+  def argsInSU
+    return @argsInSU if @argsInSU
+    @argsInSU = convertArguments(@argsInDDL)
+    @argsInSU
+  end
+  def defineSolid
+    begin
+      definer = BasicSolidDefiner.new
+      return definer.define(@partName, @name, @argsInDDL)
+    rescue Exception => e
+      puts e.message
+      p "#{self}: unable to defineSolid: #{@name}"
+      return nil
+    end
   end
 end
 
