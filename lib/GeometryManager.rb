@@ -26,15 +26,22 @@ class GeometryManager
   end
   def initialize
     @inDDLs = Array.new
+    @entries = Array.new
   end
 
   def add_entry sectionName, sectionLabel, partName, args
     # e.g. :SolidSection, "GeometryExtended", "Polycone", {"ZSection"= ... }
     inDDL = {:partName => partName.to_sym, :sectionLabel => sectionLabel.to_sym, :args => args}
     @inDDLs << inDDL
+    @entries << {:sectionName => sectionName, :inDDL => inDDL}
     add_inDDL_to_sectionManager sectionName, inDDL
   end
 
+  def reload_from_cache
+    @entries.each do |entry|
+      add_inDDL_to_sectionManager entry[:sectionName],entry[:inDDL]
+    end
+  end
 
   private
 
