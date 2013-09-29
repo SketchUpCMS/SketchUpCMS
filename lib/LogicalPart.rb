@@ -81,7 +81,7 @@ class LogicalPart
       definitions << {:definition => childDefinition, :transform => transform, :material => nil, :name => nil}
     end
 
-    if @solidInPlace
+    if @solidInPlace and solid().definition
       solidDefinition = solid().definition
       transform = Geom::Transformation.new
       # material = material()
