@@ -30,8 +30,8 @@ class Solid
       definer = SolidDefiner.new(@geometryManager)
       return definer.define(@partName, @name, @argsInDDL)
     rescue Exception => e
-      puts e.message
-      p "#{self}: unable to defineSolid: #{@name}"
+      $stderr.write e.message + "\n"
+      $stderr.write self.class.name + ": Unable to defineSolid: #{@name}\n"
       return nil
     end
   end
