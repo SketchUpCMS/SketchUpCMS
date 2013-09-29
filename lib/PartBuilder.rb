@@ -76,17 +76,7 @@ class PartBuilder
     #     "Translation"=>[{"z"=>"-1560.00*mm", "y"=>"2931.495991810324994731*mm", "x"=>"1692.499999999999772626*mm"}],
     #     "name"=>"mgnt:MGNT"}}
 
-    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
-    compoundSolidNames = [:UnionSolid, :SubtractionSolid]
-
-    if basicSolidNames.include?(inDDL[:partName])
-      part = BasicSolid.new geometryManager, inDDL[:partName]
-    elsif compoundSolidNames.include?(inDDL[:partName])
-      part = CompoundSolid.new geometryManager, inDDL[:partName]
-    else
-      part = UnknownSolid.new geometryManager, inDDL[:partName]
-      $stderr.write self.class.name + ": Unknown solid: #{inDDL[:partName]} #{part.name}\n"
-    end
+    part = Solid.new geometryManager, inDDL[:partName]
     part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
     part.name = inDDL[:args]['name'].to_sym

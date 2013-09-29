@@ -106,7 +106,7 @@ class CompoundSolidDefiner
     @geometryManager = geometryManager
   end
 
-  def define(partName, name, ddl, s)
+  def define(partName, name, ddl)
 
     verifyDDL(ddl)
 
@@ -208,7 +208,6 @@ class CompoundSolidDefiner
 
 end
 
-
 ##____________________________________________________________________________||
 class Solid
   attr_accessor :geometryManager
@@ -231,65 +230,33 @@ class Solid
     @definition = defineSolid()
     @definition
   end
-end
 
-##____________________________________________________________________________||
-class BasicSolid < Solid
-  attr_writer :argsInSU
-  def clear
-    super
-    @argsInSU = nil if @argsInDDL
-  end
-  def argsInSU
-    return @argsInSU if @argsInSU
-    @argsInSU = convertArguments(@argsInDDL)
-    @argsInSU
-  end
   def defineSolid
     begin
+      definer = solidDefiner()
+      # definer = BasicSolidDefiner.new(@geometryManager)
+      return definer.define(@partName, @name, @argsInDDL)
+    rescue Exception => e
+      puts e.message
+      p "#{self}: unable to defineSolid: #{@name}"
+      return nil
+    end
+  end
+
+  def solidDefiner
+    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
+    compoundSolidNames = [:UnionSolid, :SubtractionSolid]
+
+    if basicSolidNames.include?(@partName)
       definer = BasicSolidDefiner.new(@geometryManager)
-      return definer.define(@partName, @name, @argsInDDL)
-    rescue Exception => e
-      puts e.message
-      p "#{self}: unable to defineSolid: #{@name}"
-      return nil
-    end
-  end
-end
-
-##____________________________________________________________________________||
-class CompoundSolid < Solid
-  def clear
-    super
-  end
-
-  def defineSolid
-    begin
+    elsif compoundSolidNames.include?(@partName)
       definer = CompoundSolidDefiner.new(@geometryManager)
-      return definer.define(@partName, @name, @argsInDDL, self)
-    rescue Exception => e
-      puts e.message
-      p "#{self}: unable to defineSolid: #{@name}"
-      return nil
-    end
-  end
-
-end
-
-##____________________________________________________________________________||
-class UnknownSolid < Solid
-  def defineSolid
-    definer = UnknownSolidDefiner.new(@geometryManager)
-    return definer.define(@partName, @name, @argsInDDL)
-    begin
+    else
       definer = UnknownSolidDefiner.new(@geometryManager)
-      return definer.define(@partName, @name, @argsInDDL)
-    rescue Exception => e
-      puts e.message
-      p "#{self}: unable to defineSolid: #{@name}"
-      return nil
     end
+    definer
   end
+
 end
 
 ##____________________________________________________________________________||
