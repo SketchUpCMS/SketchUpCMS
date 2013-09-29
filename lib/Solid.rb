@@ -4,6 +4,10 @@ require 'EntityDisplayer'
 ##____________________________________________________________________________||
 class BasicSolidDefiner
 
+  def initialize geometryManager
+    @geometryManager = geometryManager
+  end
+
   def define(partName, name, ddl)
     args = convertArguments(ddl)
     entities = Sketchup.active_model.entities
@@ -215,7 +219,7 @@ class BasicSolid < Solid
   end
   def defineSolid
     begin
-      definer = BasicSolidDefiner.new
+      definer = BasicSolidDefiner.new(@geometryManager)
       return definer.define(@partName, @name, @argsInDDL)
     rescue Exception => e
       puts e.message
