@@ -22,6 +22,8 @@ require 'defs.rb'
 def cmsmain
 
   read_xmlfiles
+  # read_xmlfiles_from_cache
+
   draw_gratr_20120317_02
 
 end
@@ -581,20 +583,26 @@ def read_xmlfiles
 end
 
 ##____________________________________________________________________________||
-def buildGeometryManager
+def read_xmlfiles_from_cache
+  fillGeometryManager($geometryManager)
+  $geometryManager.reload_from_cache
+end
+
+##____________________________________________________________________________||
+def fillGeometryManager(geometryManager)
+
   $materialsManager = MaterialsManager.new
   $rotationsManager = RotationsManager.new
-  $geometryManager = GeometryManager.new
   $solidsManager = SolidsManager.new
   $logicalPartsManager = LogicalPartsManager.new
   $posPartsManager = PosPartsManager.new
 
-  $geometryManager.partBuilder = PartBuilder.new
+  geometryManager.partBuilder = PartBuilder.new
 
   $solidsManager.entityDisplayer = EntityDisplayer.new('solids', 100.m, 0, 0)
   $logicalPartsManager.entityDisplayer = EntityDisplayer.new('logicalParts', -100.m, 0, 0)
 
-  geometryManager = $geometryManager
+  geometryManager = geometryManager
   geometryManager.materialsManager = $materialsManager
   geometryManager.rotationsManager = $rotationsManager
   geometryManager.solidsManager = $solidsManager
@@ -608,6 +616,13 @@ def buildGeometryManager
   $posPartsManager.geometryManager = geometryManager
 
   geometryManager
+end
+
+##____________________________________________________________________________||
+def buildGeometryManager
+  $geometryManager = GeometryManager.new
+  fillGeometryManager($geometryManager)
+  $geometryManager
 end
 
 ##____________________________________________________________________________||
