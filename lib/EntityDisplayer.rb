@@ -23,7 +23,7 @@ class EntityDisplayer
     transformation = Geom::Transformation.translation vector
     instance.transform! transformation
 
-    instance.model.entities.add_text instance.definition.name, [@z, @x, 0]
+    # instance.model.entities.add_text instance.definition.name, [@z, @x, 0]
 
     @x += x
 
