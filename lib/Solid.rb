@@ -2,6 +2,34 @@
 require 'EntityDisplayer'
 
 ##____________________________________________________________________________||
+class SolidDefiner
+
+  def initialize geometryManager
+    @geometryManager = geometryManager
+  end
+
+  def define(partName, name, ddl)
+    definer = solidDefiner(partName)
+    definer.define partName, name, ddl
+  end
+
+  def solidDefiner partName
+    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
+    compoundSolidNames = [:UnionSolid, :SubtractionSolid]
+
+    if basicSolidNames.include?(partName)
+      definer = BasicSolidDefiner.new(@geometryManager)
+    elsif compoundSolidNames.include?(partName)
+      definer = CompoundSolidDefiner.new(@geometryManager)
+    else
+      definer = UnknownSolidDefiner.new(@geometryManager)
+    end
+    definer
+  end
+
+end
+
+##____________________________________________________________________________||
 class UnknownSolidDefiner
 
   def initialize geometryManager
@@ -233,28 +261,13 @@ class Solid
 
   def defineSolid
     begin
-      definer = solidDefiner()
-      # definer = BasicSolidDefiner.new(@geometryManager)
+      definer = SolidDefiner.new(@geometryManager)
       return definer.define(@partName, @name, @argsInDDL)
     rescue Exception => e
       puts e.message
       p "#{self}: unable to defineSolid: #{@name}"
       return nil
     end
-  end
-
-  def solidDefiner
-    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
-    compoundSolidNames = [:UnionSolid, :SubtractionSolid]
-
-    if basicSolidNames.include?(@partName)
-      definer = BasicSolidDefiner.new(@geometryManager)
-    elsif compoundSolidNames.include?(@partName)
-      definer = CompoundSolidDefiner.new(@geometryManager)
-    else
-      definer = UnknownSolidDefiner.new(@geometryManager)
-    end
-    definer
   end
 
 end
