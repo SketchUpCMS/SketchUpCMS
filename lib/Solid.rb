@@ -2,6 +2,34 @@
 require 'EntityDisplayer'
 
 ##____________________________________________________________________________||
+class UnknownSolidDefiner
+
+  def initialize geometryManager
+    @geometryManager = geometryManager
+  end
+
+  def define(partName, name, ddl)
+    args = convertArguments(ddl)
+    entities = Sketchup.active_model.entities
+    solid = drawMethod(partName).call(entities, args)
+    instance = solid.to_component
+    definition = instance.definition
+    definition.name = "solid_" + name.to_s
+    $geometryManager.solidsManager.moveInstanceAway(instance)
+    return definition
+  end
+
+  def drawMethod partName
+    method("draw_empty_solid")
+  end
+
+  def convertArguments argsInDDL
+    Hash.new
+  end
+
+end
+
+##____________________________________________________________________________||
 class BasicSolidDefiner
 
   def initialize geometryManager
@@ -251,23 +279,16 @@ end
 ##____________________________________________________________________________||
 class UnknownSolid < Solid
   def defineSolid
+    definer = UnknownSolidDefiner.new(@geometryManager)
+    return definer.define(@partName, @name, @argsInDDL)
     begin
-      args = Hash.new
-      entities = Sketchup.active_model.entities
-      solid = drawMethod().call(entities, args)
-      instance = solid.to_component
-      definition = instance.definition
-      definition.name = "solid_" + @name.to_s
-      @geometryManager.solidsManager.moveInstanceAway(instance)
-      return definition
+      definer = UnknownSolidDefiner.new(@geometryManager)
+      return definer.define(@partName, @name, @argsInDDL)
     rescue Exception => e
       puts e.message
       p "#{self}: unable to defineSolid: #{@name}"
       return nil
     end
-  end
-  def drawMethod 
-    method("draw_empty_solid")
   end
 end
 
