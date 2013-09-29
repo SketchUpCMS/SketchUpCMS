@@ -18,8 +18,6 @@ require 'PosPartsManager.rb'
 require 'MaterialsManager.rb'
 require 'defs.rb'
 
-load 'EntityDisplayer.rb'
-
 ##____________________________________________________________________________||
 def cmsmain
 
