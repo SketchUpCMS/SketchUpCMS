@@ -18,7 +18,7 @@ class TestSolidsManager < Test::Unit::TestCase
 
   def test_add
 
-    part = Solid.new(@geometryManager, :Solid)
+    part = Solid.new(@geometryManager, :Tubs)
     part.name = :"tob:TOBAxService_8C"
 
     @solidsManager.add part
@@ -30,7 +30,7 @@ class TestSolidsManager < Test::Unit::TestCase
 
   def test_get
 
-    part = Solid.new(@geometryManager, :Solid)
+    part = Solid.new(@geometryManager, :Tubs)
     part.name = :"tob:TOBAxService_8C"
 
     @solidsManager.add part

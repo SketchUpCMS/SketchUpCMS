@@ -16,7 +16,7 @@ class TestSolid < Test::Unit::TestCase
   end
 
   def test_one
-    solid = Solid.new(@geometryManager, :Solid)
+    solid = Solid.new(@geometryManager, :Tubs)
   end
 
 end
