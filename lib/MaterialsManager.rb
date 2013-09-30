@@ -13,10 +13,6 @@ class MaterialsManager
   def initialize
     @partsHash = Hash.new
     @parts = Array.new
-    clear
-  end
-  def clear
-    @defaultColor = 'silver'
   end
   def get(name)
     @partsHash.key?(name) ? @partsHash[name] : nil

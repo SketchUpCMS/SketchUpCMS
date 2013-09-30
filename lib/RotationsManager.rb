@@ -16,9 +16,6 @@ class RotationsManager
     @partsHash = Hash.new
     @parts = Array.new
   end
-  def clear
-    @parts.each {|p| p.clear if p}
-  end
   def get(name)
     @partsHash.key?(name) ? @partsHash[name] : nil
   end

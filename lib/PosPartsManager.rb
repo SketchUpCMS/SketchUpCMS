@@ -21,9 +21,6 @@ class PosPartsManager
     @partsHashByParentChild = Hash.new
     @parts = Array.new
   end
-  def clear
-    @parts.each {|p| p.clear }
-  end
   def getByParent(name)
     @partsHashByParent.key?(name) ? @partsHashByParent[name] : [ ]
   end

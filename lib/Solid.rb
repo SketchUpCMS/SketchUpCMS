@@ -16,9 +16,6 @@ class Solid
     @geometryManager = geometryManager
     @partName = partName
   end
-  def clear
-    @definition = nil
-  end
   def definition
     return @definition if (@definition and (not @definition.deleted?))
     @definition = defineSolid()

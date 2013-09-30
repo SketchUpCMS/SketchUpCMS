@@ -19,10 +19,6 @@ class LogicalPartsManager
     @parts = Array.new
     @eraseAfterDefine = true
   end
-  def clear
-    @entityDisplayer.clear
-    @parts.each {|p| p.clear }
-  end
   def get(name)
     @partsHash.key?(name)? @partsHash[name] : nil
   end

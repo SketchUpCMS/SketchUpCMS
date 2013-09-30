@@ -21,15 +21,6 @@ class LogicalPart
     @partName = partName
     @children = [ ]
   end
-  def clear
-    @definition = nil
-    @solidInstance = nil
-    @solid = nil
-    @material = nil
-    @children = [ ]
-    @solidInPlace = nil
-  end
-
   def definition
     return @definition if (@definition and (not @definition.deleted?))
     return nil

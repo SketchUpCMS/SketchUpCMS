@@ -14,9 +14,6 @@ class Rotation
     @geometryManager = geometryManager
     @partName = partName
   end
-  def clear
-    @transformation = nil
-  end
   def transformation
     return @transformation if @transformation 
     @transformation = define_transformation_for_rotation_from_DDL(@argsInDDL)

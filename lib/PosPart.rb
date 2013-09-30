@@ -18,12 +18,6 @@ class PosPart
     @partName = partName
     @done = false
   end
-  def clear
-    @done = false
-    @parent = nil
-    @child = nil
-    @rotation = nil
-  end
   def parent
     return @parent if @parent
     @parent = @geometryManager.logicalPartsManager.get(@parentName)
