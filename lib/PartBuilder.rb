@@ -19,7 +19,6 @@ class PartBuilder
     #     "thetaZ"=>"0.00*deg", "thetaY"=>"90.00*deg", "thetaX"=>"90.00*deg"}
     # }
     part = Rotation.new geometryManager, inDDL[:partName]
-    part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
     part.name = inDDL[:args]['name'].to_sym
     part
@@ -52,7 +51,6 @@ class PartBuilder
     # }
 
     part = Material.new geometryManager, inDDL[:partName]
-    part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
     part.name = inDDL[:args]['name'].to_sym
     part
@@ -77,7 +75,6 @@ class PartBuilder
     #     "name"=>"mgnt:MGNT"}}
 
     part = Solid.new geometryManager, inDDL[:partName]
-    part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
     part.name = inDDL[:args]['name'].to_sym
     part
@@ -93,7 +90,6 @@ class PartBuilder
     #     "rSolid"=>[{"name"=>"tracker:Tracker"}]}}
 
     part = LogicalPart.new geometryManager, inDDL[:partName]
-    part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
     part.name = inDDL[:args]['name'].to_sym
     part.solidName = inDDL[:args]["rSolid"][0]["name"].to_sym
@@ -113,7 +109,6 @@ class PartBuilder
     #     "rRotation"=>[{"name"=>"tobrodpar:180X"}]}}
 
     part = PosPart.new geometryManager, inDDL[:partName]
-    part.sectionLabel = inDDL[:sectionLabel]
     part.argsInDDL = inDDL[:args]
     part.parentName = inDDL[:args]["rParent"][0]["name"].to_sym
     part.childName = inDDL[:args]["rChild"][0]["name"].to_sym

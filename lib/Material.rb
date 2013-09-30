@@ -5,7 +5,6 @@ class Material
   attr_accessor :geometryManager
   attr_accessor :name
   attr_accessor :partName
-  attr_accessor :sectionLabel
   attr_accessor :argsInDDL
   attr_accessor :defaultColor
   def inspect

@@ -5,7 +5,6 @@ class Rotation
   attr_accessor :geometryManager
   attr_accessor :name
   attr_accessor :partName
-  attr_accessor :sectionLabel
   attr_accessor :argsInDDL
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"

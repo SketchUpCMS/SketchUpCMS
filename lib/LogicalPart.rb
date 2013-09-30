@@ -7,7 +7,6 @@ class LogicalPart
   attr_accessor :geometryManager
   attr_accessor :name
   attr_accessor :partName
-  attr_accessor :sectionLabel
   attr_accessor :solidName
   attr_accessor :materialName
   attr_accessor :argsInDDL
