@@ -8,6 +8,7 @@ class PosPartsManager
   attr_accessor :partsHashByParent
   attr_accessor :partsHashByChild
   attr_accessor :partsHashByParentChild
+  attr_accessor :partsHashByParentChildCopy
   attr_accessor :parts
 
   KnownPartNames = [:PosPart]
@@ -19,6 +20,7 @@ class PosPartsManager
     @partsHashByParent = Hash.new
     @partsHashByChild = Hash.new
     @partsHashByParentChild = Hash.new
+    @partsHashByParentChildCopy = Hash.new
     @parts = Array.new
   end
   def getByParent(name)
@@ -30,6 +32,9 @@ class PosPartsManager
   def getByParentChild(parentName, childName)
     @partsHashByParentChild.key?([parentName, childName]) ? @partsHashByParentChild[[parentName, childName]] : [ ]
   end
+  def getByParentChildCopy(parentName, childName, copyNumber)
+    @partsHashByParentChildCopy.key?([parentName, childName, copyNumber]) ? @partsHashByParentChildCopy[[parentName, childName, copyNumber]] : [ ]
+  end
   def add part
     raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
     @parts << part
@@ -39,6 +44,8 @@ class PosPartsManager
     @partsHashByChild[part.childName] << part
     @partsHashByParentChild[[part.parentName, part.childName]] = Array.new unless @partsHashByParentChild.key?([part.parentName, part.childName])
     @partsHashByParentChild[[part.parentName, part.childName]] << part
+    @partsHashByParentChildCopy[[part.parentName, part.childName, part.copyNumber]] = Array.new unless @partsHashByParentChild.key?([part.parentName, part.childName, part.copyNumber])
+    @partsHashByParentChildCopy[[part.parentName, part.childName, part.copyNumber]] << part
   end
 
 end

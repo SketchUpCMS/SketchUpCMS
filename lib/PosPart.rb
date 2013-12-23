@@ -5,6 +5,7 @@ class PosPart
   attr_accessor :geometryManager
   attr_accessor :partName
   attr_accessor :parentName, :childName
+  attr_accessor :copyNumber
   attr_accessor :rotationName
   attr_accessor :translation
   attr_accessor :done
