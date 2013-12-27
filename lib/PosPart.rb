@@ -11,7 +11,7 @@ class PosPart
   attr_accessor :done
   attr_accessor :argsInDDL
   def inspect
-    "#<#{self.class.name}:0x#{self.object_id.to_s(16)} parent=#{parentName()} child=#{childName()}>"
+    "#<#{self.class.name}:0x#{self.object_id.to_s(16)} parent=#{parentName()} child=#{childName()} copyNumber=#{copyNumber()}}>"
   end
   def initialize geometryManager, partName
     @geometryManager = geometryManager

@@ -33,7 +33,7 @@ class PosPartsManager
     @partsHashByParentChild.key?([parentName, childName]) ? @partsHashByParentChild[[parentName, childName]] : [ ]
   end
   def getByParentChildCopy(parentName, childName, copyNumber)
-    @partsHashByParentChildCopy.key?([parentName, childName, copyNumber]) ? @partsHashByParentChildCopy[[parentName, childName, copyNumber]] : [ ]
+    @partsHashByParentChildCopy.key?([parentName, childName, copyNumber]) ? @partsHashByParentChildCopy[[parentName, childName, copyNumber]] : nil
   end
   def add part
     raise StandardError, "unknown part name \"#{partName}\"" unless KnownPartNames.include?(part.partName)
@@ -44,8 +44,7 @@ class PosPartsManager
     @partsHashByChild[part.childName] << part
     @partsHashByParentChild[[part.parentName, part.childName]] = Array.new unless @partsHashByParentChild.key?([part.parentName, part.childName])
     @partsHashByParentChild[[part.parentName, part.childName]] << part
-    @partsHashByParentChildCopy[[part.parentName, part.childName, part.copyNumber]] = Array.new unless @partsHashByParentChild.key?([part.parentName, part.childName, part.copyNumber])
-    @partsHashByParentChildCopy[[part.parentName, part.childName, part.copyNumber]] << part
+    @partsHashByParentChildCopy[[part.parentName, part.childName, part.copyNumber]] = part
   end
 
 end
