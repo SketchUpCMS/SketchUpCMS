@@ -11,8 +11,8 @@ def subgraph_from(graph, from)
   arrayBFSTreeFrom = hashPredecessorBFSTreeFrom.collect { |k, v| k }.uniq
   arrayBFSTreeFrom << from
 
-  graphFrom = GRATR::Digraph.new
-  graph.edges.each { |a| graphFrom.add_edge!(a.source, a.target) if arrayBFSTreeFrom.include?(a.source) and arrayBFSTreeFrom.include?(a.target) }
+  graphFrom = graph.class.new
+  graph.edges.each { |a| graphFrom.add_edge!(a) if arrayBFSTreeFrom.include?(a.source) and arrayBFSTreeFrom.include?(a.target) }
 
   graphFrom
 end
@@ -26,8 +26,8 @@ def subgraph_from_depth(graph, from, depth = -1)
   simple_weight = Proc.new {|e| 1}
   distance, path = graphFrom.shortest_path(from, simple_weight)
 
-  graphFromDepth = GRATR::Digraph.new
-  graphFrom.edges.each { |a| graphFromDepth.add_edge!(a.source, a.target) if distance[a.target] <= depth }
+  graphFromDepth = graph.class.new
+  graphFrom.edges.each { |a| graphFromDepth.add_edge!(a) if distance[a.target] <= depth }
   graphFromDepth
 end
 
@@ -45,7 +45,10 @@ def subgraph_from_to(graph, from, to)
     localGraph
   end
   localGraph = GRATR::Digraph.new
-  buildLocalGraph graph, localGraph, from, to
+  localGraph = buildLocalGraph graph, localGraph, from, to
+  ret = graph.class.new
+  graph.edges.each { |e| ret.add_edge!(e) if localGraph.edge?(e.source, e.target) }
+  ret
 end
 
 ##____________________________________________________________________________||
