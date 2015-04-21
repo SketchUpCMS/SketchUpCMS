@@ -9,7 +9,7 @@ def draw_Polycone_2pi entities, args
     norm = [1, 0, 0]
     norm.normalize!
 
-    num_segments_per_pi = 36
+    num_segments_per_pi = 36*4
     num_segments = num_segments_per_pi*2
 
     radius = args["ZSection"].map { |i| [i["rMin"], i["rMax"]] }.flatten.delete_if { |l| l == 0 }.min*0.5
