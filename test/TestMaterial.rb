@@ -6,7 +6,7 @@ require 'test/unit'
 require "Material"
   
 ##____________________________________________________________________________||
-class TestRotation < Test::Unit::TestCase
+class TestMaterial < Test::Unit::TestCase
 
   class MockGeometryManager
   end
