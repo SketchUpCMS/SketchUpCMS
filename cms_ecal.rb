@@ -37,7 +37,7 @@ def draw_gratr_20120317_02
     graphFromCMSE = subgraph_from(graph, topName)
 
     # too detail
-    # nameDepthEB = [ {:name => :"ebalgo:ESPM", :depth => 1}, ]
+    nameDepthEB = [ {:name => :"ebalgo:ESPM", :depth => 1}, ]
 
     # too detail
     # nameDepthEB = [ {:name => :"eregalgo:EFAW", :depth => 0},
@@ -47,7 +47,7 @@ def draw_gratr_20120317_02
     #                 {:name => :"eregalgo:EBCOOL4", :depth => 0},
     #                  ]
 
-    nameDepthEB = [ {:name => :"eregalgo:EBAR", :depth => 0}, ]
+    # nameDepthEB = [ {:name => :"eregalgo:EBAR", :depth => 0}, ]
 
     nameDepthList = nameDepthEB
 
