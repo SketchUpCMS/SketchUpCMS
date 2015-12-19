@@ -30,13 +30,6 @@ class SolidsManager
     @partsHash[part.name] = part 
   end
 
-  def moveInstanceAway(instance)
-    @entityDisplayer.display instance unless @eraseAfterDefine
-    instance.erase! if @eraseAfterDefine
-    instance
-  end
-
-
 end
 
 ##____________________________________________________________________________||

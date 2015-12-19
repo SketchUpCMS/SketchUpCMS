@@ -15,7 +15,7 @@ class SolidDefiner
     instance = solid.to_component
     definition = instance.definition
     definition.name = "solid_" + name.to_s
-    @geometryManager.solidsManager.moveInstanceAway(instance)
+    moveInstanceAway(instance)
     return definition
   end
 
@@ -31,6 +31,12 @@ class SolidDefiner
       definer = UnknownSolidDrawer.new
     end
     definer
+  end
+
+  def moveInstanceAway(instance)
+    @geometryManager.solidsManager.entityDisplayer.display instance unless @geometryManager.solidsManager.eraseAfterDefine
+    instance.erase! if @geometryManager.solidsManager.eraseAfterDefine
+    instance
   end
 
 end
