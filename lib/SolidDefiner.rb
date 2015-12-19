@@ -11,7 +11,12 @@ class SolidDefiner
 
   def define(partName, name, ddl)
     definer = solidDefiner(partName)
-    definer.define partName, name, ddl
+    solid = definer.define partName, name, ddl
+    instance = solid.to_component
+    definition = instance.definition
+    definition.name = "solid_" + name.to_s
+    @geometryManager.solidsManager.moveInstanceAway(instance)
+    return definition
   end
 
   def solidDefiner partName
@@ -41,11 +46,7 @@ class UnknownSolidDefiner
     args = convertArguments(ddl)
     entities = Sketchup.active_model.entities
     solid = drawMethod(partName).call(entities, args)
-    instance = solid.to_component
-    definition = instance.definition
-    definition.name = "solid_" + name.to_s
-    @geometryManager.solidsManager.moveInstanceAway(instance)
-    return definition
+    return solid
   end
 
   def drawMethod partName
@@ -69,12 +70,7 @@ class BasicSolidDefiner
     args = convertArguments(ddl)
     entities = Sketchup.active_model.entities
     solid = drawMethod(partName).call(entities, args)
-    instance = solid.to_component
-    definition = instance.definition
-    definition.name = "solid_" + name.to_s
-    @geometryManager.solidsManager.moveInstanceAway(instance)
-    return definition
-
+    return solid
   end
 
   def drawMethod partName
@@ -146,11 +142,7 @@ class CompoundSolidDefiner
 
     transform2 = translation*rotation
     solid = doSolidTool(partName, definition1, definition2, transform2)
-    instance = solid.to_component
-    definition = instance.definition
-    definition.name = "solid_" + name.to_s
-    @geometryManager.solidsManager.moveInstanceAway(instance)
-    return definition
+    return solid
   end
 
   def definition1 ddl
