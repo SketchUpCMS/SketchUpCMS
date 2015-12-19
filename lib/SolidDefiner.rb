@@ -24,11 +24,11 @@ class SolidDefiner
     compoundSolidNames = [:UnionSolid, :SubtractionSolid]
 
     if basicSolidNames.include?(partName)
-      definer = BasicSolidDefiner.new(@geometryManager)
+      definer = BasicSolidDefiner.new
     elsif compoundSolidNames.include?(partName)
       definer = CompoundSolidDefiner.new(@geometryManager)
     else
-      definer = UnknownSolidDefiner.new(@geometryManager)
+      definer = UnknownSolidDefiner.new
     end
     definer
   end
@@ -37,10 +37,6 @@ end
 
 ##____________________________________________________________________________||
 class UnknownSolidDefiner
-
-  def initialize geometryManager
-    @geometryManager = geometryManager
-  end
 
   def define(partName, name, ddl)
     args = convertArguments(ddl)
@@ -61,10 +57,6 @@ end
 
 ##____________________________________________________________________________||
 class BasicSolidDefiner
-
-  def initialize geometryManager
-    @geometryManager = geometryManager
-  end
 
   def define(partName, name, ddl)
     args = convertArguments(ddl)
