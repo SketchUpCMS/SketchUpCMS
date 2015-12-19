@@ -10,7 +10,7 @@ class SolidDefiner
   end
 
   def define(partName, name, ddl)
-    definer = solidDefiner(partName)
+    definer = solidDrawer(partName)
     solid = definer.define partName, name, ddl
     instance = solid.to_component
     definition = instance.definition
@@ -19,16 +19,16 @@ class SolidDefiner
     return definition
   end
 
-  def solidDefiner partName
+  def solidDrawer partName
     basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
     compoundSolidNames = [:UnionSolid, :SubtractionSolid]
 
     if basicSolidNames.include?(partName)
-      definer = BasicSolidDefiner.new
+      definer = BasicSolidDrawer.new
     elsif compoundSolidNames.include?(partName)
-      definer = CompoundSolidDefiner.new(@geometryManager)
+      definer = CompoundSolidDrawer.new(@geometryManager)
     else
-      definer = UnknownSolidDefiner.new
+      definer = UnknownSolidDrawer.new
     end
     definer
   end
@@ -36,7 +36,7 @@ class SolidDefiner
 end
 
 ##____________________________________________________________________________||
-class UnknownSolidDefiner
+class UnknownSolidDrawer
 
   def define(partName, name, ddl)
     args = convertArguments(ddl)
@@ -56,7 +56,7 @@ class UnknownSolidDefiner
 end
 
 ##____________________________________________________________________________||
-class BasicSolidDefiner
+class BasicSolidDrawer
 
   def define(partName, name, ddl)
     args = convertArguments(ddl)
@@ -117,7 +117,7 @@ class BasicSolidDefiner
 end
 
 ##____________________________________________________________________________||
-class CompoundSolidDefiner
+class CompoundSolidDrawer
 
   def initialize geometryManager
     @geometryManager = geometryManager
