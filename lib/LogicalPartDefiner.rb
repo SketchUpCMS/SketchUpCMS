@@ -7,6 +7,8 @@ class LogicalPartDefiner
 
   def initialize geometryManager
     @geometryManager = geometryManager
+    @entityDisplayer = @geometryManager.logicalPartsManager.entityDisplayer
+    @eraseAfterDefine = @geometryManager.logicalPartsManager.eraseAfterDefine
   end
 
   def define name, children, solid, solidName, materialName
@@ -51,8 +53,14 @@ class LogicalPartDefiner
     lpDefinition = lpInstance.definition
     lpDefinition.name = "lp_" + name.to_s
 
-    @geometryManager.logicalPartsManager.moveInstanceAway(lpInstance)
+    moveInstanceAway(lpInstance)
     lpDefinition
+  end
+
+  def moveInstanceAway(instance)
+    @entityDisplayer.display instance unless @eraseAfterDefine
+    instance.erase! if @eraseAfterDefine
+    instance
   end
 
 end
