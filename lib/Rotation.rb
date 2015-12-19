@@ -1,5 +1,7 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
+require "stringToSUNumeric"
+
 ##____________________________________________________________________________||
 class Rotation
   attr_accessor :geometryManager

@@ -1,20 +1,6 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
 ##____________________________________________________________________________||
-def stringToSUNumeric(value)
-  value = value.gsub(/([0-9]+)\.([^0-9]|$)/, '\1.0\2')
-  value = value.gsub(/\*m/, '*1.m')
-  value = value.gsub(/\*deg/, '*1.degrees')
-  begin
-    value = eval(value)
-  rescue Exception => e
-    puts e.message
-    raise StandardError, "cannot eval \"#{value}\""
-  end
-  value
-end
-
-##____________________________________________________________________________||
 class GeometryManager
   attr_accessor :materialsManager, :rotationsManager
   attr_accessor :solidsManager, :logicalPartsManager, :posPartsManager
