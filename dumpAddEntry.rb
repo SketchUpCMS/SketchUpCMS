@@ -24,7 +24,7 @@ def main
 
   geometryManager = GeometryManagerDump.new
   callBacks = buildDDLCallBacks(geometryManager)
-  readXMLFiles(xmlfileList, callBacks, geometryManager)
+  readXMLFiles(xmlfileList, callBacks)
 
 end
 

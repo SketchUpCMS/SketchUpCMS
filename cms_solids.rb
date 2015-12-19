@@ -65,7 +65,7 @@ def read_xmlfiles
 
   geometryManager = buildGeometryManager()
   callBacks = buildDDLCallBacks(geometryManager)
-  readXMLFiles(xmlfileList, callBacks, geometryManager)
+  readXMLFiles(xmlfileList, callBacks)
 end
 
 ##____________________________________________________________________________||

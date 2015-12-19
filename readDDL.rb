@@ -19,9 +19,9 @@ def cmsmain
   puts Benchmark.measure {
     read_xmlfiles()
   }
-  puts Benchmark.measure {
-    read_xmlfiles_from_cache()
-  }
+  # puts Benchmark.measure {
+  #   read_xmlfiles_from_cache()
+  # }
   puts Benchmark.measure {
     draw_geom()
   }
@@ -37,7 +37,6 @@ def draw_geom
 
     # GRATR::Digraph
     graphFromCMSE = subgraph_from(graph, topName)
-
 
     nameDepthTOB = [ {:name => :"tob:TOBLayer0", :depth => 2},
                      {:name => :"tob:TOBLayer1", :depth => 2},
@@ -70,8 +69,14 @@ def draw_geom
   end
 
   # all PosParts in the XML file
-  graphAll = GRATR::Digraph.new
-  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName) }
+  graphAll = GRATR::DirectedPseudoGraph.new
+  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp.copyNumber) }
+
+  # graphAll.edges.each do |e|
+  #   puts e.label
+  #   puts e.class
+  # end
+  # puts graphAll
 
   topName = :"cms:CMSE"
   arrayToDraw = create_array_to_draw graphAll, topName
@@ -84,6 +89,7 @@ end
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__)) + '/'
   xmlfileListTest = [
+       # 'GeometryExtended.xml',
         'GeometryTOB.xml'
                     ]
 
@@ -95,7 +101,7 @@ def read_xmlfiles
 
   geometryManager = buildGeometryManager()
   callBacks = buildDDLCallBacks(geometryManager)
-  readXMLFiles(xmlfileList, callBacks, geometryManager)
+  readXMLFiles(xmlfileList, callBacks)
 end
 
 ##____________________________________________________________________________||
