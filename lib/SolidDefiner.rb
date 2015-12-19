@@ -11,7 +11,7 @@ class SolidDefiner
 
   def define(partName, name, ddl)
     definer = solidDrawer(partName)
-    solid = definer.define partName, name, ddl
+    solid = definer.draw partName, name, ddl
     instance = solid.to_component
     definition = instance.definition
     definition.name = "solid_" + name.to_s
@@ -38,7 +38,7 @@ end
 ##____________________________________________________________________________||
 class UnknownSolidDrawer
 
-  def define(partName, name, ddl)
+  def draw(partName, name, ddl)
     args = convertArguments(ddl)
     entities = Sketchup.active_model.entities
     solid = drawMethod(partName).call(entities, args)
@@ -58,7 +58,7 @@ end
 ##____________________________________________________________________________||
 class BasicSolidDrawer
 
-  def define(partName, name, ddl)
+  def draw(partName, name, ddl)
     args = convertArguments(ddl)
     entities = Sketchup.active_model.entities
     solid = drawMethod(partName).call(entities, args)
@@ -123,7 +123,7 @@ class CompoundSolidDrawer
     @geometryManager = geometryManager
   end
 
-  def define(partName, name, ddl)
+  def draw(partName, name, ddl)
 
     verifyDDL(ddl)
 
