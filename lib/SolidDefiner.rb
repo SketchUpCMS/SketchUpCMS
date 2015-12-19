@@ -44,7 +44,7 @@ class UnknownSolidDefiner
     instance = solid.to_component
     definition = instance.definition
     definition.name = "solid_" + name.to_s
-    $geometryManager.solidsManager.moveInstanceAway(instance)
+    @geometryManager.solidsManager.moveInstanceAway(instance)
     return definition
   end
 
@@ -72,7 +72,7 @@ class BasicSolidDefiner
     instance = solid.to_component
     definition = instance.definition
     definition.name = "solid_" + name.to_s
-    $geometryManager.solidsManager.moveInstanceAway(instance)
+    @geometryManager.solidsManager.moveInstanceAway(instance)
     return definition
 
   end
@@ -149,7 +149,7 @@ class CompoundSolidDefiner
     instance = solid.to_component
     definition = instance.definition
     definition.name = "solid_" + name.to_s
-    $geometryManager.solidsManager.moveInstanceAway(instance)
+    @geometryManager.solidsManager.moveInstanceAway(instance)
     return definition
   end
 
