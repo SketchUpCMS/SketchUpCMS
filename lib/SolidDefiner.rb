@@ -7,6 +7,8 @@ class SolidDefiner
 
   def initialize geometryManager
     @geometryManager = geometryManager
+    @entityDisplayer = @geometryManager.solidsManager.entityDisplayer
+    @eraseAfterDefine = @geometryManager.solidsManager.eraseAfterDefine
   end
 
   def define(partName, name, ddl)
@@ -34,8 +36,8 @@ class SolidDefiner
   end
 
   def moveInstanceAway(instance)
-    @geometryManager.solidsManager.entityDisplayer.display instance unless @geometryManager.solidsManager.eraseAfterDefine
-    instance.erase! if @geometryManager.solidsManager.eraseAfterDefine
+    @entityDisplayer.display instance unless @eraseAfterDefine
+    instance.erase! if @eraseAfterDefine
     instance
   end
 
