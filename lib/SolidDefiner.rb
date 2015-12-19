@@ -2,7 +2,7 @@
 
 require "stringToSUNumeric"
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 class SolidDefiner
 
   def initialize geometryManager
@@ -41,7 +41,7 @@ class SolidDefiner
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 class UnknownSolidDrawer
 
   def draw(partName, name, ddl)
@@ -61,7 +61,7 @@ class UnknownSolidDrawer
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 class BasicSolidDrawer
 
   def draw(partName, name, ddl)
@@ -82,13 +82,13 @@ class BasicSolidDrawer
     scalarNumericArgs += ["radius", "atMinusZ", "dy1", "dx1", "dy2", "dx2"]
     scalarNumericArgs += ["innerRadius", "outerRadius", "torusRadius", "startPhi", "deltaPhi"]
     vectorArgs = ['ZSection']
-    
+
     knownArgs = nonnumericArgs + scalarNumericArgs + vectorArgs
 
     argsInDDL.keys.each do |k|
       $stderr.write self.class.name + ": Unknown argument: \"#{k}\"\n" unless knownArgs.include?(k)
     end
-    
+
     argsInSU = Hash.new
 
     nonnumericArgs.each do |name|
@@ -122,7 +122,7 @@ class BasicSolidDrawer
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 class CompoundSolidDrawer
 
   def initialize geometryManager
@@ -227,4 +227,4 @@ class CompoundSolidDrawer
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
