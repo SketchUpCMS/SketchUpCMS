@@ -17,7 +17,7 @@ require 'PosPartsManager.rb'
 require 'MaterialsManager.rb'
 require 'defs.rb'
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def cmsmain
 
   read_xmlfiles
@@ -27,7 +27,7 @@ def cmsmain
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def draw_gratr_20120317_02
   def create_array_to_draw graph, topName
 
@@ -515,7 +515,7 @@ def draw_gratr_20120317_02
   draw_array graphAll, arrayToDraw.reverse, topName
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def draw_array graph, arrayToDraw, topName
 
   Sketchup.active_model.definitions.purge_unused
@@ -563,7 +563,7 @@ def draw_array graph, arrayToDraw, topName
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__)) + '/'
   xmlfileListTest = [
@@ -581,13 +581,13 @@ def read_xmlfiles
   readXMLFiles(xmlfileList, callBacks)
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def read_xmlfiles_from_cache
   fillGeometryManager($geometryManager)
   $geometryManager.reload_from_cache
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def fillGeometryManager(geometryManager)
 
   $materialsManager = MaterialsManager.new
@@ -614,13 +614,13 @@ def fillGeometryManager(geometryManager)
   geometryManager
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def buildGeometryManager
   $geometryManager = GeometryManager.new
   fillGeometryManager($geometryManager)
   $geometryManager
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 
 cmsmain
