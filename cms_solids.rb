@@ -33,7 +33,7 @@ end
 ##____________________________________________________________________________||
 def draw_solids
 
-  $solidsManager.eraseAfterDefine = false
+  entityDisplayer = EntityDisplayer.new('solids', 100.m, 0, 0)
 
   partNameCounter = { }
   totalCounter = 0
@@ -42,7 +42,8 @@ def draw_solids
     partNameCounter[solid.partName] = 0 unless partNameCounter.key?(solid.partName)
     next if partNameCounter[solid.partName] >= 15
     partNameCounter[solid.partName] += 1
-    solid.definition
+    instance = Sketchup.active_model.entities.add_instance solid.definition, Geom::Transformation.new
+    entityDisplayer.display instance
     totalCounter += 1
     # break if totalCounter >= 2
   end
