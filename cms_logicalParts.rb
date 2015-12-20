@@ -33,13 +33,14 @@ end
 ##____________________________________________________________________________||
 def draw_solids
 
-  $logicalPartsManager.eraseAfterDefine = false
+  entityDisplayer = EntityDisplayer.new('logicalParts', -100.m, 0, 0)
 
   totalCounter = 0
 
   $logicalPartsManager.parts.each do |lg|
     lg.placeSolid
-    lg.define
+    instance = Sketchup.active_model.entities.add_instance lg.define, Geom::Transformation.new
+    entityDisplayer.display instance
     totalCounter += 1
     break if totalCounter >= 10
   end
