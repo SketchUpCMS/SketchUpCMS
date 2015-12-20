@@ -2,7 +2,7 @@
 
 require 'LogicalPartDefiner'
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 class LogicalPart
   attr_accessor :geometryManager
   attr_accessor :name
@@ -38,7 +38,7 @@ class LogicalPart
     @material
   end
 
-  def placeSolid 
+  def placeSolid
     @solidInPlace = solid()
   end
 
@@ -56,4 +56,4 @@ class LogicalPart
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
