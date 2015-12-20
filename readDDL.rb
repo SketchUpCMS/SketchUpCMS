@@ -4,6 +4,8 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)) + "/lib")
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)) + "/gratr/lib")
+
+require 'buildGeometryManager'
 require 'buildDDLCallBacks'
 require 'readXMLFiles'
 require 'PartBuilder'
@@ -108,40 +110,6 @@ end
 def read_xmlfiles_from_cache
   fillGeometryManager($geometryManager)
   $geometryManager.reload_from_cache
-end
-
-##____________________________________________________________________________||
-def fillGeometryManager(geometryManager)
-
-  $materialsManager = MaterialsManager.new
-  $rotationsManager = RotationsManager.new
-  $solidsManager = SolidsManager.new
-  $logicalPartsManager = LogicalPartsManager.new
-  $posPartsManager = PosPartsManager.new
-
-  geometryManager.partBuilder = PartBuilder.new
-
-  geometryManager = geometryManager
-  geometryManager.materialsManager = $materialsManager
-  geometryManager.rotationsManager = $rotationsManager
-  geometryManager.solidsManager = $solidsManager
-  geometryManager.logicalPartsManager = $logicalPartsManager
-  geometryManager.posPartsManager = $posPartsManager
-
-  $materialsManager.geometryManager = geometryManager
-  $rotationsManager.geometryManager = geometryManager
-  $solidsManager.geometryManager = geometryManager
-  $logicalPartsManager.geometryManager = geometryManager
-  $posPartsManager.geometryManager = geometryManager
-
-  geometryManager
-end
-
-##____________________________________________________________________________||
-def buildGeometryManager
-  $geometryManager = GeometryManager.new
-  fillGeometryManager($geometryManager)
-  $geometryManager
 end
 
 ##____________________________________________________________________________||
