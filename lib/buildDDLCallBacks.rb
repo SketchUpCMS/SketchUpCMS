@@ -5,7 +5,7 @@ require "DDLCallbacks/SectionWithPartListener"
 require "DDLCallbacks/HashListenersDispatcher"
 require "DDLCallbacks/DDLCallbacks"
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def buildDDLCallBacks(geometryManager)
 
   materialSectionListener = SectionWithPartListener.new("MaterialSection", geometryManager)
@@ -26,4 +26,4 @@ def buildDDLCallBacks(geometryManager)
   callBacks
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
