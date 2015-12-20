@@ -5,16 +5,11 @@ require File.dirname(__FILE__) + '/sitecfg.rb'
 
 require 'gratr'
 
+require 'buildGeometryManager'
 require 'buildDDLCallBacks'
 require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
-require 'GeometryManager'
-require 'RotationsManager.rb'
-require 'SolidsManager.rb'
-require 'LogicalPartsManager.rb'
-require 'PosPartsManager.rb'
-require 'MaterialsManager.rb'
 require 'defs.rb'
 
 ##__________________________________________________________________||
@@ -585,40 +580,6 @@ end
 def read_xmlfiles_from_cache
   fillGeometryManager($geometryManager)
   $geometryManager.reload_from_cache
-end
-
-##__________________________________________________________________||
-def fillGeometryManager(geometryManager)
-
-  $materialsManager = MaterialsManager.new
-  $rotationsManager = RotationsManager.new
-  $solidsManager = SolidsManager.new
-  $logicalPartsManager = LogicalPartsManager.new
-  $posPartsManager = PosPartsManager.new
-
-  geometryManager.partBuilder = PartBuilder.new
-
-  geometryManager = geometryManager
-  geometryManager.materialsManager = $materialsManager
-  geometryManager.rotationsManager = $rotationsManager
-  geometryManager.solidsManager = $solidsManager
-  geometryManager.logicalPartsManager = $logicalPartsManager
-  geometryManager.posPartsManager = $posPartsManager
-
-  $materialsManager.geometryManager = geometryManager
-  $rotationsManager.geometryManager = geometryManager
-  $solidsManager.geometryManager = geometryManager
-  $logicalPartsManager.geometryManager = geometryManager
-  $posPartsManager.geometryManager = geometryManager
-
-  geometryManager
-end
-
-##__________________________________________________________________||
-def buildGeometryManager
-  $geometryManager = GeometryManager.new
-  fillGeometryManager($geometryManager)
-  $geometryManager
 end
 
 ##__________________________________________________________________||
