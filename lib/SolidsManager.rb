@@ -1,13 +1,10 @@
 # Tai Sakuma <sakuma@fnal.gov>
-require 'EntityDisplayer'
 require 'Solid'
 
 ##____________________________________________________________________________||
 class SolidsManager
   attr_accessor :geometryManager
-  attr_accessor :eraseAfterDefine
   attr_accessor :partsHash, :parts
-  attr_accessor :entityDisplayer
 
   KnownPartNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus, :UnionSolid, :SubtractionSolid]
 
@@ -17,7 +14,6 @@ class SolidsManager
   def initialize
     @partsHash = Hash.new
     @parts = Array.new
-    @eraseAfterDefine = true
   end
   def get(name)
     @partsHash.key?(name)? @partsHash[name] : nil

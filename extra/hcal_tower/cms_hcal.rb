@@ -10,7 +10,6 @@ require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
 require 'GeometryManager'
-require 'EntityDisplayer.rb'
 require 'RotationsManager.rb'
 require 'SolidsManager.rb'
 require 'LogicalPartsManager.rb'
@@ -87,7 +86,7 @@ def draw_gratr_20120317_02
                    {:name => :"hcalbarrelalgo:HBModule", :depth => 1},
                   ]
 
-    nameDepthHE = [ 
+    nameDepthHE = [
                     {:name => :"hcalendcapalgo:HEModule", :depth => 2},
                   ]
 
@@ -214,9 +213,6 @@ def fillGeometryManager(geometryManager)
   $posPartsManager = PosPartsManager.new
 
   geometryManager.partBuilder = PartBuilder.new
-
-  $solidsManager.entityDisplayer = EntityDisplayer.new('solids', 100.m, 0, 0)
-  $logicalPartsManager.entityDisplayer = EntityDisplayer.new('logicalParts', -100.m, 0, 0)
 
   geometryManager = geometryManager
   geometryManager.materialsManager = $materialsManager

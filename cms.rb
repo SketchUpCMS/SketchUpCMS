@@ -10,7 +10,6 @@ require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
 require 'GeometryManager'
-require 'EntityDisplayer.rb'
 require 'RotationsManager.rb'
 require 'SolidsManager.rb'
 require 'LogicalPartsManager.rb'
@@ -158,7 +157,7 @@ def draw_gratr_20120317_02
                   ]
 
 
-    nameDepthMB = [ 
+    nameDepthMB = [
                    {:name => :"hcalouteralgo:HTP1C_T1", :depth => 0},
                    {:name => :"hcalouteralgo:HTP1C_T2", :depth => 0},
                    {:name => :"hcalouteralgo:HTP1C_T3", :depth => 0},
@@ -598,9 +597,6 @@ def fillGeometryManager(geometryManager)
   $posPartsManager = PosPartsManager.new
 
   geometryManager.partBuilder = PartBuilder.new
-
-  $solidsManager.entityDisplayer = EntityDisplayer.new('solids', 100.m, 0, 0)
-  $logicalPartsManager.entityDisplayer = EntityDisplayer.new('logicalParts', -100.m, 0, 0)
 
   geometryManager = geometryManager
   geometryManager.materialsManager = $materialsManager

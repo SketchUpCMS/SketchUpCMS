@@ -1,13 +1,10 @@
 # Tai Sakuma <sakuma@fnal.gov>
-require 'EntityDisplayer'
 require 'LogicalPart'
 
 ##____________________________________________________________________________||
 class LogicalPartsManager
   attr_accessor :geometryManager
-  attr_accessor :eraseAfterDefine
   attr_accessor :partsHash, :parts
-  attr_accessor :entityDisplayer
 
   KnownPartNames = [:LogicalPart]
 
@@ -17,7 +14,6 @@ class LogicalPartsManager
   def initialize
     @partsHash = Hash.new
     @parts = Array.new
-    @eraseAfterDefine = true
   end
   def get(name)
     @partsHash.key?(name)? @partsHash[name] : nil

@@ -82,9 +82,6 @@ def fillGeometryManager(geometryManager)
 
   geometryManager.partBuilder = PartBuilder.new
 
-  $solidsManager.entityDisplayer = EntityDisplayer.new('solids', 100.m, 0, 0)
-  $logicalPartsManager.entityDisplayer = EntityDisplayer.new('logicalParts', -100.m, 0, 0)
-
   geometryManager = geometryManager
   geometryManager.materialsManager = $materialsManager
   geometryManager.rotationsManager = $rotationsManager
