@@ -1,6 +1,6 @@
 # Tai Sakuma <sakuma@fnal.gov>
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 class GeometryManager
   attr_accessor :materialsManager, :rotationsManager
   attr_accessor :solidsManager, :logicalPartsManager, :posPartsManager
@@ -51,4 +51,4 @@ class GeometryManager
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
