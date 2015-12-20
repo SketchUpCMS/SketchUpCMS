@@ -7,17 +7,15 @@ class SolidDefiner
 
   def initialize geometryManager
     @geometryManager = geometryManager
-    @entityDisplayer = @geometryManager.solidsManager.entityDisplayer
-    @eraseAfterDefine = @geometryManager.solidsManager.eraseAfterDefine
   end
 
   def define(partName, name, ddl)
-    definer = solidDrawer(partName)
-    solid = definer.draw partName, name, ddl
+    drawer = solidDrawer(partName)
+    solid = drawer.draw partName, name, ddl
     instance = solid.to_component
     definition = instance.definition
     definition.name = "solid_" + name.to_s
-    moveInstanceAway(instance)
+    instance.erase!
     return definition
   end
 
@@ -26,19 +24,13 @@ class SolidDefiner
     compoundSolidNames = [:UnionSolid, :SubtractionSolid]
 
     if basicSolidNames.include?(partName)
-      definer = BasicSolidDrawer.new
+      drawer = BasicSolidDrawer.new
     elsif compoundSolidNames.include?(partName)
-      definer = CompoundSolidDrawer.new(@geometryManager)
+      drawer = CompoundSolidDrawer.new(@geometryManager)
     else
-      definer = UnknownSolidDrawer.new
+      drawer = UnknownSolidDrawer.new
     end
-    definer
-  end
-
-  def moveInstanceAway(instance)
-    @entityDisplayer.display instance unless @eraseAfterDefine
-    instance.erase! if @eraseAfterDefine
-    instance
+    drawer
   end
 
 end
