@@ -2,13 +2,10 @@
 
 require "stringToSUNumeric"
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 class LogicalPartDefiner
 
   def initialize geometryManager
-    @geometryManager = geometryManager
-    @entityDisplayer = @geometryManager.logicalPartsManager.entityDisplayer
-    @eraseAfterDefine = @geometryManager.logicalPartsManager.eraseAfterDefine
   end
 
   def define name, children, solid, solidName, materialName
@@ -53,16 +50,10 @@ class LogicalPartDefiner
     lpDefinition = lpInstance.definition
     lpDefinition.name = "lp_" + name.to_s
 
-    moveInstanceAway(lpInstance)
+    lpInstance.erase!
     lpDefinition
-  end
-
-  def moveInstanceAway(instance)
-    @entityDisplayer.display instance unless @eraseAfterDefine
-    instance.erase! if @eraseAfterDefine
-    instance
   end
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
