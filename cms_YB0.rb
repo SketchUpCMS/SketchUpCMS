@@ -31,7 +31,7 @@ def draw_gratr_20120317_02
     graphFromCMSE = subgraph_from(graph, topName)
 
     nameDepthMB = [
-                   {:name => :"muonBase:MBWheel_0", :depth => 1},
+                   {:name => :"muonBase:MBWheel_0", :depth => 2},
                   ]
 
     nameDepthMGNT = [
