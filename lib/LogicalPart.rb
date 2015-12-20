@@ -49,7 +49,7 @@ class LogicalPart
   def define
     return if (@definition and (not @definition.deleted?))
 
-    definer = LogicalPartDefiner.new(@geometryManager)
+    definer = LogicalPartDefiner.new
     @definition = definer.define(@name, @children, @solidInPlace, @solidName, @materialName)
 
   end

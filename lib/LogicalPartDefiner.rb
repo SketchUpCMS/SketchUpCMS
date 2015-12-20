@@ -5,9 +5,6 @@ require "stringToSUNumeric"
 ##__________________________________________________________________||
 class LogicalPartDefiner
 
-  def initialize geometryManager
-  end
-
   def define name, children, solid, solidName, materialName
     definitions = [ ]
 
