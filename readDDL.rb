@@ -40,19 +40,11 @@ def draw_geom
     # GRATR::Digraph
     graphFromCMSE = subgraph_from(graph, topName)
 
-    nameDepthTOB = [ {:name => :"tob:TOBLayer0", :depth => 2},
-                     {:name => :"tob:TOBLayer1", :depth => 2},
-                     {:name => :"tob:TOBLayer2", :depth => 2},
-                     {:name => :"tob:TOBLayer3", :depth => 2},
-                     {:name => :"tob:TOBLayer4", :depth => 2},
-                     {:name => :"tob:TOBLayer5", :depth => 2},
-                   ]
+    nameDepthMB = [
+                   {:name => :"muonBase:MBWheel_1N", :depth => 2},
+                  ]
 
-    # nameDepthTracker = nameDepthPixelBarrel + nameDepthPixelForward + nameDepthTIB + nameDepthTID + nameDepthTOB + nameDepthTEC
-    nameDepthTracker = nameDepthTOB
-
-
-    nameDepthList = nameDepthTracker
+    nameDepthList = nameDepthMB
 
     names = nameDepthList.collect { |e| e[:name] }
     graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
@@ -91,8 +83,7 @@ end
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__)) + '/'
   xmlfileListTest = [
-       # 'GeometryExtended.xml',
-        'GeometryTOB.xml'
+    'Geometry_YB1N_sample.xml'
                     ]
 
   xmlfileList = xmlfileListTest
