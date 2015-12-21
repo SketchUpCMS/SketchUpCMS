@@ -41,6 +41,7 @@ class LogicalPart
   def solid
     return @solid if @solid
     @solid = @geometryManager.solidsManager.get(@solidName)
+    p "#{self}: not found: #{@solidName}" unless @solid
     @solid
   end
 
@@ -49,6 +50,7 @@ class LogicalPart
   def material
     return @material if @material
     @material = @geometryManager.materialsManager.get(@materialName).inSU
+    p "#{self}: not found: #{@materialName}" unless @material
     @material
   end
 
