@@ -12,14 +12,27 @@ class LogicalPart
   attr_accessor :argsInDDL
   attr_accessor :children
   attr_accessor :solidInPlace
+
+  # example,
+  #   name = :"tracker:Tracker"
+  #   partName = :LogicalPart
+  #   solidName = :"tracker:Tracker"
+  #   materialName = :"materials:Air"
+  #   argsInDDL = {
+  #     "rMaterial"=>[{"name"=>"materials:Air"}],
+  #     "name"=>"tracker:Tracker",
+  #     "rSolid"=>[{"name"=>"tracker:Tracker"}]}
+
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
+
   def initialize geometryManager, partName
     @geometryManager = geometryManager
     @partName = partName
     @children = [ ]
   end
+
   def definition
     return @definition if (@definition and (not @definition.deleted?))
     return nil
@@ -32,6 +45,7 @@ class LogicalPart
   end
 
   attr_writer :material
+
   def material
     return @material if @material
     @material = @geometryManager.materialsManager.get(@materialName).inSU
