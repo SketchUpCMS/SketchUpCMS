@@ -11,6 +11,7 @@ require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
 require 'defs.rb'
+load 'LogicalPart.rb'
 
 ##__________________________________________________________________||
 def cmsmain
@@ -31,14 +32,10 @@ def draw_gratr_20120317_02
     graphFromCMSE = subgraph_from(graph, topName)
 
     nameDepthMB = [
-                   {:name => :"muonBase:MBWheel_0", :depth => 2},
+                   {:name => :"muonBase:MBWheel_1N", :depth => 2},
                   ]
 
-    nameDepthMGNT = [
-                    {:name => :"mgnt:MGNT", :depth => 0},
-                  ]
-
-    nameDepthList = nameDepthMB + nameDepthMGNT
+    nameDepthList = nameDepthMB
 
     names = nameDepthList.collect { |e| e[:name] }
     graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
@@ -117,7 +114,7 @@ end
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__)) + '/'
   xmlfileListTest = [
-                     'GeometryExtended.xml'
+                     'Geometry_YB1N_sample.xml'
                     ]
 
   xmlfileList = xmlfileListTest
