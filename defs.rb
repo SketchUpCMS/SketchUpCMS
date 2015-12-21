@@ -4,7 +4,7 @@
 require 'gratr'
 
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def subgraph_from(graph, from)
   # tree from from
   hashPredecessorBFSTreeFrom = graph.bfs_tree_from_vertex(from)
@@ -17,7 +17,7 @@ def subgraph_from(graph, from)
   graphFrom
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def subgraph_from_depth(graph, from, depth = -1)
 
   graphFrom = subgraph_from(graph, from)
@@ -31,7 +31,7 @@ def subgraph_from_depth(graph, from, depth = -1)
   graphFromDepth
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def subgraph_from_to(graph, from, to)
   def buildLocalGraph graph, localGraph, from, to
     to.each do |child|
@@ -51,7 +51,7 @@ def subgraph_from_to(graph, from, to)
   ret
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def topsort_from_depth(graph, from, depth = -1)
   graphFrom = subgraph_from_depth(graph, from, depth)
 
@@ -59,10 +59,10 @@ def topsort_from_depth(graph, from, depth = -1)
   graphFrom.size > 0 ? graphFrom.topsort(from) : [from]
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def topsort_from_to graph, from, to
   localGraph = subgraph_from_to(graph, from, to)
   localGraph.size > 0 ? localGraph.topsort(from) : [from]
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
