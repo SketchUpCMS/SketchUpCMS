@@ -1,7 +1,7 @@
 # Tai Sakuma <sakuma@fnal.gov>
 require 'Solid'
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 class SolidsManager
   attr_accessor :geometryManager
   attr_accessor :partsHash, :parts
@@ -23,9 +23,9 @@ class SolidsManager
       $stderr.write self.class.name + ": Unknown part name: \"#{part.partName}\"\n"
     end
     @parts << part
-    @partsHash[part.name] = part 
+    @partsHash[part.name] = part
   end
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
