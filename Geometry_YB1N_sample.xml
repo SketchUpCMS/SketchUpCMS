@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL"
+	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	      xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../../DetectorDescription/Schema/DDLSchema.xsd">
+
+  <PosPartSection label="GeometryExtended">
+    <PosPart copyNumber="1">
+      <rParent name="cms:CMSE"/>
+      <rChild name="muonBase:MUON"/>
+      <rRotation name="rotations:000D"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="0.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="muonBase:MUON"/>
+      <rChild name="muonBase:MB"/>
+      <rRotation name="rotations:000D"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="0.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="muonBase:MB"/>
+      <rChild name="muonBase:MBWheel_1N"/>
+      <rRotation name="rotations:000D"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-2686.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="rotations:E127"/>
+      <Translation x="4311.750000000000000000*mm" y="391.199999999999988631*mm" z="8.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="rotations:MM200"/>
+      <Translation x="3538.485147802500250691*mm" y="2494.664148215999830427*mm" z="8.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="3">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1ChimN"/>
+      <rRotation name="rotations:MM300"/>
+      <Translation x="1817.085851783999942199*mm" y="3929.685147802500068792*mm" z="-186.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="4">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa132"/>
+      <Translation x="-391.200000021369987735*mm" y="4311.749999958536136546*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="5">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa133"/>
+      <Translation x="-2494.664137958246556082*mm" y="3538.485034720959902188*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="6">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa134"/>
+      <Translation x="-3929.685034742329207802*mm" y="1817.085862000290035212*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="7">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa135"/>
+      <Translation x="-4311.749999958536136546*mm" y="-391.200000021369703518*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="8">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa136"/>
+      <Translation x="-3538.485034720959902188*mm" y="-2494.664137958246556082*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="9">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa137"/>
+      <Translation x="-1817.085862000290262586*mm" y="-3929.685034742328753055*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="10">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa138"/>
+      <Translation x="391.200000021369419301*mm" y="-4311.749999958536136546*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="11">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa139"/>
+      <Translation x="2494.664137958247465576*mm" y="-3538.485034720959447441*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="12">
+      <rParent name="muonBase:MBWheel_1N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa140"/>
+      <Translation x="3929.685034742328753055*mm" y="-1817.085862000290489959*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1N"/>
+      <rChild name="mb1:MB1SuperLayerPhi"/>
+      <Translation x="-16.000000000000000000*mm" y="0.000000000000000000*mm" z="117.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="3">
+      <rParent name="mb1:MB1N"/>
+      <rChild name="mb1:MB1SuperLayerPhi"/>
+      <Translation x="5.000000000000000000*mm" y="0.000000000000000000*mm" z="-117.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="mb1:MB1N"/>
+      <rChild name="mb1:MB1SuperLayerZ"/>
+      <rRotation name="rotations:R270"/>
+      <Translation x="5.000000000000000000*mm" y="0.000000000000000000*mm" z="-64.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1N"/>
+      <rChild name="mb1:MB1HoneycombBox"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="26.750000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1ChimN"/>
+      <rChild name="mb1:MB1ChimSuperLayerPhi"/>
+      <Translation x="-16.000000000000000000*mm" y="0.000000000000000000*mm" z="117.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="3">
+      <rParent name="mb1:MB1ChimN"/>
+      <rChild name="mb1:MB1ChimSuperLayerPhi"/>
+      <Translation x="5.000000000000000000*mm" y="0.000000000000000000*mm" z="-117.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="mb1:MB1ChimN"/>
+      <rChild name="mb1:MB1ChimSuperLayerZ"/>
+      <rRotation name="rotations:R270"/>
+      <Translation x="-5.000000000000000000*mm" y="0.000000000000000000*mm" z="-64.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1ChimN"/>
+      <rChild name="mb1:MB1ChimHoneycombBox"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="26.750000000000000000*mm"/>
+    </PosPart>
+  </PosPartSection>
+
+  <RotationSection label="GeometryExtended">
+    <Rotation name="rotations:000D" phiX="-0.000000000000007017*deg" thetaX="90.000000000000014211*deg" phiY="90.000000000000014211*deg" thetaY="90.000000000000014211*deg" phiZ="-135.000000000000000000*deg" thetaZ="0.000000000000009923*deg"/>
+    <Rotation name="rotations:E127" phiX="89.999999999999985789*deg" thetaX="90.000000000000014211*deg" phiY="153.434948822921995770*deg" thetaY="180.000000000000000000*deg" phiZ="180.000000000000000000*deg" thetaZ="90.000000000000028422*deg"/>
+    <Rotation name="rotations:MM200" phiX="120.000000000000014211*deg" thetaX="90.000000000000014211*deg" phiY="171.206023113003112712*deg" thetaY="180.000000000000000000*deg" phiZ="-150.000000000000028422*deg" thetaZ="90.000000000000028422*deg"/>
+    <Rotation name="rotations:MM300" phiX="150.000000000000028422*deg" thetaX="90.000000000000028422*deg" phiY="-171.206023113003112712*deg" thetaY="180.000000000000000000*deg" phiZ="-120.000000000000014211*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa132" phiX="180.000000000000000000*deg" thetaX="90.000000000000000000*deg" phiY="140.184184778000002325*deg" thetaY="180.000000000000000000*deg" phiZ="-90.000000000000000000*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa133" phiX="-150.000000000000000000*deg" thetaX="90.000000000000000000*deg" phiY="170.184184777999973903*deg" thetaY="180.000000000000000000*deg" phiZ="-60.000000000000007105*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa134" phiX="-120.000000000000014211*deg" thetaX="90.000000000000000000*deg" phiY="-159.815815222000026097*deg" thetaY="180.000000000000000000*deg" phiZ="-30.000000000000021316*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa135" phiX="-90.000000000000000000*deg" thetaX="90.000000000000000000*deg" phiY="-129.815815221999997675*deg" thetaY="180.000000000000000000*deg" phiZ="0.000000000000009542*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa136" phiX="-59.999999999999992895*deg" thetaX="90.000000000000000000*deg" phiY="-99.815815222000011886*deg" thetaY="180.000000000000000000*deg" phiZ="30.000000000000003553*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa137" phiX="-29.999999999999989342*deg" thetaX="90.000000000000000000*deg" phiY="-69.815815221999997675*deg" thetaY="180.000000000000000000*deg" phiZ="60.000000000000021316*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa138" phiX="0.000000000000015108*deg" thetaX="90.000000000000000000*deg" phiY="-39.815815221999990570*deg" thetaY="180.000000000000000000*deg" phiZ="90.000000000000028422*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa139" phiX="30.000000000000028422*deg" thetaX="90.000000000000000000*deg" phiY="-9.815815221999972806*deg" thetaY="180.000000000000000000*deg" phiZ="120.000000000000042633*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa140" phiX="59.999999999999992895*deg" thetaX="90.000000000000000000*deg" phiY="20.184184777999998772*deg" thetaY="180.000000000000000000*deg" phiZ="150.000000000000000000*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="rotations:R270" phiX="-90.000000000000014211*deg" thetaX="90.000000000000014211*deg" phiY="0.000000000000007017*deg" thetaY="90.000000000000014211*deg" phiZ="135.000000000000000000*deg" thetaZ="0.000000000000009923*deg"/>
+  </RotationSection>
+
+  <SolidSection label="GeometryExtended">
+    <Polycone name="cms:CMSE" startPhi="0.000000000000000000*deg" deltaPhi="360.000000000000000000*deg">
+      <ZSection z="-450000.000000000000000000*mm" rMin="0.000000000000000000*mm" rMax="1000.000000000000000000*mm"/>
+      <ZSection z="-26000.000000000000000000*mm" rMin="0.000000000000000000*mm" rMax="1000.000000000000000000*mm"/>
+      <ZSection z="-26000.000000000000000000*mm" rMin="0.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="26000.000000000000000000*mm" rMin="0.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="26000.000000000000000000*mm" rMin="0.000000000000000000*mm" rMax="1000.000000000000000000*mm"/>
+      <ZSection z="450000.000000000000000000*mm" rMin="0.000000000000000000*mm" rMax="1000.000000000000000000*mm"/>
+    </Polycone>
+    <Polycone name="muonBase:MUON" startPhi="0.000000000000000000*deg" deltaPhi="360.000000000000000000*deg">
+      <ZSection z="-10860.000000000000000000*mm" rMin="1086.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-10500.000000000000000000*mm" rMin="1086.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-10500.000000000000000000*mm" rMin="1130.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-10165.000000000000000000*mm" rMin="1130.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-10165.000000000000000000*mm" rMin="1041.099999999999909051*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-6835.000000000000000000*mm" rMin="700.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-6610.000000000000000000*mm" rMin="675.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-6590.000000000000000000*mm" rMin="675.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-6500.000000000000000000*mm" rMin="105.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-5541.000000000000000000*mm" rMin="89.299999999999997158*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="-5541.000000000000000000*mm" rMin="2950.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="5541.000000000000000000*mm" rMin="2950.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="5541.000000000000000000*mm" rMin="89.299999999999997158*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="6500.000000000000000000*mm" rMin="105.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="6590.000000000000000000*mm" rMin="675.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="6610.000000000000000000*mm" rMin="675.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="6835.000000000000000000*mm" rMin="700.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="10165.000000000000000000*mm" rMin="1041.099999999999909051*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="10165.000000000000000000*mm" rMin="1130.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="10500.000000000000000000*mm" rMin="1130.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="10500.000000000000000000*mm" rMin="1086.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+      <ZSection z="10860.000000000000000000*mm" rMin="1086.000000000000000000*mm" rMax="8300.000000000000000000*mm"/>
+    </Polycone>
+    <Tubs name="muonBase:MB" rMin="3800.000000000000000000*mm" rMax="8300.000000000000000000*mm" dz="6610.000000000000000000*mm" startPhi="0.000000000000000000*deg" deltaPhi="360.000000000000000000*deg"/>
+    <Tubs name="muonBase:MBWheel" rMin="3800.000000000000000000*mm" rMax="8050.000000000000909495*mm" dz="1268.000000000000000000*mm" startPhi="0.000000000000000000*deg" deltaPhi="360.000000000000000000*deg"/>
+    <UnionSolid name="mb1:MB1ChimN">
+      <rSolid name="mb1:MB1ChimN_b"/>
+      <rSolid name="mb1:MB1Chim_OLAP2"/>
+      <Translation x="-1095.500000000000000000*mm" y="0.000000000000000000*mm" z="-174.500000000000000000*mm"/>
+      <rRotation name="rotations:000D"/>
+    </UnionSolid>
+    <SubtractionSolid name="mb1:MB1ChimN_b">
+      <rSolid name="mb1:MB1Chim_a"/>
+      <rSolid name="mb1:MB1_OLAP1"/>
+      <Translation x="1073.200000000000045475*mm" y="0.000000000000000000*mm" z="-166.199999999999988631*mm"/>
+      <rRotation name="rotations:000D"/>
+    </SubtractionSolid>
+    <UnionSolid name="mb1:MB1N">
+      <rSolid name="mb1:MB1N_b"/>
+      <rSolid name="mb1:MB1_OLAP2"/>
+      <Translation x="-1095.500000000000000000*mm" y="0.000000000000000000*mm" z="-174.500000000000000000*mm"/>
+      <rRotation name="rotations:000D"/>
+    </UnionSolid>
+    <SubtractionSolid name="mb1:MB1N_b">
+      <rSolid name="mb1:MB1_a"/>
+      <rSolid name="mb1:MB1_OLAP1"/>
+      <Translation x="1073.200000000000045475*mm" y="0.000000000000000000*mm" z="-166.199999999999988631*mm"/>
+      <rRotation name="rotations:000D"/>
+    </SubtractionSolid>
+    <Box name="mb1:MB1Chim_a" dx="1090.000000000000000000*mm" dy="1060.500000000000000000*mm" dz="181.000000000000000000*mm"/>
+    <Box name="mb1:MB1Chim_OLAP2" dx="5.599999999999999645*mm" dy="1061.500000000000000000*mm" dz="6.599999999999999645*mm"/>
+    <Box name="mb1:MB1_a" dx="1090.000000000000000000*mm" dy="1255.500000000000000000*mm" dz="181.000000000000000000*mm"/>
+    <Box name="mb1:MB1_OLAP1" dx="17.000000000000000000*mm" dy="1256.500000000000000000*mm" dz="15.000000000000000000*mm"/>
+    <Box name="mb1:MB1_OLAP2" dx="5.599999999999999645*mm" dy="1256.500000000000000000*mm" dz="6.599999999999999645*mm"/>
+    <Box name="mb1:MB1SuperLayerPhi" dx="1063.200000000000045475*mm" dy="1255.500000000000000000*mm" dz="26.750000000000000000*mm"/>
+    <Box name="mb1:MB1SuperLayerZ" dx="1231.200000000000045475*mm" dy="1085.000000000000000000*mm" dz="26.750000000000000000*mm"/>
+    <Box name="mb1:MB1HoneycombBox" dx="1016.500000000000000000*mm" dy="1229.000000000000000000*mm" dz="64.000000000000000000*mm"/>
+    <Box name="mb1:MB1ChimSuperLayerPhi" dx="1063.200000000000045475*mm" dy="1060.500000000000000000*mm" dz="26.750000000000000000*mm"/>
+    <Box name="mb1:MB1ChimSuperLayerZ" dx="1031.700000000000045475*mm" dy="1085.000000000000000000*mm" dz="26.750000000000000000*mm"/>
+    <Box name="mb1:MB1ChimHoneycombBox" dx="1016.500000000000000000*mm" dy="1034.000000000000000000*mm" dz="64.000000000000000000*mm"/>
+  </SolidSection>
+
+  <LogicalPartSection label="GeometryExtended">
+    <LogicalPart name="cms:CMSE">
+      <rSolid name="cms:CMSE"/>
+      <rMaterial name="materials:Air"/>
+    </LogicalPart>
+    <LogicalPart name="muonBase:MUON">
+      <rSolid name="muonBase:MUON"/>
+      <rMaterial name="materials:Air"/>
+    </LogicalPart>
+    <LogicalPart name="muonBase:MB">
+      <rSolid name="muonBase:MB"/>
+      <rMaterial name="materials:M_B_Air"/>
+    </LogicalPart>
+    <LogicalPart name="muonBase:MBWheel_1N">
+      <rSolid name="muonBase:MBWheel"/>
+      <rMaterial name="materials:M_B_Air"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1N">
+      <rSolid name="mb1:MB1N"/>
+      <rMaterial name="materials:M_B_Air"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1ChimN">
+      <rSolid name="mb1:MB1ChimN"/>
+      <rMaterial name="materials:M_B_Air"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SuperLayerPhi">
+      <rSolid name="mb1:MB1SuperLayerPhi"/>
+      <rMaterial name="materials:Air"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SuperLayerZ">
+      <rSolid name="mb1:MB1SuperLayerZ"/>
+      <rMaterial name="materials:Air"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1HoneycombBox">
+      <rSolid name="mb1:MB1HoneycombBox"/>
+      <rMaterial name="materials:Air"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1ChimSuperLayerPhi">
+      <rSolid name="mb1:MB1ChimSuperLayerPhi"/>
+      <rMaterial name="materials:Air"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1ChimSuperLayerZ">
+      <rSolid name="mb1:MB1ChimSuperLayerZ"/>
+      <rMaterial name="materials:Air"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1ChimHoneycombBox">
+      <rSolid name="mb1:MB1ChimHoneycombBox"/>
+      <rMaterial name="materials:Air"/>
+    </LogicalPart>
+  </LogicalPartSection>
+
+  <MaterialSection label="GeometryExtended">
+    <CompositeMaterial name="materials:Air" density="1.21400e+00*mg/cm3" method="mixture by weight">
+      <MaterialFraction fraction="0.749400000">
+	<rMaterial name="materials:Nitrogen"/>
+      </MaterialFraction>
+      <MaterialFraction fraction="0.236900000">
+	<rMaterial name="materials:Oxygen"/>
+      </MaterialFraction>
+      <MaterialFraction fraction="0.012900000">
+	<rMaterial name="materials:Argon"/>
+      </MaterialFraction>
+      <MaterialFraction fraction="0.000800000">
+	<rMaterial name="materials:Hydrogen"/>
+      </MaterialFraction>
+    </CompositeMaterial>
+    <CompositeMaterial name="materials:M_B_Air" density="1.20500e+00*mg/cm3" method="mixture by weight">
+      <MaterialFraction fraction="0.749400000">
+	<rMaterial name="materials:Nitrogen"/>
+      </MaterialFraction>
+      <MaterialFraction fraction="0.236900000">
+	<rMaterial name="materials:Oxygen"/>
+      </MaterialFraction>
+      <MaterialFraction fraction="0.012900000">
+	<rMaterial name="materials:Argon"/>
+      </MaterialFraction>
+      <MaterialFraction fraction="0.000800000">
+	<rMaterial name="materials:Hydrogen"/>
+      </MaterialFraction>
+    </CompositeMaterial>
+  </MaterialSection>
+
+</DDDefinition>
