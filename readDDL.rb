@@ -12,7 +12,9 @@ require 'PartBuilder'
 require 'GeometryManager'
 
 require "benchmark"
+
 require 'graph_functions'
+require 'gratr'
 
 ##____________________________________________________________________________||
 def cmsmain

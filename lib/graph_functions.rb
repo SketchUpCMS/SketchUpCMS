@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 # Tai Sakuma <sakuma@fnal.gov>
 
-require 'gratr'
-
 
 ##__________________________________________________________________||
 def subgraph_from(graph, from)

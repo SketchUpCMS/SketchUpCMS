@@ -7,6 +7,8 @@ require 'test/unit'
 require "stringio"
 require "graph_functions"
 
+require 'gratr'
+
 ##__________________________________________________________________||
 class Test_graph_functions < Test::Unit::TestCase
 
