@@ -8,7 +8,7 @@ require "stringio"
 require "graph_functions"
 
 ##__________________________________________________________________||
-class TestGRATRdefs < Test::Unit::TestCase
+class Test_graph_functions < Test::Unit::TestCase
 
   def setup
     @graph = GRATR::DirectedPseudoGraph[1,2, 1,2, 1,3, 2,4, 2,4, 2,4, 2,5, 3,6, 3,7, 3,7]
