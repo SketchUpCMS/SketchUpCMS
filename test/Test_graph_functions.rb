@@ -20,7 +20,9 @@ class Test_graph_functions < Test::Unit::TestCase
     #     /// \     / \\
     #      4   5   6   7
 
-    @graph2 = GRATR::DirectedPseudoGraph[1,2, 1,2, 1,3, 2,4, 2,4, 2,4, 2,5, 3,6, 3,7, 3,7, 5,8, 5,8, 6,8, 6,8]
+    @graph2 = GRATR::DirectedPseudoGraph[0,1, 1,2, 1,2, 1,3, 2,4, 2,4, 2,4, 2,5, 3,6, 3,7, 3,7, 5,8, 5,8, 6,8, 6,8]
+    #            0
+    #            |
     #            1
     #         //    \
     #        2       3
@@ -62,7 +64,9 @@ class Test_graph_functions < Test::Unit::TestCase
   end
 
   def test_subgraph_from_to
-    sub = subgraph_from_to(@graph2, 1, [8])
+    sub = subgraph_from_to(@graph2, 0, [8])
+    #            0
+    #            |
     #            1
     #         //    \
     #        2       3
@@ -71,8 +75,8 @@ class Test_graph_functions < Test::Unit::TestCase
     #          \\//
     #            8
     assert_equal @graph2.class, sub.class
-    assert_equal [1, 2, 3, 5, 6, 8], sub.vertices.sort
-    assert_equal 9, sub.num_edges
+    assert_equal [0, 1, 2, 3, 5, 6, 8], sub.vertices.sort
+    assert_equal 10, sub.num_edges
   end
 
   def test_subgraph_from_depth
