@@ -49,6 +49,7 @@ class Test_graph_functions < Test::Unit::TestCase
 
   def test_subgraph_from
     sub = subgraph_from(@graph, 2)
+    assert_equal @graph.class, sub.class
     assert_equal [2, 4, 5], sub.vertices.sort
     assert_equal 4, sub.num_edges
     assert sub.edge?(2,4)
@@ -60,6 +61,7 @@ class Test_graph_functions < Test::Unit::TestCase
 
   def test_subgraph_from_to
     sub = subgraph_from_to(@graph2, 1, [8])
+    assert_equal @graph2.class, sub.class
     #            1
     #         //    \
     #        2       3
@@ -73,6 +75,7 @@ class Test_graph_functions < Test::Unit::TestCase
 
   def test_subgraph_from_depth
     sub = subgraph_from_depth(@graph3, 3, 2)
+    assert_equal @graph3.class, sub.class
     #                3
     #               / \\
     #              6   7
