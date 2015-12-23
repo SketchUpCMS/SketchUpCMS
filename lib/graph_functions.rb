@@ -31,17 +31,17 @@ end
 
 ##__________________________________________________________________||
 def subgraph_from_to(graph, from, to)
-  def buildEdgeList graph, edges, from, to
+  def buildEdgeList graph, from, to
+    to.reject! { |t| t == from }
+    ret = Set.new
     to.each do |child|
       parents = graph.adjacent(child, {:direction => :in})
-      edges.merge(parents.map { |parent| [parent, child] })
-      parents.reject! { |p| p == from }
-      buildEdgeList(graph, edges, from, parents)
+      ret.merge(parents.map { |parent| [parent, child] })
+      ret.merge(buildEdgeList(graph, from, parents))
     end
-    edges
+    ret
   end
-  edges = Set.new
-  edges = buildEdgeList graph, edges, from, to
+  edges = buildEdgeList graph, from, to
   ret = graph.class.new
   graph.edges.each { |e| ret.add_edge!(e) if edges.include?([e.source, e.target]) }
   ret
