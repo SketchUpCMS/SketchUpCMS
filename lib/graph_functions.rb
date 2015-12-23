@@ -3,12 +3,44 @@
 
 
 ##__________________________________________________________________||
+# Returns a subgraph of `graph` which starts from `from`.
 def subgraph_from(graph, from)
+
+  # e.g.,
+  # graph = GRATR::DirectedPseudoGraph[0,1, 1,2, 1,2, 1,3, 2,4, 2,5,
+  #                                    2,5, 3,6, 3,7, 5,8, 6,8, 6,9]
+  #            0
+  #            |
+  #            1
+  #         //    \
+  #        2       3
+  #       / \\    / \
+  #      4   5   6   7
+  #           \ /\   
+  #            8  9
+  #
+  # from = 2
+
   hash_bfs = graph.bfs_tree_from_vertex(from)
+  # e.g., hash_bfs = {4=>2, 5=>2, 8=>5}
+  
   vertices = Set.new hash_bfs.flatten
+  # e.g., vertices = <Set: {4, 2, 5, 8}>
+
   edges = graph.edges.select { |e| vertices.include?(e.source) and vertices.include?(e.target) }
+  # e.g., edges = [(2-4), (2-5), (2-5), (5-8)]
+
   ret = graph.class.new
   edges.each { |e| ret.add_edge!(e) }
+
+  # ret:
+  #        2
+  #       / \\
+  #      4   5
+  #           \
+  #            8
+  #
+
   ret
 end
 
