@@ -33,21 +33,21 @@ end
 
 ##__________________________________________________________________||
 def subgraph_from_to(graph, from, to)
-  def buildLocalGraph graph, localGraph, from, to
+  def buildEdgeList graph, edges, from, to
     to.each do |child|
       parents = graph.adjacent(child, {:direction => :in})
       parents.each do |parent|
-        localGraph.add_edge!(parent, child)
+        edges.push([parent, child])
       end
       parents.reject! { |p| p == from }
-      buildLocalGraph(graph, localGraph, from, parents)
+      buildEdgeList(graph, edges, from, parents)
     end
-    localGraph
+    edges
   end
-  localGraph = GRATR::Digraph.new
-  localGraph = buildLocalGraph graph, localGraph, from, to
+  edges = [ ]
+  edges = buildEdgeList graph, edges, from, to
   ret = graph.class.new
-  graph.edges.each { |e| ret.add_edge!(e) if localGraph.edge?(e.source, e.target) }
+  graph.edges.each { |e| ret.add_edge!(e) if edges.include?([e.source, e.target]) }
   ret
 end
 
