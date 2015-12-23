@@ -48,17 +48,3 @@ def subgraph_from_to(graph, from, to)
 end
 
 ##__________________________________________________________________||
-def topsort_from_depth(graph, from, depth = -1)
-  graphFrom = subgraph_from_depth(graph, from, depth)
-
-  # topological sort from from
-  graphFrom.size > 0 ? graphFrom.topsort(from) : [from]
-end
-
-##__________________________________________________________________||
-def topsort_from_to graph, from, to
-  localGraph = subgraph_from_to(graph, from, to)
-  localGraph.size > 0 ? localGraph.topsort(from) : [from]
-end
-
-##__________________________________________________________________||
