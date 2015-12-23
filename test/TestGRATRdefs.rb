@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 # Tai Sakuma <sakuma@fnal.gov>
 
-$LOAD_PATH.push(File.expand_path(File.dirname(__FILE__)) + "/../gratr/lib")
+$LOAD_PATH.push(File.join(File.dirname(File.dirname(__FILE__)), 'gratr', 'lib'))
 
 require 'test/unit'
 require "stringio"
 require "defs"
-require 'gratr'
-  
-##____________________________________________________________________________||
+
+##__________________________________________________________________||
 class TestGRATRdefs < Test::Unit::TestCase
 
   def setup
@@ -40,9 +39,8 @@ class TestGRATRdefs < Test::Unit::TestCase
     #          10     11
   end
 
-
   def test_basics
-    assert_equal 10, @graph.edges.size 
+    assert_equal 10, @graph.edges.size
     assert_equal 7, @graph.size
     assert_equal 10, @graph.num_edges
     assert_equal 7, @graph.num_vertices
@@ -86,4 +84,4 @@ class TestGRATRdefs < Test::Unit::TestCase
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
