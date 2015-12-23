@@ -10,7 +10,7 @@ require 'buildDDLCallBacks'
 require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
-require 'defs.rb'
+require 'graph_functions.rb'
 
 ##__________________________________________________________________||
 def cmsmain

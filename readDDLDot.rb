@@ -11,7 +11,7 @@ require 'readXMLFiles'
 require 'PartBuilder'
 
 require "benchmark"
-require 'defs'
+require 'graph_functions'
 
 require 'gratr'
 require 'gratr/dot'

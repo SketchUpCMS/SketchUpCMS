@@ -5,7 +5,7 @@ $LOAD_PATH.push(File.join(File.dirname(File.dirname(__FILE__)), 'gratr', 'lib'))
 
 require 'test/unit'
 require "stringio"
-require "defs"
+require "graph_functions"
 
 ##__________________________________________________________________||
 class TestGRATRdefs < Test::Unit::TestCase

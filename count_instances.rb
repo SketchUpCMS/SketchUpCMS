@@ -8,31 +8,20 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)) + "/gratr/lib")
 require 'buildGeometryManager'
 require 'buildDDLCallBacks'
 require 'readXMLFiles'
-require 'PartBuilder'
 
-require "benchmark"
-require 'defs'
+require 'graph_functions'
 
 require 'gratr'
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def cmsmain
 
-  puts Benchmark::CAPTION
-  puts Benchmark.measure {
-    read_xmlfiles()
-  }
-  # puts Benchmark.measure {
-  #   read_xmlfiles_from_cache()
-  # }
-  puts Benchmark.measure {
-    draw_geom()
-  }
-
+  read_xmlfiles()
+  draw_geom()
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def draw_geom
 
   # all PosParts in the XML file
@@ -70,31 +59,17 @@ def draw_geom
 
 end
 
-
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def read_xmlfiles
-  topDir = File.expand_path(File.dirname(__FILE__)) + '/'
-  xmlfileListTest = [
-       'Geometry_YB1N_sample.xml',
-                    ]
-
-  xmlfileList = xmlfileListTest
-
-  xmlfileList.map! {|f| f = topDir + f }
-
+  topDir = File.expand_path(File.dirname(__FILE__))
+  xmlfileList = ['Geometry_YB1N_sample.xml']
+  xmlfileList.map! {|f| f = File.join(topDir, f) }
   p xmlfileList
-
   geometryManager = buildGeometryManager()
   callBacks = buildDDLCallBacks(geometryManager)
   readXMLFiles(xmlfileList, callBacks)
 end
 
-##____________________________________________________________________________||
-def read_xmlfiles_from_cache
-  fillGeometryManager($geometryManager)
-  $geometryManager.reload_from_cache
-end
-
-##____________________________________________________________________________||
+##__________________________________________________________________||
 
 cmsmain

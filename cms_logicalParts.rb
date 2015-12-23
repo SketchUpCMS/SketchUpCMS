@@ -11,7 +11,7 @@ require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
 require 'EntityDisplayer.rb'
-require 'defs.rb'
+require 'graph_functions.rb'
 
 ##____________________________________________________________________________||
 def cmsmain
