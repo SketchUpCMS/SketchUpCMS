@@ -7,6 +7,8 @@ require 'LogicalPartsManager.rb'
 require 'PosPartsManager.rb'
 require 'MaterialsManager.rb'
 
+require 'PartBuilder'
+
 ##__________________________________________________________________||
 def fillGeometryManager(geometryManager)
 
