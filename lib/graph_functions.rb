@@ -4,15 +4,12 @@
 
 ##__________________________________________________________________||
 def subgraph_from(graph, from)
-  # tree from from
-  hashPredecessorBFSTreeFrom = graph.bfs_tree_from_vertex(from)
-  arrayBFSTreeFrom = hashPredecessorBFSTreeFrom.collect { |k, v| k }.uniq
-  arrayBFSTreeFrom << from
-
-  graphFrom = graph.class.new
-  graph.edges.each { |a| graphFrom.add_edge!(a) if arrayBFSTreeFrom.include?(a.source) and arrayBFSTreeFrom.include?(a.target) }
-
-  graphFrom
+  hash_bfs = graph.bfs_tree_from_vertex(from)
+  vertices = Set.new hash_bfs.flatten
+  edges = graph.edges.select { |e| vertices.include?(e.source) and vertices.include?(e.target) }
+  ret = graph.class.new
+  edges.each { |e| ret.add_edge!(e) }
+  ret
 end
 
 ##__________________________________________________________________||
