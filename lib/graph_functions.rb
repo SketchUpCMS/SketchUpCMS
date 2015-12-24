@@ -46,7 +46,7 @@ end
 ##__________________________________________________________________||
 # Returns a subgraph of `graph` which starts from `from` and has a
 # depth of `depth`.
-def subgraph_from_depth(graph, from, depth = -1)
+def subgraph_from_depth(graph, from, depth)
 
   # e.g.,
   # graph = GRATR::DirectedPseudoGraph[0,1, 1,2, 1,2, 1,3, 2,4, 2,5,
@@ -64,25 +64,20 @@ def subgraph_from_depth(graph, from, depth = -1)
   # from = 1
   # depth = 2
 
-  graphFrom = subgraph_from(graph, from)
-  #            1
-  #         //    \
-  #        2       3
-  #       / \\    / \
-  #      4   5   6   7
-  #           \ /\
-  #            8  9
-  #
-
-  return graphFrom if depth < 0
-
-  simple_weight = Proc.new {|e| 1}
-  distance, path = graphFrom.shortest_path(from, simple_weight)
-  # e.g., depth = {1=>0, 3=>1, 7=>2, 6=>2, 9=>3, 2=>1, 5=>2, 8=>3, 4=>2}
-  #       path = {3=>1, 7=>3, 6=>3, 9=>6, 2=>1, 5=>2, 8=>5, 4=>2}
+  def buildEdgeList graph, from, depth
+    return [ ] if depth == 0
+    to_list = graph.adjacent(from, {:direction => :out}).uniq
+    ret = Set.new
+    ret.merge(to_list.map { |to| [from, to] })
+    to_list.each do |to|
+      ret.merge(buildEdgeList graph, to, depth - 1)
+    end
+    ret
+  end
+  edges = buildEdgeList graph, from, depth
 
   ret = graph.class.new
-  graphFrom.edges.each { |a| ret.add_edge!(a) if distance[a.target] <= depth }
+  graph.edges.each { |e| ret.add_edge!(e) if edges.include?([e.source, e.target]) }
 
   #
   #            1
