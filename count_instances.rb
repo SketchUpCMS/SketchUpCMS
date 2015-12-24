@@ -29,34 +29,33 @@ def draw_geom
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp.copyNumber) }
 
   topName = :"cms:CMSE"
-  secondNames = [:"muonBase:MUON"]
+  subName = :"muonBase:MBWheel_1N"
 
-  edgesToDelete = graphAll.edges.select { |e| e.source == topName && !secondNames.include?(e.target) }
+  graphTopToSub = subgraph_from_to(graphAll, topName, [subName])
 
-  edgesToDelete.each { |e| graphAll.remove_edge!(e) }
+  graphSubToDepths = subgraph_from_depth(graphAll, subName, 5)
+  graph = graphTopToSub + graphSubToDepths
 
-  graphFromCMSE = subgraph_from(graphAll, topName)
-  # p graphFromCMSE
-
-  sub = subgraph_from_depth(graphFromCMSE, topName, 5)
-
-  sub.edges.each do |e|
+  graph.edges.each do |e|
     puts e
   end
-  puts sub.edges.to_s
-
+  puts graph.edges.to_s
 
   puts "========"
 
-  # count number of instances
-  counter = { topName => 1 }
-  sub.topsort.each do |v|
-    next if v == topName
-    in_edges = sub.edges.select { |e| e.target == v && sub.adjacent(v, :direction => :in).include?(e.source) }
+  puts count_instances(graph, topName)
+
+end
+
+##__________________________________________________________________||
+def count_instances(graph, from)
+  counter = { from => 1 }
+  graph.topsort.each do |v|
+    next if v == from
+    in_edges = graph.edges.select { |e| e.target == v && graph.adjacent(v, :direction => :in).include?(e.source) }
     counter[v] = in_edges.map { |e| counter[e.source] }.inject(:+)
   end
-  puts counter
-
+  counter
 end
 
 ##__________________________________________________________________||
