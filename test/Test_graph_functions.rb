@@ -129,7 +129,6 @@ class Test_graph_functions < Test::Unit::TestCase
 
   def test_subgraph_from_depth__depth_zero
     sub = subgraph_from_depth(@graph_1, 3, 0)
-    sub.write_to_graphic_file('jpg','visualize')
     #            1
     #         // |  \
     #        2   |   3
@@ -157,6 +156,23 @@ class Test_graph_functions < Test::Unit::TestCase
     assert_equal 12, sub.num_edges
     assert_equal [[0, 1], [1, 2], [1, 2], [1, 3], [2, 5], [2, 5], [2, 5], [3, 6], [5, 8], [5, 8], [6, 8], [6, 8]], sub.edges.map { |e| [e.source, e.target] }.sort
   end
+
+  def test_subgraph_from_to_02
+    sub = subgraph_from_to(@graph_0, 1, [10, 7])
+    #            1
+    #         //     \
+    #        2         3
+    #        \\\    /  ||
+    #          5   6   7
+    #          \\//
+    #            8
+    #           /
+    #          10
+    assert_equal @graph_0.class, sub.class
+    assert_equal [[1, 2], [1, 2], [1, 3], [2, 5], [2, 5], [2, 5], [3, 6], [3, 7], [3, 7], [5, 8], [5, 8], [6, 8], [6, 8], [8, 10]], sub.edges.map { |e| [e.source, e.target] }.sort
+
+  end
+
 
 end
 

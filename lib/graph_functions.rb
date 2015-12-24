@@ -90,18 +90,20 @@ def subgraph_from_depth(graph, from, depth)
 end
 
 ##__________________________________________________________________||
-def subgraph_from_to(graph, from, to)
-  def buildEdgeList graph, from, to
-    to.reject! { |t| t == from }
+# Returns a subgraph of `graph` which starts from `from` and ends at
+# vertices in `to_list`.
+def subgraph_from_to(graph, from, to_list)
+  def buildEdgeList graph, from, to_list
+    to_list.reject! { |t| t == from }
     ret = Set.new
-    to.each do |child|
+    to_list.each do |child|
       parents = graph.adjacent(child, {:direction => :in})
       ret.merge(parents.map { |parent| [parent, child] })
       ret.merge(buildEdgeList(graph, from, parents))
     end
     ret
   end
-  edges = buildEdgeList graph, from, to
+  edges = buildEdgeList graph, from, to_list
   ret = graph.class.new
   graph.edges.each { |e| ret.add_edge!(e) if edges.include?([e.source, e.target]) }
   ret
