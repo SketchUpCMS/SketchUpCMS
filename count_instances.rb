@@ -43,7 +43,7 @@ def draw_geom
 
   puts "========"
 
-  puts count_instances(graph, topName)
+  puts n_paths(graph, topName)
 
 end
 

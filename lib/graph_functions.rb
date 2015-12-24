@@ -110,7 +110,9 @@ def subgraph_from_to(graph, from, to_list)
 end
 
 ##__________________________________________________________________||
-def count_instances(graph, from)
+# Returns a hash in which the keys are vertices and the values are the
+# numbers of all possible paths to the vertices from "from"
+def n_paths(graph, from)
   counter = { from => 1 }
   graph.topsort.each do |v|
     next if v == from
