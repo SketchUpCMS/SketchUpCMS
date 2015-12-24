@@ -173,6 +173,17 @@ class Test_graph_functions < Test::Unit::TestCase
 
   end
 
+  def test_n_paths
+    actual = n_paths(@graph_0, 0)
+    assert_equal({0=>1, 1=>1,
+                  2=>2, 3=>1,
+                  4=>4, 5=>6, 6=>1, 7=>2,
+                  8=>14, 9=>1,
+                  10=>14, 11=>1,
+                  12=>2, 13=>4}, actual)
+
+  end
+
 
 end
 
