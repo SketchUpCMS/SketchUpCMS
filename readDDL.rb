@@ -8,103 +8,61 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)) + "/gratr/lib")
 require 'buildGeometryManager'
 require 'buildDDLCallBacks'
 require 'readXMLFiles'
-require 'PartBuilder'
-require 'GeometryManager'
+
+require 'graph_functions'
+
+require 'gratr'
 
 require "benchmark"
 
-require 'graph_functions'
-require 'gratr'
-
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def cmsmain
 
-  puts Benchmark::CAPTION
-  puts Benchmark.measure {
-    read_xmlfiles()
-  }
-  # puts Benchmark.measure {
-  #   read_xmlfiles_from_cache()
-  # }
-  puts Benchmark.measure {
-    draw_geom()
-  }
-
+  lines = [ ]
+  lines << Benchmark::CAPTION
+  lines << Benchmark.measure { read_xmlfiles() }
+  lines << Benchmark.measure { draw_geom() }
+  puts lines
 
 end
 
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def draw_geom
-
-  def create_array_to_draw graph, topName
-
-
-    # GRATR::Digraph
-    graphFromCMSE = subgraph_from(graph, topName)
-
-    nameDepthMB = [
-                   {:name => :"muonBase:MBWheel_1N", :depth => 2},
-                  ]
-
-    nameDepthList = nameDepthMB
-
-    names = nameDepthList.collect { |e| e[:name] }
-    graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
-
-    graphFromNames = GRATR::Digraph.new
-    nameDepthList.each do |e|
-      graphFromNames = graphFromNames + subgraph_from_depth(graphFromCMSE, e[:name], e[:depth])
-    end
-
-    graphToDraw = graphFromCMSEToNames + graphFromNames
-
-    # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
-    toDrawNames = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
-
-    toDrawNames
-  end
 
   # all PosParts in the XML file
   graphAll = GRATR::DirectedPseudoGraph.new
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp.copyNumber) }
 
-  # graphAll.edges.each do |e|
-  #   puts e.label
-  #   puts e.class
-  # end
-  # puts graphAll
-
   topName = :"cms:CMSE"
-  arrayToDraw = create_array_to_draw graphAll, topName
+  subName = :"muonBase:MBWheel_1N"
 
-  p arrayToDraw
+  graphTopToSub = subgraph_from_to(graphAll, topName, [subName])
+
+  graphSubToDepths = subgraph_from_depth(graphAll, subName, 5)
+  graph = graphTopToSub + graphSubToDepths
+
+  graph.edges.each do |e|
+    puts e
+  end
+  puts graph.edges.to_s
+
+  puts "========"
+
+  puts n_paths(graph, topName)
+
 end
 
-
-##____________________________________________________________________________||
+##__________________________________________________________________||
 def read_xmlfiles
-  topDir = File.expand_path(File.dirname(__FILE__)) + '/'
-  xmlfileListTest = [
-    'Geometry_YB1N_sample.xml'
-                    ]
-
-  xmlfileList = xmlfileListTest
-
-  xmlfileList.map! {|f| f = topDir + f }
-
+  topDir = File.expand_path(File.dirname(__FILE__))
+  xmlfileList = ['Geometry_YB1N_sample.xml']
+  xmlfileList.map! {|f| f = File.join(topDir, f) }
   p xmlfileList
-
   geometryManager = buildGeometryManager()
   callBacks = buildDDLCallBacks(geometryManager)
   readXMLFiles(xmlfileList, callBacks)
 end
 
-##____________________________________________________________________________||
-def read_xmlfiles_from_cache
-  fillGeometryManager($geometryManager)
-  $geometryManager.reload_from_cache
-end
-
-##____________________________________________________________________________||
+##__________________________________________________________________||
 
 cmsmain
