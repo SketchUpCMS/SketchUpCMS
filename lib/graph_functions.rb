@@ -110,3 +110,14 @@ def subgraph_from_to(graph, from, to_list)
 end
 
 ##__________________________________________________________________||
+def count_instances(graph, from)
+  counter = { from => 1 }
+  graph.topsort.each do |v|
+    next if v == from
+    in_edges = graph.edges.select { |e| e.target == v && graph.adjacent(v, :direction => :in).include?(e.source) }
+    counter[v] = in_edges.map { |e| counter[e.source] }.inject(:+)
+  end
+  counter
+end
+
+##__________________________________________________________________||
