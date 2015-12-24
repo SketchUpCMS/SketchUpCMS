@@ -13,11 +13,16 @@ require 'graph_functions'
 
 require 'gratr'
 
+require "benchmark"
+
 ##__________________________________________________________________||
 def cmsmain
 
-  read_xmlfiles()
-  draw_geom()
+  lines = [ ]
+  lines << Benchmark::CAPTION
+  lines << Benchmark.measure { read_xmlfiles() }
+  lines << Benchmark.measure { draw_geom() }
+  puts lines
 
 end
 
