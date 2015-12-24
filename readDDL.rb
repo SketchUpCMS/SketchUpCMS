@@ -12,6 +12,7 @@ require 'readXMLFiles'
 require 'graph_functions'
 
 require 'gratr'
+require 'gratr/dot'
 
 require "benchmark"
 
@@ -40,6 +41,8 @@ def draw_geom
 
   graphSubToDepths = subgraph_from_depth(graphAll, subName, 5)
   graph = graphTopToSub + graphSubToDepths
+
+  graph.write_to_graphic_file('pdf','graph')
 
   graph.edges.each do |e|
     puts e
