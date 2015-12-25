@@ -70,7 +70,7 @@ def draw_array graph, topName
 
   graph.edges.each do |edge|
     posPart = edge.label
-    posPartExecuter.exec posPart
+    posPartExecuter.exec posPart, edge.source, edge.target
   end
 
   graph.topsort.reverse.each do |v|
