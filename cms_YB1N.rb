@@ -11,7 +11,7 @@ require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
 require 'graph_functions.rb'
-load 'LogicalPart.rb'
+load 'PosPartExecuter.rb'
 
 ##__________________________________________________________________||
 def cmsmain
@@ -66,9 +66,11 @@ def draw_array graph, topName
   start_time = Time.now
   Sketchup.active_model.start_operation("Draw CMS", true)
 
+  posPartExecuter =  PosPartExecuter.new
+
   graph.edges.each do |edge|
     posPart = edge.label
-    posPart.exec
+    posPartExecuter.exec posPart
   end
 
   graph.topsort.reverse.each do |v|
