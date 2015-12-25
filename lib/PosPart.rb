@@ -9,7 +9,6 @@ class PosPart
   attr_accessor :rotationName
   attr_accessor :translation
   attr_accessor :argsInDDL
-  attr_accessor :done
 
   # example
   #   partName = :PosPart
@@ -32,7 +31,6 @@ class PosPart
   def initialize geometryManager, partName
     @geometryManager = geometryManager
     @partName = partName
-    @done = false
   end
 
   def parent

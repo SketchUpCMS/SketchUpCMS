@@ -12,7 +12,6 @@ class PosPartExecuter
     child = posPart.child()
     return unless child
     posPart.parent().placeChild(child, posPart.translation(), posPart.rotation())
-    posPart.done = true
     @doneList.add posPart
   end
 
