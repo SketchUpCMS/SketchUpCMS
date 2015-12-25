@@ -123,3 +123,16 @@ def n_paths(graph, from)
 end
 
 ##__________________________________________________________________||
+# Makes the target of the `edge` unique. Uses `vertex` as the unique
+# vertex of the target.
+def make_target_unique(graph, edge, vertex)
+  graph.add_edge! edge.source, vertex, edge.label
+  edgesFromTarget = graph.adjacent(edge.target, {:direction => :out, :type => :edges})
+  edgesFromTarget.each do |e|
+    graph.add_edge! vertex, e.target, e.label
+  end
+  graph.remove_edge! edge
+  graph
+end
+
+##__________________________________________________________________||

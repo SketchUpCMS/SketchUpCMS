@@ -74,7 +74,7 @@ class Test_graph_functions < Test::Unit::TestCase
   end
 
   def test_basics
-    # @graph_0.write_to_graphic_file('jpg','visualize')
+    # @graph_0.write_to_graphic_file('pdf','graph')
     assert_equal 23, @graph_0.edges.size
     assert_equal 14, @graph_0.size
     assert_equal 23, @graph_0.num_edges
@@ -181,6 +181,28 @@ class Test_graph_functions < Test::Unit::TestCase
                   8=>14, 9=>1,
                   10=>14, 11=>1,
                   12=>2, 13=>4}, actual)
+
+  end
+
+  def test_make_target_unique
+    graph = @graph_0.class.new(@graph_0)
+
+    edgeFrom2to5 = graph.adjacent(2, {:direction => :out, :type => :edges})
+                   .select { |e| e.target == 5 }[0]
+
+    make_target_unique(graph, edgeFrom2to5, 51)
+
+    assert_equal([[0, 1], [1, 2], [1, 2], [1, 3],
+                  [2, 4], [2, 4], [2, 5], [2, 5], [2, 51],
+                  [3, 6], [3, 7], [3, 7], [3, 12], [3, 12],
+                  [5, 8], [5, 8],
+                  [6, 8], [6, 8], [6, 9],
+                  [7, 13], [8, 10], [9, 11], [12, 13],
+                  [51, 8], [51, 8]], graph.edges.map { |e| [e.source, e.target] }.sort)
+
+
+    # @graph_0.write_to_graphic_file('pdf','graph_0')
+    # graph.write_to_graphic_file('pdf','graph')
 
   end
 
