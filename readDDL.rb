@@ -44,14 +44,11 @@ def draw_geom
 
   graph.write_to_graphic_file('pdf','graph')
 
-  graph.edges.each do |e|
-    puts e
+  n_instances = n_paths(graph, topName)
+
+  graph.topsort.each do |v|
+    puts " %-25s %10d" % [v, n_instances[v]]
   end
-  puts graph.edges.to_s
-
-  puts "========"
-
-  puts n_paths(graph, topName)
 
 end
 
