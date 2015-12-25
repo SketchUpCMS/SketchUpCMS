@@ -108,7 +108,7 @@ class PartBuilder
     #     "Translation"=>[{"z"=>"77.086*mm", "y"=>"-5.425*mm", "x"=>"0.00*mm"}],
     #     "rRotation"=>[{"name"=>"tobrodpar:180X"}]}}
 
-    part = PosPart.new geometryManager, inDDL[:partName]
+    part = PosPart.new inDDL[:partName]
     part.argsInDDL = inDDL[:args]
     part.parentName = inDDL[:args]["rParent"][0]["name"].to_sym
     part.childName = inDDL[:args]["rChild"][0]["name"].to_sym

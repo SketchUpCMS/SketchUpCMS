@@ -2,7 +2,6 @@
 
 ##__________________________________________________________________||
 class PosPart
-  attr_accessor :geometryManager
   attr_accessor :partName
   attr_accessor :parentName, :childName
   attr_accessor :copyNumber
@@ -28,8 +27,7 @@ class PosPart
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} parent=#{parentName()} child=#{childName()} copyNumber=#{copyNumber()}}>"
   end
 
-  def initialize geometryManager, partName
-    @geometryManager = geometryManager
+  def initialize partName
     @partName = partName
   end
 
