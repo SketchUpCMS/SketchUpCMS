@@ -27,8 +27,8 @@ class LogicalPartInstance
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
 
-  def initialize dd
-    @geometryManager = dd.geometryManager
+  def initialize geometryManager, dd
+    @geometryManager = geometryManager
     @partName = dd.partName
     @solidName = dd.solidName
     @materialName = dd.materialName

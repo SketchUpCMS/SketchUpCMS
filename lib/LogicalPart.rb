@@ -2,7 +2,6 @@
 
 ##__________________________________________________________________||
 class LogicalPart
-  attr_accessor :geometryManager
   attr_accessor :name
   attr_accessor :partName
   attr_accessor :solidName
@@ -23,8 +22,7 @@ class LogicalPart
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} #{@name}>"
   end
 
-  def initialize geometryManager, partName
-    @geometryManager = geometryManager
+  def initialize partName
     @partName = partName
   end
 

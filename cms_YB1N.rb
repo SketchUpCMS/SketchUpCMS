@@ -74,7 +74,7 @@ def draw_array graph, topName
   graph.topsort.each do |v|
     logicalPart = $logicalPartsManager.get(v)
     puts "logicalPart not found: #{v}" unless logicalPart
-    logicalPartInstances[v] = LogicalPartInstance.new logicalPart
+    logicalPartInstances[v] = LogicalPartInstance.new $geometryManager, logicalPart
     # logicalPartInstances[v] = logicalPart
   end
 

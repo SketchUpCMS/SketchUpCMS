@@ -89,7 +89,7 @@ class PartBuilder
     #     "name"=>"tracker:Tracker",
     #     "rSolid"=>[{"name"=>"tracker:Tracker"}]}}
 
-    part = LogicalPart.new geometryManager, inDDL[:partName]
+    part = LogicalPart.new inDDL[:partName]
     part.argsInDDL = inDDL[:args]
     part.name = inDDL[:args]['name'].to_sym
     part.solidName = inDDL[:args]["rSolid"][0]["name"].to_sym
