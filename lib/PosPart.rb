@@ -49,14 +49,6 @@ class PosPart
     @child
   end
 
-  def exec
-    return if @done
-    child = child()
-    return unless child
-    parent().placeChild(child, translation(), rotation())
-    @done = true
-  end
-
   def rotation
     return @rotation if @rotation
     if @rotationName
