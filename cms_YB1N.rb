@@ -12,6 +12,7 @@ require 'PartBuilder'
 require 'solids'
 require 'graph_functions.rb'
 load 'PosPartExecuter.rb'
+load 'LogicalPartInstance.rb'
 
 ##__________________________________________________________________||
 def cmsmain
@@ -68,13 +69,22 @@ def draw_array graph, topName
 
   posPartExecuter = PosPartExecuter.new $geometryManager
 
+  logicalPartInstances = { }
+
+  graph.topsort.each do |v|
+    logicalPart = $logicalPartsManager.get(v)
+    puts "logicalPart not found: #{v}" unless logicalPart
+    logicalPartInstances[v] = LogicalPartInstance.new logicalPart
+    # logicalPartInstances[v] = logicalPart
+  end
+
   graph.edges.each do |edge|
     posPart = edge.label
-    posPartExecuter.exec posPart, edge.source, edge.target
+    posPartExecuter.exec posPart, logicalPartInstances[edge.source], logicalPartInstances[edge.target]
   end
 
   graph.topsort.reverse.each do |v|
-    logicalPart = $logicalPartsManager.get(v)
+    logicalPart = logicalPartInstances[v]
     next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /Air$/
     next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /free_space$/
     logicalPart.placeSolid()
@@ -83,11 +93,11 @@ def draw_array graph, topName
   # $logicalPartsManager.get(topName).placeSolid()
 
   graph.topsort.reverse.each do |v|
-    logicalPart = $logicalPartsManager.get(v)
+    logicalPart = logicalPartInstances[v]
     logicalPart.define()
   end
 
-  lp = $logicalPartsManager.get(topName.to_sym)
+  lp = logicalPartInstances[topName.to_sym]
   definition = lp.definition
   if definition
     entities = Sketchup.active_model.entities

@@ -8,16 +8,11 @@ class PosPartExecuter
     @doneList = Set.new
   end
 
-  def exec posPart, parentName, childName
+  def exec posPart, parent, child
     return if @doneList.include? posPart
 
-    child = @geometryManager.logicalPartsManager.get(childName)
-    puts "#{self}: not found: #{posPart.childName}" unless child
-    return unless child
-
-    parent = @geometryManager.logicalPartsManager.get(parentName)
-    puts "#{self}: not found: #{posPart.parentName}" unless parent
     return unless parent
+    return unless child
 
     if posPart.rotationName
       rotation = @geometryManager.rotationsManager.get(posPart.rotationName)
