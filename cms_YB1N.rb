@@ -66,7 +66,7 @@ def draw_array graph, topName
   start_time = Time.now
   Sketchup.active_model.start_operation("Draw CMS", true)
 
-  posPartExecuter =  PosPartExecuter.new $geometryManager
+  posPartExecuter = PosPartExecuter.new $geometryManager
 
   graph.edges.each do |edge|
     posPart = edge.label
