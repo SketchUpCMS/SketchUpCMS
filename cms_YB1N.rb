@@ -25,7 +25,7 @@ end
 
 ##__________________________________________________________________||
 def draw_gratr
-  def create_array_to_draw graph, topName
+  def create_graphToDraw graph, topName
 
     nameDepthMB = [
                    {:name => :"muonBase:MBWheel_1N", :depth => 2},
@@ -43,10 +43,7 @@ def draw_gratr
 
     graphToDraw = graphTopToNames + graphNamesToDepths
 
-    # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
-    toDrawNames = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
-
-    toDrawNames
+    graphToDraw
   end
 
   # all PosParts in the XML file
@@ -54,30 +51,27 @@ def draw_gratr
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
   topName = :"cms:CMSE"
-  arrayToDraw = create_array_to_draw graphAll, topName
-  draw_array graphAll, arrayToDraw.reverse, topName
+  graphToDraw = create_graphToDraw graphAll, topName
+
+  # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
+  arrayToDraw = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
+
+  draw_array graphToDraw, topName
 end
 
 ##__________________________________________________________________||
-def draw_array graph, arrayToDraw, topName
+def draw_array graph, topName
 
   Sketchup.active_model.definitions.purge_unused
   start_time = Time.now
   Sketchup.active_model.start_operation("Draw CMS", true)
 
-  arrayToDraw.each do |parent|
-    children = graph.neighborhood(parent, :out)
-    children = children.select { |e| arrayToDraw.include?(e) }
-    children.each do |child|
-      posParts = $posPartsManager.getByParentChild(parent, child)
-      posParts.each do |posPart|
-        # puts "  exec posPart #{posPart.parentName} - #{posPart.childName}"
-        posPart.exec
-      end
-    end
+  graph.edges.each do |edge|
+    posPart = edge.label
+    posPart.exec
   end
 
-  arrayToDraw.each do |v|
+  graph.topsort.reverse.each do |v|
     logicalPart = $logicalPartsManager.get(v)
     next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /Air$/
     next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /free_space$/
@@ -86,7 +80,7 @@ def draw_array graph, arrayToDraw, topName
 
   # $logicalPartsManager.get(topName).placeSolid()
 
-  arrayToDraw.each do |v|
+  graph.topsort.reverse.each do |v|
     logicalPart = $logicalPartsManager.get(v)
     logicalPart.define()
   end
