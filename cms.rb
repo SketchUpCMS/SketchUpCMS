@@ -10,7 +10,8 @@ require 'buildDDLCallBacks'
 require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
-require 'graph_functions.rb'
+require 'graph_functions'
+require 'PosPartExecuter'
 
 ##__________________________________________________________________||
 def cmsmain
@@ -18,17 +19,13 @@ def cmsmain
   read_xmlfiles
   # read_xmlfiles_from_cache
 
-  draw_gratr_20120317_02
+  draw_gratr
 
 end
 
 ##__________________________________________________________________||
-def draw_gratr_20120317_02
-  def create_array_to_draw graph, topName
-
-
-    # GRATR::Digraph
-    graphFromCMSE = subgraph_from(graph, topName)
+def draw_gratr
+  def create_graphToDraw graph, topName
 
     nameDepthPixelBarrel = [ {:name => :"pixbarladderfull:PixelBarrelLadderFull", :depth => 0},
                              {:name => :"pixbarladderhalf:PixelBarrelLadderHalf", :depth => 0},
@@ -486,59 +483,55 @@ def draw_gratr_20120317_02
     nameDepthList = nameDepthOQUA + nameDepthBEAM + nameDepthMUON + nameDepthHCAL + nameDepthECAL + nameDepthTracker
 
     names = nameDepthList.collect { |e| e[:name] }
-    graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
+    graphTopToNames = subgraph_from_to(graph, topName, names)
 
-    graphFromNames = GRATR::Digraph.new
+    graphNamesToDepths = graph.class.new
     nameDepthList.each do |e|
-      graphFromNames = graphFromNames + subgraph_from_depth(graphFromCMSE, e[:name], e[:depth])
+      graphNamesToDepths = graphNamesToDepths + subgraph_from_depth(graph, e[:name], e[:depth])
     end
 
-    graphToDraw = graphFromCMSEToNames + graphFromNames
+    graphToDraw = graphTopToNames + graphNamesToDepths
 
-    # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
-    toDrawNames = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
-
-    toDrawNames
+    graphToDraw
   end
 
   # all PosParts in the XML file
-  graphAll = GRATR::Digraph.new
-  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName) }
+  graphAll = GRATR::DirectedPseudoGraph.new
+  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
   topName = :"cms:CMSE"
-  arrayToDraw = create_array_to_draw graphAll, topName
-  draw_array graphAll, arrayToDraw.reverse, topName
+  graphToDraw = create_graphToDraw graphAll, topName
+
+  # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
+  arrayToDraw = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
+
+  draw_array graphToDraw, topName
 end
 
 ##__________________________________________________________________||
-def draw_array graph, arrayToDraw, topName
+def draw_array graph, topName
 
   Sketchup.active_model.definitions.purge_unused
   start_time = Time.now
   Sketchup.active_model.start_operation("Draw CMS", true)
 
-  arrayToDraw.each do |parent|
-    children = graph.neighborhood(parent, :out)
-    children = children.select { |e| arrayToDraw.include?(e) }
-    children.each do |child|
-      posParts = $posPartsManager.getByParentChild(parent, child)
-      posParts.each do |posPart|
-        # puts "  exec posPart #{posPart.parentName} - #{posPart.childName}"
-        posPart.exec
-      end
-    end
+  posPartExecuter =  PosPartExecuter.new
+
+  graph.edges.each do |edge|
+    posPart = edge.label
+    posPartExecuter.exec posPart
   end
 
-  arrayToDraw.each do |v|
+  graph.topsort.reverse.each do |v|
     logicalPart = $logicalPartsManager.get(v)
     next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /Air$/
     next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /free_space$/
     logicalPart.placeSolid()
   end
 
-  $logicalPartsManager.get(topName).placeSolid()
+  # $logicalPartsManager.get(topName).placeSolid()
 
-  arrayToDraw.each do |v|
+  graph.topsort.reverse.each do |v|
     logicalPart = $logicalPartsManager.get(v)
     logicalPart.define()
   end
