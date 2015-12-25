@@ -19,17 +19,13 @@ def cmsmain
   read_xmlfiles
   # read_xmlfiles_from_cache
 
-  draw_gratr_20120317_02
+  draw_gratr
 
 end
 
 ##__________________________________________________________________||
-def draw_gratr_20120317_02
+def draw_gratr
   def create_array_to_draw graph, topName
-
-
-    # GRATR::Digraph
-    graphFromCMSE = subgraph_from(graph, topName)
 
     nameDepthMB = [
                    {:name => :"muonBase:MBWheel_1N", :depth => 2},
@@ -38,14 +34,14 @@ def draw_gratr_20120317_02
     nameDepthList = nameDepthMB
 
     names = nameDepthList.collect { |e| e[:name] }
-    graphFromCMSEToNames = subgraph_from_to(graphFromCMSE, topName, names)
+    graphTopToNames = subgraph_from_to(graph, topName, names)
 
-    graphFromNames = GRATR::Digraph.new
+    graphNamesToDepths = graph.class.new
     nameDepthList.each do |e|
-      graphFromNames = graphFromNames + subgraph_from_depth(graphFromCMSE, e[:name], e[:depth])
+      graphNamesToDepths = graphNamesToDepths + subgraph_from_depth(graph, e[:name], e[:depth])
     end
 
-    graphToDraw = graphFromCMSEToNames + graphFromNames
+    graphToDraw = graphTopToNames + graphNamesToDepths
 
     # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
     toDrawNames = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
@@ -54,8 +50,8 @@ def draw_gratr_20120317_02
   end
 
   # all PosParts in the XML file
-  graphAll = GRATR::Digraph.new
-  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName) }
+  graphAll = GRATR::DirectedPseudoGraph.new
+  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
   topName = :"cms:CMSE"
   arrayToDraw = create_array_to_draw graphAll, topName
