@@ -33,30 +33,6 @@ class PosPart
     @partName = partName
   end
 
-  def parent
-    return @parent if @parent
-    @parent = @geometryManager.logicalPartsManager.get(@parentName)
-    p "#{self}: not found: #{@parentName}" unless @parent
-    @parent
-  end
-
-  def child
-    return @child if @child
-    @child = @geometryManager.logicalPartsManager.get(@childName)
-    p "#{self}: not found: #{@childName}" unless @child
-    @child
-  end
-
-  def rotation
-    return @rotation if @rotation
-    if @rotationName
-      @rotation = @geometryManager.rotationsManager.get(@rotationName)
-      p "#{self}: not found: #{@rotationName}" unless @rotation
-    else
-      @rotation = nil
-    end
-    @rotation
-  end
 end
 
 ##__________________________________________________________________||

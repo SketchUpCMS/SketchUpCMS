@@ -3,15 +3,31 @@
 ##__________________________________________________________________||
 class PosPartExecuter
 
-  def initialize
+  def initialize geometryManager
+    @geometryManager = geometryManager
     @doneList = Set.new
   end
 
   def exec posPart
     return if @doneList.include? posPart
-    child = posPart.child()
+
+    child = @geometryManager.logicalPartsManager.get(posPart.childName)
+    puts "#{self}: not found: #{posPart.childName}" unless child
     return unless child
-    posPart.parent().placeChild(child, posPart.translation(), posPart.rotation())
+
+    parent = @geometryManager.logicalPartsManager.get(posPart.parentName)
+    puts "#{self}: not found: #{posPart.parentName}" unless parent
+    return unless parent
+
+    if posPart.rotationName
+      rotation = @geometryManager.rotationsManager.get(posPart.rotationName)
+      puts "#{self}: not found: #{posPart.rotationName}" unless rotation
+      return unless rotation
+    else
+      rotation = nil
+    end
+
+    parent.placeChild(child, posPart.translation, rotation)
     @doneList.add posPart
   end
 
