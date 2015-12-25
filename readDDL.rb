@@ -32,7 +32,7 @@ def draw_geom
 
   # all PosParts in the XML file
   graphAll = GRATR::DirectedPseudoGraph.new
-  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp.copyNumber) }
+  $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
   topName = :"cms:CMSE"
   subName = :"muonBase:MBWheel_1N"
@@ -40,6 +40,7 @@ def draw_geom
   graphTopToSub = subgraph_from_to(graphAll, topName, [subName])
 
   graphSubToDepths = subgraph_from_depth(graphAll, subName, 5)
+
   graph = graphTopToSub + graphSubToDepths
 
   graph.write_to_graphic_file('pdf','graph')
