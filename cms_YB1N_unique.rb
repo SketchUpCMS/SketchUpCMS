@@ -13,6 +13,7 @@ require 'solids'
 require 'graph_functions.rb'
 load 'PosPartExecuter.rb'
 load 'LogicalPartInstance.rb'
+load 'LogicalPartDefiner.rb'
 
 ##__________________________________________________________________||
 def cmsmain
@@ -34,7 +35,7 @@ def draw_gratr
   topName = :"cms:CMSE"
 
   nameDepthList = [
-    {:name => :"muonBase:MBWheel_1N", :depth => 2},
+    {:name => :"muonBase:MBWheel_1N", :depth => 10},
   ]
 
   names = nameDepthList.collect { |e| e[:name] }
@@ -106,7 +107,8 @@ end
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__)) + '/'
   xmlfileListTest = [
-                     'Geometry_YB1N_sample.xml'
+    # 'Geometry_YB1N_sample.xml'
+    'GeometryExtended.xml'
                     ]
 
   xmlfileList = xmlfileListTest
