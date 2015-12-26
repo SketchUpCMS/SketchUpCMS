@@ -129,13 +129,18 @@ class Test_graph_functions < Test::Unit::TestCase
 
   def test_subgraph_from_depth__depth_zero
     sub = subgraph_from_depth(@graph_1, 3, 0)
-    #            1
-    #         // |  \
-    #        2   |   3
-    #       / \\  \   \
-    #      4   5   6   7
-    #             / \
-    #            8   9
+    assert_equal @graph_1.class, sub.class
+    assert_equal [3], sub.vertices
+  end
+
+  def test_subgraph_from_depth__nonexistent_from
+    sub = subgraph_from_depth(@graph_1, 35, 2)
+    assert_equal @graph_1.class, sub.class
+    assert_equal [ ], sub.edges.map { |e| [e.source, e.target] }.sort
+  end
+
+  def test_subgraph_from_depth__depth_negative
+    sub = subgraph_from_depth(@graph_1, 3, -1)
     assert_equal @graph_1.class, sub.class
     assert_equal [ ], sub.edges.map { |e| [e.source, e.target] }.sort
   end

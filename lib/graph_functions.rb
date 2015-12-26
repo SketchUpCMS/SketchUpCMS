@@ -48,6 +48,17 @@ end
 # depth of `depth`.
 def subgraph_from_depth(graph, from, depth)
 
+  ret = graph.class.new
+
+  return ret if depth < 0
+
+  return ret if ! graph.vertex?(from)
+
+  if depth == 0
+    ret.add_vertex! from
+    return ret
+  end
+
   # e.g.,
   # graph = GRATR::DirectedPseudoGraph[0,1, 1,2, 1,2, 1,3, 2,4, 2,5,
   #                                    2,5, 3,6, 3,7, 5,8, 6,8, 6,9]
@@ -76,7 +87,6 @@ def subgraph_from_depth(graph, from, depth)
   end
   edges = buildEdgeList graph, from, depth
 
-  ret = graph.class.new
   graph.edges.each { |e| ret.add_edge!(e) if edges.include?([e.source, e.target]) }
 
   #
