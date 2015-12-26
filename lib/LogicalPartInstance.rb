@@ -29,6 +29,7 @@ class LogicalPartInstance
 
   def initialize geometryManager, dd
     @geometryManager = geometryManager
+    @name = dd.name
     @partName = dd.partName
     @solidName = dd.solidName
     @materialName = dd.materialName

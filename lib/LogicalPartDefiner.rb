@@ -25,8 +25,8 @@ class LogicalPartDefiner
       solidDefinition = solid.definition
       transform = Geom::Transformation.new
       # material = material()
-      name = solidName.to_s + " "  + materialName.to_s
-      definitions << {:definition => solidDefinition, :transform => transform, :material => nil, :name => name}
+      solidDefinitionName = solidName.to_s + " "  + materialName.to_s
+      definitions << {:definition => solidDefinition, :transform => transform, :material => nil, :name => solidDefinitionName}
     end
 
     group = Sketchup.active_model.entities.add_group
