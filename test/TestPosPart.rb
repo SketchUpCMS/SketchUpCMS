@@ -8,15 +8,8 @@ require "PosPart"
 ##____________________________________________________________________________||
 class TestPosPart < Test::Unit::TestCase
 
-  class MockGeometryManager
-  end
-
-  def setup  
-    @geometryManager = MockGeometryManager.new
-  end
-
   def test_one
-    posPart = PosPart.new(@geometryManager, :PosPart)
+    posPart = PosPart.new(:PosPart)
   end
 
 end

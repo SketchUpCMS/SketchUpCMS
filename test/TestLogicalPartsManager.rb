@@ -8,17 +8,13 @@ require "LogicalPartsManager"
 ##____________________________________________________________________________||
 class TestLogicalPartsManager < Test::Unit::TestCase
 
-  class MockGeometryManager
-  end
-
   def setup  
-    @geometryManager = MockGeometryManager.new
     @logicalPartsManager = LogicalPartsManager.new
   end
 
   def test_add
 
-    part = LogicalPart.new(@geometryManager, :LogicalPart)
+    part = LogicalPart.new(:LogicalPart)
     part.name = :"tracker:Tracker"
 
     @logicalPartsManager.add part
@@ -30,7 +26,7 @@ class TestLogicalPartsManager < Test::Unit::TestCase
 
   def test_get
 
-    part = LogicalPart.new(@geometryManager, :LogicalPart)
+    part = LogicalPart.new(:LogicalPart)
     part.name = :"tracker:Tracker"
 
     @logicalPartsManager.add part

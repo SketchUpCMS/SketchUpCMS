@@ -8,17 +8,13 @@ require "PosPartsManager"
 ##____________________________________________________________________________||
 class TestPosPartsManager < Test::Unit::TestCase
 
-  class MockGeometryManager
-  end
-
   def setup  
-    @geometryManager = MockGeometryManager.new
     @posPartsManager = PosPartsManager.new
   end
 
   def test_add
 
-    part = PosPart.new(@geometryManager, :PosPart)
+    part = PosPart.new(:PosPart)
     part.parentName = :"tobmodule0:TOBModule0"
     part.childName = :"tobrod1l:TOBRodCentral1L"
     part.copyNumber = 6
@@ -35,7 +31,7 @@ class TestPosPartsManager < Test::Unit::TestCase
 
   def test_get
 
-    part = PosPart.new(@geometryManager, :PosPart)
+    part = PosPart.new(:PosPart)
     part.parentName = :"tobmodule0:TOBModule0"
     part.childName = :"tobrod1l:TOBRodCentral1L"
     part.copyNumber = 6
