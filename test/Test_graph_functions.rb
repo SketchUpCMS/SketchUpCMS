@@ -170,7 +170,17 @@ class Test_graph_functions < Test::Unit::TestCase
     #          10
     assert_equal @graph_0.class, sub.class
     assert_equal [[1, 2], [1, 2], [1, 3], [2, 5], [2, 5], [2, 5], [3, 6], [3, 7], [3, 7], [5, 8], [5, 8], [6, 8], [6, 8], [8, 10]], sub.edges.map { |e| [e.source, e.target] }.sort
+  end
 
+  def test_subgraph_from_to_03
+    sub = subgraph_from_to(@graph_0, 2, [8])
+    #        2
+    #        \\\
+    #          5
+    #          \\
+    #            8
+    assert_equal @graph_0.class, sub.class
+    assert_equal [[2, 5], [2, 5], [2, 5], [5, 8], [5, 8]], sub.edges.map { |e| [e.source, e.target] }.sort
   end
 
   def test_n_paths

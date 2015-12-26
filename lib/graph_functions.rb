@@ -93,6 +93,9 @@ end
 # Returns a subgraph of `graph` which starts from `from` and ends at
 # vertices in `to_list`.
 def subgraph_from_to(graph, from, to_list)
+
+  graph = subgraph_from(graph, from)
+
   def buildEdgeList graph, from, to_list
     to_list.reject! { |t| t == from }
     ret = Set.new
@@ -103,6 +106,7 @@ def subgraph_from_to(graph, from, to_list)
     end
     ret
   end
+
   edges = buildEdgeList graph, from, to_list
   ret = graph.class.new
   graph.edges.each { |e| ret.add_edge!(e) if edges.include?([e.source, e.target]) }
