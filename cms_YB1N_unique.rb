@@ -26,36 +26,26 @@ end
 
 ##__________________________________________________________________||
 def draw_gratr
-  def create_graphToDraw graph, topName
-
-    nameDepthMB = [
-                   {:name => :"muonBase:MBWheel_1N", :depth => 2},
-                  ]
-
-    nameDepthList = nameDepthMB
-
-    names = nameDepthList.collect { |e| e[:name] }
-    graphTopToNames = subgraph_from_to(graph, topName, names)
-
-    graphNamesToDepths = graph.class.new
-    nameDepthList.each do |e|
-      graphNamesToDepths = graphNamesToDepths + subgraph_from_depth(graph, e[:name], e[:depth])
-    end
-
-    graphToDraw = graphTopToNames + graphNamesToDepths
-
-    graphToDraw
-  end
 
   # all PosParts in the XML file
   graphAll = GRATR::DirectedPseudoGraph.new
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
   topName = :"cms:CMSE"
-  graphToDraw = create_graphToDraw graphAll, topName
 
-  # e.g. [:"cms:CMSE", :"tracker:Tracker", :"tob:TOB", .. ]
-  arrayToDraw = graphToDraw.size > 0 ? graphToDraw.topsort(topName) : [topName]
+  nameDepthList = [
+    {:name => :"muonBase:MBWheel_1N", :depth => 2},
+  ]
+
+  names = nameDepthList.collect { |e| e[:name] }
+  graphTopToNames = subgraph_from_to(graphAll, topName, names)
+
+  graphNamesToDepths = graphAll.class.new
+  nameDepthList.each do |e|
+    graphNamesToDepths = graphNamesToDepths + subgraph_from_depth(graphAll, e[:name], e[:depth])
+  end
+
+  graphToDraw = graphTopToNames + graphNamesToDepths
 
   draw_array graphToDraw, topName
 end
