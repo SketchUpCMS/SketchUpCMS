@@ -136,6 +136,96 @@
       <rChild name="mb1:MB1ChimHoneycombBox"/>
       <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="26.750000000000000000*mm"/>
     </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZAlPlateInner"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="13.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZAlPlateInner"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="0.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="3">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZAlPlateInner"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-13.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZAlPlateOuter"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="26.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZAlPlateOuter"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-26.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZLayer_57Cells"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="19.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZLayer_58Cells"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="6.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="3">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZLayer_57Cells"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-6.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="4">
+      <rParent name="mb1:MB1SuperLayerZ"/>
+      <rChild name="mb1:MB1SLZLayer_56Cells"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-19.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiAlPlateOuter"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="26.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiAlPlateOuter"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-26.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiAlPlateInner"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="13.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiAlPlateInner"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="0.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="3">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiAlPlateInner"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-13.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiLayer_49Cells"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="19.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiLayer_50Cells"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="6.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="3">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiLayer_49Cells"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-6.500000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="4">
+      <rParent name="mb1:MB1SuperLayerPhi"/>
+      <rChild name="mb1:MB1SLPhiLayer_48Cells"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-19.500000000000000000*mm"/>
+    </PosPart>
   </PosPartSection>
 
   <RotationSection label="GeometryExtended">
@@ -225,6 +315,16 @@
     <Box name="mb1:MB1ChimSuperLayerPhi" dx="1063.200000000000045475*mm" dy="1060.500000000000000000*mm" dz="26.750000000000000000*mm"/>
     <Box name="mb1:MB1ChimSuperLayerZ" dx="1031.700000000000045475*mm" dy="1085.000000000000000000*mm" dz="26.750000000000000000*mm"/>
     <Box name="mb1:MB1ChimHoneycombBox" dx="1016.500000000000000000*mm" dy="1034.000000000000000000*mm" dz="64.000000000000000000*mm"/>
+    <Box name="mb1:MB1SLZAlPlateInner" dx="1228.500000000000000000*mm" dy="1035.000000000000000000*mm" dz="0.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLZAlPlateOuter" dx="1229.200000000000045475*mm" dy="1073.000000000000000000*mm" dz="0.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLZLayer_56Cells" dx="1176.650000000000090949*mm" dy="1028.500000000000000000*mm" dz="5.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLZLayer_57Cells" dx="1197.650000000000090949*mm" dy="1028.500000000000000000*mm" dz="5.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLZLayer_58Cells" dx="1218.650000000000090949*mm" dy="1028.500000000000000000*mm" dz="5.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLPhiAlPlateOuter" dx="1061.200000000000045475*mm" dy="1243.500000000000000000*mm" dz="0.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLPhiAlPlateInner" dx="1060.500000000000000000*mm" dy="1205.500000000000000000*mm" dz="0.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLPhiLayer_49Cells" dx="1029.650000000000090949*mm" dy="1199.000000000000000000*mm" dz="5.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLPhiLayer_50Cells" dx="1050.650000000000090949*mm" dy="1199.000000000000000000*mm" dz="5.750000000000000000*mm"/>
+    <Box name="mb1:MB1SLPhiLayer_48Cells" dx="1008.649999999999977263*mm" dy="1199.000000000000000000*mm" dz="5.750000000000000000*mm"/>
   </SolidSection>
 
   <LogicalPartSection label="GeometryExtended">
@@ -276,9 +376,50 @@
       <rSolid name="mb1:MB1ChimHoneycombBox"/>
       <rMaterial name="materials:Air"/>
     </LogicalPart>
+    <LogicalPart name="mb1:MB1SLZAlPlateInner">
+      <rSolid name="mb1:MB1SLZAlPlateInner"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLZAlPlateOuter">
+      <rSolid name="mb1:MB1SLZAlPlateOuter"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLZLayer_56Cells">
+      <rSolid name="mb1:MB1SLZLayer_56Cells"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLZLayer_58Cells">
+      <rSolid name="mb1:MB1SLZLayer_58Cells"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLZLayer_57Cells">
+      <rSolid name="mb1:MB1SLZLayer_57Cells"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLPhiAlPlateInner">
+      <rSolid name="mb1:MB1SLPhiAlPlateInner"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLPhiAlPlateOuter">
+      <rSolid name="mb1:MB1SLPhiAlPlateOuter"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLPhiLayer_49Cells">
+      <rSolid name="mb1:MB1SLPhiLayer_49Cells"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLPhiLayer_50Cells">
+      <rSolid name="mb1:MB1SLPhiLayer_50Cells"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
+    <LogicalPart name="mb1:MB1SLPhiLayer_48Cells">
+      <rSolid name="mb1:MB1SLPhiLayer_48Cells"/>
+      <rMaterial name="materials:Aluminium"/>
+    </LogicalPart>
   </LogicalPartSection>
 
   <MaterialSection label="GeometryExtended">
+    <ElementaryMaterial name="materials:Aluminium" density="2.70000e+03*mg/cm3" atomicWeight="26.97999*g/mole" atomicNumber="13"/>
     <CompositeMaterial name="materials:Air" density="1.21400e+00*mg/cm3" method="mixture by weight">
       <MaterialFraction fraction="0.749400000">
 	<rMaterial name="materials:Nitrogen"/>
