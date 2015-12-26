@@ -37,12 +37,24 @@ def draw_gratr
   subName = :"muonBase:MBWheel_1N"
 
   nameDepthList = [
-    {:name => :"mb1:MB1ChimHoneycombBox", :depth => 10},
-    {:name => :"mb1:MB1ChimSuperLayerZ", :depth => 10},
-    {:name => :"mb1:MB1ChimSuperLayerPhi", :depth => 10},
-    {:name => :"mb1:MB1HoneycombBox", :depth => 10},
-    {:name => :"mb1:MB1SuperLayerZ", :depth => 10},
-    {:name => :"mb1:MB1SuperLayerPhi", :depth => 10},
+    {:name => :"mb1:MB1ChimHoneycombBox", :depth => 0},
+    {:name => :"mb1:MB1ChimSuperLayerZ", :depth => 0},
+    {:name => :"mb1:MB1ChimSuperLayerPhi", :depth => 0},
+    {:name => :"mb1:MB1HoneycombBox", :depth => 0},
+
+    # :"mb1:MB1SuperLayerZ"
+    {:name => :"mb1:MB1SLZLayer_56Cells", :depth => 0},
+    {:name => :"mb1:MB1SLZLayer_58Cells", :depth => 0},
+    {:name => :"mb1:MB1SLZLayer_57Cells", :depth => 0},
+    {:name => :"mb1:MB1SLZAlPlateInner", :depth => 0},
+    {:name => :"mb1:MB1SLZAlPlateOuter", :depth => 0},
+
+    # :"mb1:MB1SuperLayerPhi"
+    {:name => :"mb1:MB1SLPhiLayer_48Cells", :depth => 0},
+    {:name => :"mb1:MB1SLPhiLayer_50Cells", :depth => 0},
+    {:name => :"mb1:MB1SLPhiLayer_49Cells", :depth => 0},
+    {:name => :"mb1:MB1SLPhiAlPlateInner", :depth => 0},
+    {:name => :"mb1:MB1SLPhiAlPlateOuter", :depth => 0},
   ]
 
   graphTopToSub = subgraph_from_to(graphAll, topName, [subName])
@@ -116,8 +128,8 @@ end
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__)) + '/'
   xmlfileListTest = [
-    # 'Geometry_YB1N_sample.xml'
-    'GeometryExtended.xml'
+    'Geometry_YB1N_sample.xml'
+    # 'GeometryExtended.xml'
                     ]
 
   xmlfileList = xmlfileListTest

@@ -35,13 +35,41 @@ def draw_geom
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
   topName = :"cms:CMSE"
+
   subName = :"muonBase:MBWheel_1N"
+
+  nameDepthList = [
+    {:name => :"mb1:MB1ChimHoneycombBox", :depth => 0},
+    {:name => :"mb1:MB1ChimSuperLayerZ", :depth => 0},
+    {:name => :"mb1:MB1ChimSuperLayerPhi", :depth => 0},
+    {:name => :"mb1:MB1HoneycombBox", :depth => 0},
+
+    # :"mb1:MB1SuperLayerZ"
+    {:name => :"mb1:MB1SLZLayer_58Cells", :depth => 0},
+    {:name => :"mb1:MB1SLZLayer_56Cells", :depth => 0},
+    {:name => :"mb1:MB1SLZLayer_57Cells", :depth => 0},
+    {:name => :"mb1:MB1SLZAlPlateInner", :depth => 0},
+    {:name => :"mb1:MB1SLZAlPlateOuter", :depth => 0},
+
+    # :"mb1:MB1SuperLayerPhi"
+    {:name => :"mb1:MB1SLPhiLayer_48Cells", :depth => 0},
+    {:name => :"mb1:MB1SLPhiLayer_50Cells", :depth => 0},
+    {:name => :"mb1:MB1SLPhiLayer_49Cells", :depth => 0},
+    {:name => :"mb1:MB1SLPhiAlPlateInner", :depth => 0},
+    {:name => :"mb1:MB1SLPhiAlPlateOuter", :depth => 0},
+  ]
 
   graphTopToSub = subgraph_from_to(graphAll, topName, [subName])
 
-  graphSubToDepths = subgraph_from_depth(graphAll, subName, 5)
+  names = nameDepthList.collect { |e| e[:name] }
+  graphSubToNames = subgraph_from_to(graphAll, subName, names)
 
-  graph = graphTopToSub + graphSubToDepths
+  graphNamesToDepths = graphAll.class.new
+  nameDepthList.each do |e|
+    graphNamesToDepths = graphNamesToDepths + subgraph_from_depth(graphAll, e[:name], e[:depth])
+  end
+
+  graph = graphTopToSub + graphSubToNames + graphNamesToDepths
 
   edge = graph.adjacent(:"mb1:MB1N", {:direction => :in, :type => :edges})[0]
 
@@ -52,7 +80,7 @@ def draw_geom
   n_instances = n_paths(graph, topName)
 
   graph.topsort.each do |v|
-    puts " %-25s %10d" % [v, n_instances[v]]
+    puts " %-30s %10d" % [v, n_instances[v]]
   end
 
 end
@@ -61,6 +89,7 @@ end
 def read_xmlfiles
   topDir = File.expand_path(File.dirname(__FILE__))
   xmlfileList = ['Geometry_YB1N_sample.xml']
+  # xmlfileList = ['GeometryExtended.xml']
   xmlfileList.map! {|f| f = File.join(topDir, f) }
   p xmlfileList
   geometryManager = buildGeometryManager()
