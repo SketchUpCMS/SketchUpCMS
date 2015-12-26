@@ -34,21 +34,30 @@ def draw_gratr
 
   topName = :"cms:CMSE"
 
+  subName = :"muonBase:MBWheel_1N"
+
   nameDepthList = [
-    {:name => :"muonBase:MBWheel_1N", :depth => 10},
+    {:name => :"mb1:MB1ChimHoneycombBox", :depth => 10},
+    {:name => :"mb1:MB1ChimSuperLayerZ", :depth => 10},
+    {:name => :"mb1:MB1ChimSuperLayerPhi", :depth => 10},
+    {:name => :"mb1:MB1HoneycombBox", :depth => 10},
+    {:name => :"mb1:MB1SuperLayerZ", :depth => 10},
+    {:name => :"mb1:MB1SuperLayerPhi", :depth => 10},
   ]
 
+  graphTopToSub = subgraph_from_to(graphAll, topName, [subName])
+
   names = nameDepthList.collect { |e| e[:name] }
-  graphTopToNames = subgraph_from_to(graphAll, topName, names)
+  graphSubToNames = subgraph_from_to(graphAll, subName, names)
 
   graphNamesToDepths = graphAll.class.new
   nameDepthList.each do |e|
     graphNamesToDepths = graphNamesToDepths + subgraph_from_depth(graphAll, e[:name], e[:depth])
   end
 
-  graphToDraw = graphTopToNames + graphNamesToDepths
+  graph = graphTopToSub + graphSubToNames + graphNamesToDepths
 
-  draw_array graphToDraw, topName
+  draw_array graph, topName
 end
 
 ##__________________________________________________________________||
