@@ -16,6 +16,84 @@
       <rRotation name="rotations:000D"/>
       <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="0.000000000000000000*mm"/>
     </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="muonBase:MB"/>
+      <rChild name="muonBase:MBWheel_2N"/>
+      <rRotation name="rotations:000D"/>
+      <Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="-5342.000000000000000000*mm"/>
+    </PosPart>
+    <PosPart copyNumber="1">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa153"/>
+      <Translation x="4311.749999958536136546*mm" y="391.200000021370385639*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="2">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa154"/>
+      <Translation x="3538.485034720959447441*mm" y="2494.664137958247465576*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="3">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa155"/>
+      <Translation x="1817.085862000289125717*mm" y="3929.685034742329662549*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="4">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa156"/>
+      <Translation x="-391.200000021369987735*mm" y="4311.749999958536136546*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="5">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa157"/>
+      <Translation x="-2494.664137958246556082*mm" y="3538.485034720959902188*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="6">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa158"/>
+      <Translation x="-3929.685034742329207802*mm" y="1817.085862000290035212*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="7">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa159"/>
+      <Translation x="-4311.749999958536136546*mm" y="-391.200000021369703518*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="8">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa160"/>
+      <Translation x="-3538.485034720959902188*mm" y="-2494.664137958246556082*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="9">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa161"/>
+      <Translation x="-1817.085862000290262586*mm" y="-3929.685034742328753055*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="10">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa162"/>
+      <Translation x="391.200000021369419301*mm" y="-4311.749999958536136546*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="11">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa163"/>
+      <Translation x="2494.664137958244737092*mm" y="-3538.485034720961266430*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
+    <PosPart copyNumber="12">
+      <rParent name="muonBase:MBWheel_2N"/>
+      <rChild name="mb1:MB1N"/>
+      <rRotation name="DdNoNa:DdNoNa164"/>
+      <Translation x="3929.685034742328753055*mm" y="-1817.085862000290489959*mm" z="8.500000000000264677*mm"/>
+    </PosPart>
     <PosPart copyNumber="2">
       <rParent name="muonBase:MB"/>
       <rChild name="muonBase:MBWheel_1N"/>
@@ -242,6 +320,18 @@
     <Rotation name="DdNoNa:DdNoNa138" phiX="0.000000000000015108*deg" thetaX="90.000000000000000000*deg" phiY="-39.815815221999990570*deg" thetaY="180.000000000000000000*deg" phiZ="90.000000000000028422*deg" thetaZ="90.000000000000014211*deg"/>
     <Rotation name="DdNoNa:DdNoNa139" phiX="30.000000000000028422*deg" thetaX="90.000000000000000000*deg" phiY="-9.815815221999972806*deg" thetaY="180.000000000000000000*deg" phiZ="120.000000000000042633*deg" thetaZ="90.000000000000014211*deg"/>
     <Rotation name="DdNoNa:DdNoNa140" phiX="59.999999999999992895*deg" thetaX="90.000000000000000000*deg" phiY="20.184184777999998772*deg" thetaY="180.000000000000000000*deg" phiZ="150.000000000000000000*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa153" phiX="90.000000000000000000*deg" thetaX="90.000000000000000000*deg" phiY="50.184184778000002325*deg" thetaY="180.000000000000000000*deg" phiZ="-180.000000000000000000*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa154" phiX="120.000000000000014211*deg" thetaX="90.000000000000000000*deg" phiY="80.184184778000002325*deg" thetaY="180.000000000000000000*deg" phiZ="-150.000000000000000000*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa155" phiX="150.000000000000000000*deg" thetaX="90.000000000000000000*deg" phiY="110.184184777999988114*deg" thetaY="180.000000000000000000*deg" phiZ="-120.000000000000014211*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa156" phiX="180.000000000000000000*deg" thetaX="90.000000000000000000*deg" phiY="140.184184778000002325*deg" thetaY="180.000000000000000000*deg" phiZ="-90.000000000000000000*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa157" phiX="-150.000000000000000000*deg" thetaX="90.000000000000000000*deg" phiY="170.184184777999973903*deg" thetaY="180.000000000000000000*deg" phiZ="-60.000000000000007105*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa158" phiX="-120.000000000000014211*deg" thetaX="90.000000000000000000*deg" phiY="-159.815815222000026097*deg" thetaY="180.000000000000000000*deg" phiZ="-30.000000000000021316*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa159" phiX="-90.000000000000000000*deg" thetaX="90.000000000000000000*deg" phiY="-129.815815221999997675*deg" thetaY="180.000000000000000000*deg" phiZ="0.000000000000009542*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa160" phiX="-59.999999999999992895*deg" thetaX="90.000000000000000000*deg" phiY="-99.815815222000011886*deg" thetaY="180.000000000000000000*deg" phiZ="30.000000000000003553*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa161" phiX="-29.999999999999989342*deg" thetaX="90.000000000000000000*deg" phiY="-69.815815221999997675*deg" thetaY="180.000000000000000000*deg" phiZ="60.000000000000021316*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa162" phiX="0.000000000000015108*deg" thetaX="90.000000000000000000*deg" phiY="-39.815815221999990570*deg" thetaY="180.000000000000000000*deg" phiZ="90.000000000000028422*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa163" phiX="29.999999999999989342*deg" thetaX="90.000000000000000000*deg" phiY="-9.815815222000010110*deg" thetaY="180.000000000000000000*deg" phiZ="119.999999999999985789*deg" thetaZ="90.000000000000014211*deg"/>
+    <Rotation name="DdNoNa:DdNoNa164" phiX="59.999999999999992895*deg" thetaX="90.000000000000000000*deg" phiY="20.184184777999998772*deg" thetaY="180.000000000000000000*deg" phiZ="150.000000000000000000*deg" thetaZ="90.000000000000014211*deg"/>
     <Rotation name="rotations:R270" phiX="-90.000000000000014211*deg" thetaX="90.000000000000014211*deg" phiY="0.000000000000007017*deg" thetaY="90.000000000000014211*deg" phiZ="135.000000000000000000*deg" thetaZ="0.000000000000009923*deg"/>
   </RotationSection>
 
@@ -338,6 +428,10 @@
     </LogicalPart>
     <LogicalPart name="muonBase:MB">
       <rSolid name="muonBase:MB"/>
+      <rMaterial name="materials:M_B_Air"/>
+    </LogicalPart>
+    <LogicalPart name="muonBase:MBWheel_2N">
+      <rSolid name="muonBase:MBWheel"/>
       <rMaterial name="materials:M_B_Air"/>
     </LogicalPart>
     <LogicalPart name="muonBase:MBWheel_1N">
