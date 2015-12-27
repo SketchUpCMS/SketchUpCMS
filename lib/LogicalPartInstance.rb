@@ -36,6 +36,10 @@ class LogicalPartInstance
     @children = [ ]
   end
 
+  def initialize_copy(orig)
+    @children = @children.dup
+  end
+
   def definition
     return @definition if (@definition and (not @definition.deleted?))
     return nil
