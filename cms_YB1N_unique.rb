@@ -32,6 +32,8 @@ def draw_gratr
   graphAll = GRATR::DirectedPseudoGraph.new
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
+  vertexLabel = Hash[$logicalPartsManager.parts.map { |p| [p.name, LogicalPartInstance.new($geometryManager, p)] } ]
+
   topName = :"cms:CMSE"
 
   subName = :"muonBase:MBWheel_1N"
@@ -74,11 +76,12 @@ def draw_gratr
   # edgesToRemove = graph.adjacent(:"mb1:MB1N#1", {:direction => :out, :type => :edges})
   # edgesToRemove.each { |e| graph.remove_edge! e }
 
-  draw_array graph, topName
+
+  draw_array graph, vertexLabel, topName
 end
 
 ##__________________________________________________________________||
-def draw_array graph, topName
+def draw_array graph, vertexLabel, topName
 
   Sketchup.active_model.definitions.purge_unused
   start_time = Time.now
@@ -86,14 +89,6 @@ def draw_array graph, topName
 
   posPartExecuter = PosPartExecuter.new $geometryManager
 
-  vertexLabel = { }
-
-  graph.topsort.each do |v|
-    logicalPart = $logicalPartsManager.get(v)
-    puts "logicalPart not found: #{v}" unless logicalPart
-    vertexLabel[v] = LogicalPartInstance.new $geometryManager, logicalPart
-    # vertexLabel[v] = logicalPart
-  end
 
   graph.edges.each do |edge|
     posPart = edge.label
