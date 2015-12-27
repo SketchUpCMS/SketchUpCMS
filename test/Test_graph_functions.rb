@@ -101,6 +101,84 @@ class Test_graph_functions < Test::Unit::TestCase
     assert_equal [[2, 4], [2, 4], [2, 5], [2, 5], [2, 5], [5, 8], [5, 8], [8, 10]], sub.edges.map { |e| [e.source, e.target] }.sort
   end
 
+  def test_subgraph_from__array
+    sub = subgraph_from(@graph_0, [2, 6])
+    #        2
+    #      //\\\
+    #      4   5   6
+    #          \\//\
+    #            8  9
+    #           /    \
+    #          10     11
+
+    assert_equal @graph_0.class, sub.class
+    assert_equal [[2, 4], [2, 4], [2, 5], [2, 5], [2, 5],
+                  [5, 8], [5, 8], [6, 8], [6, 8], [6, 9],
+                  [8, 10], [9, 11]], sub.edges.map { |e| [e.source, e.target] }.sort
+  end
+
+  def test_subgraph_from_to__simple
+    sub = subgraph_from_to(@graph_0, 0, 8)
+    #            0
+    #            |
+    #            1
+    #         //    \
+    #        2       3
+    #        \\\    /
+    #          5   6
+    #          \\//
+    #            8
+    assert_equal @graph_0.class, sub.class
+    assert_equal [0, 1, 2, 3, 5, 6, 8], sub.vertices.sort
+    assert_equal 12, sub.num_edges
+    assert_equal [[0, 1], [1, 2], [1, 2], [1, 3], [2, 5], [2, 5], [2, 5], [3, 6], [5, 8], [5, 8], [6, 8], [6, 8]], sub.edges.map { |e| [e.source, e.target] }.sort
+  end
+
+  def test_subgraph_from_to__simple_02
+    sub = subgraph_from_to(@graph_0, 2, 8)
+    #        2
+    #        \\\
+    #          5
+    #          \\
+    #            8
+    assert_equal @graph_0.class, sub.class
+    assert_equal [[2, 5], [2, 5], [2, 5], [5, 8], [5, 8]], sub.edges.map { |e| [e.source, e.target] }.sort
+  end
+
+  def test_subgraph_from_to__to_array
+    sub = subgraph_from_to(@graph_0, 1, [10, 7])
+    #            1
+    #         //     \
+    #        2         3
+    #        \\\    /  ||
+    #          5   6   7
+    #          \\//
+    #            8
+    #           /
+    #          10
+    assert_equal @graph_0.class, sub.class
+    assert_equal [[1, 2], [1, 2], [1, 3], [2, 5], [2, 5], [2, 5], [3, 6], [3, 7], [3, 7], [5, 8], [5, 8], [6, 8], [6, 8], [8, 10]], sub.edges.map { |e| [e.source, e.target] }.sort
+  end
+
+
+  def test_subgraph_from_to__from_array__to_array
+    sub = subgraph_from_to(@graph_0, [2, 3], [10, 13])
+    sub.write_to_graphic_file('pdf', 'graph')
+    #        2         3
+    #        \\\    /  ||  \\
+    #          5   6   7    12
+    #          \\//     \  /
+    #            8       13
+    #           /
+    #          10
+    assert_equal @graph_0.class, sub.class
+    assert_equal [[2, 5], [2, 5], [2, 5],
+                  [3, 6], [3, 7], [3, 7], [3, 12], [3, 12],
+                  [5, 8], [5, 8], [6, 8], [6, 8],
+                  [7, 13], [8, 10], [12, 13]], sub.edges.map { |e| [e.source, e.target] }.sort
+
+  end
+
   def test_subgraph_from_depth__simple
     sub = subgraph_from_depth(@graph_0, 3, 2)
     #                  3
@@ -143,49 +221,6 @@ class Test_graph_functions < Test::Unit::TestCase
     sub = subgraph_from_depth(@graph_1, 3, -1)
     assert_equal @graph_1.class, sub.class
     assert_equal [ ], sub.edges.map { |e| [e.source, e.target] }.sort
-  end
-
-  def test_subgraph_from_to
-    sub = subgraph_from_to(@graph_0, 0, [8])
-    #            0
-    #            |
-    #            1
-    #         //    \
-    #        2       3
-    #        \\\    /
-    #          5   6
-    #          \\//
-    #            8
-    assert_equal @graph_0.class, sub.class
-    assert_equal [0, 1, 2, 3, 5, 6, 8], sub.vertices.sort
-    assert_equal 12, sub.num_edges
-    assert_equal [[0, 1], [1, 2], [1, 2], [1, 3], [2, 5], [2, 5], [2, 5], [3, 6], [5, 8], [5, 8], [6, 8], [6, 8]], sub.edges.map { |e| [e.source, e.target] }.sort
-  end
-
-  def test_subgraph_from_to_02
-    sub = subgraph_from_to(@graph_0, 1, [10, 7])
-    #            1
-    #         //     \
-    #        2         3
-    #        \\\    /  ||
-    #          5   6   7
-    #          \\//
-    #            8
-    #           /
-    #          10
-    assert_equal @graph_0.class, sub.class
-    assert_equal [[1, 2], [1, 2], [1, 3], [2, 5], [2, 5], [2, 5], [3, 6], [3, 7], [3, 7], [5, 8], [5, 8], [6, 8], [6, 8], [8, 10]], sub.edges.map { |e| [e.source, e.target] }.sort
-  end
-
-  def test_subgraph_from_to_03
-    sub = subgraph_from_to(@graph_0, 2, [8])
-    #        2
-    #        \\\
-    #          5
-    #          \\
-    #            8
-    assert_equal @graph_0.class, sub.class
-    assert_equal [[2, 5], [2, 5], [2, 5], [5, 8], [5, 8]], sub.edges.map { |e| [e.source, e.target] }.sort
   end
 
   def test_n_paths

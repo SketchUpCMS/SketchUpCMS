@@ -3,7 +3,10 @@
 
 ##__________________________________________________________________||
 # Returns a subgraph of `graph` which starts from `from`.
+# `from` can be an array
 def subgraph_from(graph, from)
+
+  from = [from] unless from.is_a?(Array)
 
   # e.g.,
   # graph = GRATR::DirectedPseudoGraph[0,1, 1,2, 1,2, 1,3, 2,4, 2,5,
@@ -18,16 +21,22 @@ def subgraph_from(graph, from)
   #           \ /\   
   #            8  9
   #
-  # from = 2
+  # from = [2, 6]
 
-  hash_bfs = graph.bfs_tree_from_vertex(from)
-  # e.g., hash_bfs = {4=>2, 5=>2, 8=>5}
+  vertices = Set.new
+
+  from.each do |f|
+
+    hash_bfs = graph.bfs_tree_from_vertex(f)
+    # e.g., hash_bfs = {4=>2, 5=>2, 8=>5} when f = 2
   
-  vertices = Set.new hash_bfs.flatten
-  # e.g., vertices = <Set: {4, 2, 5, 8}>
+    vertices.merge(hash_bfs.flatten)
+    # e.g., vertices = <Set: {4, 2, 5, 8}> when f = 2
+
+  end
 
   edges = graph.edges.select { |e| vertices.include?(e.source) and vertices.include?(e.target) }
-  # e.g., edges = [(2-4), (2-5), (2-5), (5-8)]
+  # e.g., edges = [(2-4), (2-5), (2-5), (5-8), (6-8), (6-9)]
 
   ret = graph.class.new
   edges.each { |e| ret.add_edge!(e) }
@@ -35,11 +44,36 @@ def subgraph_from(graph, from)
   # ret:
   #        2
   #       / \\
-  #      4   5
-  #           \
-  #            8
+  #      4   5   6
+  #           \ /\   
+  #            8  9
   #
 
+  ret
+end
+
+##__________________________________________________________________||
+# Returns a subgraph of `graph` which starts from `from` and ends at
+# `to`. `from` and `to` can be arrays
+def subgraph_from_to(graph, from, to)
+
+  graph = subgraph_from(graph, from)
+
+  to = [to] unless to.is_a?(Array)
+
+  def buildEdgeList graph, to
+    ret = Set.new
+    to.each do |child|
+      parents = graph.adjacent(child, {:direction => :in})
+      ret.merge(parents.map { |parent| [parent, child] })
+      ret.merge(buildEdgeList(graph, parents))
+    end
+    ret
+  end
+
+  edges = buildEdgeList graph, to
+  ret = graph.class.new
+  graph.edges.each { |e| ret.add_edge!(e) if edges.include?([e.source, e.target]) }
   ret
 end
 
@@ -96,30 +130,6 @@ def subgraph_from_depth(graph, from, depth)
   #       / \\    / \
   #      4   5   6   7
   #
-  ret
-end
-
-##__________________________________________________________________||
-# Returns a subgraph of `graph` which starts from `from` and ends at
-# vertices in `to_list`.
-def subgraph_from_to(graph, from, to_list)
-
-  graph = subgraph_from(graph, from)
-
-  def buildEdgeList graph, from, to_list
-    to_list.reject! { |t| t == from }
-    ret = Set.new
-    to_list.each do |child|
-      parents = graph.adjacent(child, {:direction => :in})
-      ret.merge(parents.map { |parent| [parent, child] })
-      ret.merge(buildEdgeList(graph, from, parents))
-    end
-    ret
-  end
-
-  edges = buildEdgeList graph, from, to_list
-  ret = graph.class.new
-  graph.edges.each { |e| ret.add_edge!(e) if edges.include?([e.source, e.target]) }
   ret
 end
 
