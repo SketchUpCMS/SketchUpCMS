@@ -163,7 +163,7 @@ class Test_graph_functions < Test::Unit::TestCase
 
   def test_subgraph_from_to__from_array__to_array
     sub = subgraph_from_to(@graph_0, [2, 3], [10, 13])
-    sub.write_to_graphic_file('pdf', 'graph')
+    # sub.write_to_graphic_file('pdf', 'graph')
     #        2         3
     #        \\\    /  ||  \\
     #          5   6   7    12
