@@ -16,6 +16,8 @@ require 'gratr/dot'
 
 require "benchmark"
 
+require 'LogicalPartInstance'
+
 ##__________________________________________________________________||
 def cmsmain
 
@@ -33,6 +35,8 @@ def draw_geom
   # all PosParts in the XML file
   graphAll = GRATR::DirectedPseudoGraph.new
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
+
+  vertexLabel = Hash[$logicalPartsManager.parts.map { |p| [p.name, LogicalPartInstance.new($geometryManager, p)] } ]
 
   topName = :"cms:CMSE"
 
@@ -72,8 +76,8 @@ def draw_geom
   graph = graphTopToSub + graphSubToNames + graphNamesToDepths
 
   edge = graph.adjacent(:"mb1:MB1N", {:direction => :in, :type => :edges})[0]
-
   make_target_unique(graph, edge, :"mb1:MB1N#1")
+  vertexLabel[:"mb1:MB1N#1"] = LogicalPartInstance.new $geometryManager, $logicalPartsManager.get(:"mb1:MB1N")
   edgesToRemove = graph.adjacent(:"mb1:MB1N#1", {:direction => :out, :type => :edges})
   edgesToRemove.each { |e| graph.remove_edge! e }
 
@@ -82,7 +86,7 @@ def draw_geom
   n_instances = n_paths(graph, topName)
 
   graph.topsort.each do |v|
-    puts " %-30s %10d" % [v, n_instances[v]]
+    puts " %-30s %10d   %s" % [v, n_instances[v], vertexLabel[v].inspect]
   end
 
 end
