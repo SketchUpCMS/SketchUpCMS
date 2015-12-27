@@ -152,14 +152,14 @@ end
 # source and target.
 def make_target_unique(graph, edge, vertex)
 
-  edge = [edge] unless edge.is_a?(Array)
+  edges = edge.is_a?(Array) ? edge : [edge]
 
-  edge.each do |e|
+  edges.each do |e|
     graph.add_edge! e.source, vertex, e.label
     graph.remove_edge! e
   end
 
-  edgesFromTarget = graph.adjacent(edge[0].target, {:direction => :out, :type => :edges})
+  edgesFromTarget = graph.adjacent(edges[0].target, {:direction => :out, :type => :edges})
   edgesFromTarget.each do |e|
     graph.add_edge! vertex, e.target, e.label
   end
