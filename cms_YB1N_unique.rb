@@ -36,8 +36,8 @@ def draw_gratr
 
   topName = :"cms:CMSE"
 
-  subName = :"muonBase:MBWheel_1N"
-
+  subNames = [:"muonBase:MBWheel_2N", :"muonBase:MBWheel_1N"]
+  
   nameDepthList = [
     {:name => :"mb1:MB1ChimHoneycombBox", :depth => 0},
     {:name => :"mb1:MB1ChimSuperLayerZ", :depth => 0},
@@ -59,10 +59,10 @@ def draw_gratr
     {:name => :"mb1:MB1SLPhiAlPlateOuter", :depth => 0},
   ]
 
-  graphTopToSub = subgraph_from_to(graphAll, topName, [subName])
+  graphTopToSub = subgraph_from_to(graphAll, topName, subNames)
 
   names = nameDepthList.collect { |e| e[:name] }
-  graphSubToNames = subgraph_from_to(graphAll, subName, names)
+  graphSubToNames = subgraph_from_to(graphAll, subNames, names)
 
   graphNamesToDepths = graphAll.class.new
   nameDepthList.each do |e|
