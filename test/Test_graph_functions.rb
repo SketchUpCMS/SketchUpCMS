@@ -240,8 +240,7 @@ class Test_graph_functions < Test::Unit::TestCase
   def test_make_target_unique
     graph = @graph_0.class.new(@graph_0)
 
-    edgeFrom2to5 = graph.adjacent(2, {:direction => :out, :type => :edges})
-                   .select { |e| e.target == 5 }[0]
+    edgeFrom2to5 = graph.edges.select { |e| e.source == 2 and e.target == 5 }[0]
 
     make_target_unique(graph, edgeFrom2to5, 51)
 
@@ -256,6 +255,28 @@ class Test_graph_functions < Test::Unit::TestCase
 
     # @graph_0.write_to_graphic_file('pdf','graph_0')
     # graph.write_to_graphic_file('pdf','graph')
+
+  end
+
+
+  def test_make_target_unique__array
+    graph = @graph_0.class.new(@graph_0)
+
+    edgesFrom2to5 = graph.edges.select { |e| e.source == 2 and e.target == 5 }[0, 2]
+
+    make_target_unique(graph, edgesFrom2to5, 51)
+
+    # @graph_0.write_to_graphic_file('pdf','graph_0')
+    # graph.write_to_graphic_file('pdf','graph')
+
+    assert_equal([[0, 1], [1, 2], [1, 2], [1, 3],
+                  [2, 4], [2, 4], [2, 5], [2, 51], [2, 51],
+                  [3, 6], [3, 7], [3, 7], [3, 12], [3, 12],
+                  [5, 8], [5, 8],
+                  [6, 8], [6, 8], [6, 9],
+                  [7, 13], [8, 10], [9, 11], [12, 13],
+                  [51, 8], [51, 8]], graph.edges.map { |e| [e.source, e.target] }.sort)
+
 
   end
 
