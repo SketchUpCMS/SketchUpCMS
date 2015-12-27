@@ -11,6 +11,7 @@ require 'readXMLFiles'
 require 'PartBuilder'
 require 'solids'
 require 'graph_functions.rb'
+require 'graph_functions_DD'
 load 'PosPartExecuter.rb'
 load 'LogicalPartInstance.rb'
 load 'LogicalPartDefiner.rb'
@@ -32,12 +33,12 @@ def draw_gratr
   graphAll = GRATR::DirectedPseudoGraph.new
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
-  vertexLabel = Hash[$logicalPartsManager.parts.map { |p| [p.name, LogicalPartInstance.new($geometryManager, p)] } ]
+  vertices = Hash[$logicalPartsManager.parts.map { |p| [p.name, LogicalPartInstance.new($geometryManager, p)] } ]
 
   topName = :"cms:CMSE"
 
   subNames = [:"muonBase:MBWheel_2N", :"muonBase:MBWheel_1N"]
-  
+
   nameDepthList = [
     {:name => :"mb1:MB1ChimHoneycombBox", :depth => 0},
     {:name => :"mb1:MB1ChimSuperLayerZ", :depth => 0},
@@ -71,13 +72,15 @@ def draw_gratr
 
   graph = graphTopToSub + graphSubToNames + graphNamesToDepths
 
-  edge = graph.adjacent(:"mb1:MB1N", {:direction => :in, :type => :edges})[0]
-  make_target_unique(graph, edge, :"mb1:MB1N#1")
-  vertexLabel[:"mb1:MB1N#1"] = LogicalPartInstance.new $geometryManager, $logicalPartsManager.get(:"mb1:MB1N")
+  edge = graph.adjacent(:"mb1:MB1N", {:direction => :in, :type => :edges})[0, 5]
+  make_logicalPart_unique(graph, edge, vertices, true)
+
   edgesToRemove = graph.adjacent(:"mb1:MB1N#1", {:direction => :out, :type => :edges})
   edgesToRemove.each { |e| graph.remove_edge! e }
 
-  draw_array graph, vertexLabel, topName
+  graph = subgraph_from(graph, topName)
+
+  draw_array graph, vertices, topName
 end
 
 ##__________________________________________________________________||

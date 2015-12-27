@@ -10,6 +10,7 @@ require 'buildDDLCallBacks'
 require 'readXMLFiles'
 
 require 'graph_functions'
+require 'graph_functions_DD'
 
 require 'gratr'
 require 'gratr/dot'
@@ -36,11 +37,11 @@ def draw_geom
   graphAll = GRATR::DirectedPseudoGraph.new
   $posPartsManager.parts.each { |pp| graphAll.add_edge!(pp.parentName, pp.childName, pp) }
 
-  vertexLabel = Hash[$logicalPartsManager.parts.map { |p| [p.name, LogicalPartInstance.new($geometryManager, p)] } ]
+  vertices = Hash[$logicalPartsManager.parts.map { |p| [p.name, LogicalPartInstance.new($geometryManager, p)] } ]
 
   topName = :"cms:CMSE"
 
-  subName = :"muonBase:MBWheel_1N"
+  subNames = [:"muonBase:MBWheel_2N", :"muonBase:MBWheel_1N"]
 
   nameDepthList = [
     {:name => :"mb1:MB1ChimHoneycombBox", :depth => 0},
@@ -63,10 +64,10 @@ def draw_geom
     {:name => :"mb1:MB1SLPhiAlPlateOuter", :depth => 0},
   ]
 
-  graphTopToSub = subgraph_from_to(graphAll, topName, [subName])
+  graphTopToSub = subgraph_from_to(graphAll, topName, subNames)
 
   names = nameDepthList.collect { |e| e[:name] }
-  graphSubToNames = subgraph_from_to(graphAll, subName, names)
+  graphSubToNames = subgraph_from_to(graphAll, subNames, names)
 
   graphNamesToDepths = graphAll.class.new
   nameDepthList.each do |e|
@@ -75,18 +76,20 @@ def draw_geom
 
   graph = graphTopToSub + graphSubToNames + graphNamesToDepths
 
-  edge = graph.adjacent(:"mb1:MB1N", {:direction => :in, :type => :edges})[0]
-  make_target_unique(graph, edge, :"mb1:MB1N#1")
-  vertexLabel[:"mb1:MB1N#1"] = LogicalPartInstance.new $geometryManager, $logicalPartsManager.get(:"mb1:MB1N")
+  edge = graph.adjacent(:"mb1:MB1N", {:direction => :in, :type => :edges})[0, 5]
+  make_logicalPart_unique(graph, edge, vertices, true)
+
   edgesToRemove = graph.adjacent(:"mb1:MB1N#1", {:direction => :out, :type => :edges})
   edgesToRemove.each { |e| graph.remove_edge! e }
+
+  graph = subgraph_from(graph, topName)
 
   graph.write_to_graphic_file('pdf','graph')
 
   n_instances = n_paths(graph, topName)
 
   graph.topsort.each do |v|
-    puts " %-30s %10d   %s" % [v, n_instances[v], vertexLabel[v].inspect]
+    puts " %-30s %10d   %s" % [v, n_instances[v], vertices[v].inspect]
   end
 
 end
