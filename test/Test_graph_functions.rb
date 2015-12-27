@@ -92,6 +92,7 @@ class Test_graph_functions < Test::Unit::TestCase
     #           /
     #          10
     assert_equal @graph_0.class, sub.class
+    assert_not_same @graph_0, sub
     assert_equal [2, 4, 5, 8, 10], sub.vertices.sort
     assert_equal 8, sub.num_edges
     assert sub.edge?(2,4)
@@ -129,6 +130,7 @@ class Test_graph_functions < Test::Unit::TestCase
     #          \\//
     #            8
     assert_equal @graph_0.class, sub.class
+    assert_not_same @graph_0, sub
     assert_equal [0, 1, 2, 3, 5, 6, 8], sub.vertices.sort
     assert_equal 12, sub.num_edges
     assert_equal [[0, 1], [1, 2], [1, 2], [1, 3], [2, 5], [2, 5], [2, 5], [3, 6], [5, 8], [5, 8], [6, 8], [6, 8]], sub.edges.map { |e| [e.source, e.target] }.sort
@@ -187,6 +189,7 @@ class Test_graph_functions < Test::Unit::TestCase
     #            //\    \  /
     #            8  9    13
     assert_equal @graph_0.class, sub.class
+    assert_not_same @graph_0, sub
     assert_equal [3, 6, 7, 8, 9, 12, 13], sub.vertices.sort
     assert_equal 10, sub.num_edges
     assert_equal [[3, 6], [3, 7], [3, 7], [3, 12], [3, 12], [6, 8], [6, 8], [6, 9], [7, 13], [12, 13]], sub.edges.map { |e| [e.source, e.target] }.sort
