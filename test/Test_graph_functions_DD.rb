@@ -118,8 +118,8 @@ class Test_graph_functions_DD < Test::Unit::TestCase
     edge =  graph.edges.select { |e| e.source == :"muonBase:MBWheel_1N" and e.target == :"mb1:MB1N" }[0]
     make_logicalPart_unique(graph, edge, vertices)
 
-    @graph_0_s.write_to_graphic_file('pdf', 'graph')
-    graph.write_to_graphic_file('pdf', 'actual')
+    # @graph_0_s.write_to_graphic_file('pdf', 'graph')
+    # graph.write_to_graphic_file('pdf', 'actual')
 
     assert_equal(@vertices_0_s.size + 1, vertices.size)
     assert_not_same vertices[:"mb1:MB1N"], vertices[:"mb1:MB1N#1"]
@@ -151,6 +151,17 @@ class Test_graph_functions_DD < Test::Unit::TestCase
       [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
       [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
     ].sort, graph.edges.map { |e| [e.source, e.target] }.sort
+
+  end
+
+  def test_make_logicalPart_unique__already_unique
+    graph = @graph_0_s.class.new(@graph_0_s)
+    vertices = @vertices_0_s.clone
+    edge =  graph.edges.select { |e| e.source == :"muonBase:MUON" and e.target == :"muonBase:MB" }[0]
+    make_logicalPart_unique(graph, edge, vertices)
+
+    assert_equal @vertices_0_s, vertices
+    assert_equal @graph_0_s, graph
 
   end
 
