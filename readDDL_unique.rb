@@ -74,6 +74,8 @@ def draw_geom
   edge = graph.adjacent(:"mb1:MB1N", {:direction => :in, :type => :edges})[0]
 
   make_target_unique(graph, edge, :"mb1:MB1N#1")
+  edgesToRemove = graph.adjacent(:"mb1:MB1N#1", {:direction => :out, :type => :edges})
+  edgesToRemove.each { |e| graph.remove_edge! e }
 
   graph.write_to_graphic_file('pdf','graph')
 
