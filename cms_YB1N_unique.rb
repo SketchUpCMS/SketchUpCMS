@@ -43,8 +43,8 @@ def draw_gratr
     {:name => :"mb1:MB1HoneycombBox", :depth => 0},
 
     # :"mb1:MB1SuperLayerZ"
-    {:name => :"mb1:MB1SLZLayer_56Cells", :depth => 0},
     {:name => :"mb1:MB1SLZLayer_58Cells", :depth => 0},
+    {:name => :"mb1:MB1SLZLayer_56Cells", :depth => 0},
     {:name => :"mb1:MB1SLZLayer_57Cells", :depth => 0},
     {:name => :"mb1:MB1SLZAlPlateInner", :depth => 0},
     {:name => :"mb1:MB1SLZAlPlateOuter", :depth => 0},
@@ -69,6 +69,11 @@ def draw_gratr
 
   graph = graphTopToSub + graphSubToNames + graphNamesToDepths
 
+  # edge = graph.adjacent(:"mb1:MB1N", {:direction => :in, :type => :edges})[0]
+  # make_target_unique(graph, edge, :"mb1:MB1N#1")
+  # edgesToRemove = graph.adjacent(:"mb1:MB1N#1", {:direction => :out, :type => :edges})
+  # edgesToRemove.each { |e| graph.remove_edge! e }
+
   draw_array graph, topName
 end
 
@@ -81,22 +86,22 @@ def draw_array graph, topName
 
   posPartExecuter = PosPartExecuter.new $geometryManager
 
-  logicalPartInstances = { }
+  vertexLabel = { }
 
   graph.topsort.each do |v|
     logicalPart = $logicalPartsManager.get(v)
     puts "logicalPart not found: #{v}" unless logicalPart
-    logicalPartInstances[v] = LogicalPartInstance.new $geometryManager, logicalPart
-    # logicalPartInstances[v] = logicalPart
+    vertexLabel[v] = LogicalPartInstance.new $geometryManager, logicalPart
+    # vertexLabel[v] = logicalPart
   end
 
   graph.edges.each do |edge|
     posPart = edge.label
-    posPartExecuter.exec posPart, logicalPartInstances[edge.source], logicalPartInstances[edge.target]
+    posPartExecuter.exec posPart, vertexLabel[edge.source], vertexLabel[edge.target]
   end
 
   graph.topsort.reverse.each do |v|
-    logicalPart = logicalPartInstances[v]
+    logicalPart = vertexLabel[v]
     next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /Air$/
     next if logicalPart.children.size > 0 and logicalPart.materialName.to_s =~ /free_space$/
     logicalPart.placeSolid()
@@ -105,11 +110,11 @@ def draw_array graph, topName
   # $logicalPartsManager.get(topName).placeSolid()
 
   graph.topsort.reverse.each do |v|
-    logicalPart = logicalPartInstances[v]
+    logicalPart = vertexLabel[v]
     logicalPart.define()
   end
 
-  lp = logicalPartInstances[topName.to_sym]
+  lp = vertexLabel[topName.to_sym]
   definition = lp.definition
   if definition
     entities = Sketchup.active_model.entities
