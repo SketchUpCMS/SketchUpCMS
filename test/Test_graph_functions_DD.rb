@@ -109,7 +109,7 @@ class Test_graph_functions_DD < Test::Unit::TestCase
   end
 
   def test_basics
-    @graph_0_s.write_to_graphic_file('pdf', 'graph')
+    # @graph_0_s.write_to_graphic_file('pdf', 'graph')
   end
 
   def test_make_logicalPart_unique
@@ -154,14 +154,108 @@ class Test_graph_functions_DD < Test::Unit::TestCase
 
   end
 
-  def test_make_logicalPart_unique__already_unique
+  def test_make_logicalPart_unique__array
+    graph = @graph_0_s.class.new(@graph_0_s)
+    vertices = @vertices_0_s.clone
+    edges =  graph.edges.select { |e| e.source == :"muonBase:MBWheel_1N" and e.target == :"mb1:MB1N" }[0, 2]
+    make_logicalPart_unique(graph, edges, vertices)
+
+    # @graph_0_s.write_to_graphic_file('pdf', 'graph')
+    # graph.write_to_graphic_file('pdf', 'actual')
+
+    assert_equal(@vertices_0_s.size + 1, vertices.size)
+    assert_not_same vertices[:"mb1:MB1N"], vertices[:"mb1:MB1N#1"]
+    assert_same vertices[:"mb1:MB1N"], vertices[:"mb1:MB1N#1"].orig
+
+    assert_equal [
+      [:"cms:CMSE", :"muonBase:MUON"],
+      [:"muonBase:MUON", :"muonBase:MB"],
+      [:"muonBase:MB", :"muonBase:MBWheel_2N"],
+      [:"muonBase:MB", :"muonBase:MBWheel_1N"],
+      [:"mb1:MB1ChimN", :"mb1:MB1ChimHoneycombBox"],
+      [:"mb1:MB1ChimN", :"mb1:MB1ChimSuperLayerPhi"],
+      [:"mb1:MB1ChimN", :"mb1:MB1ChimSuperLayerPhi"],
+      [:"mb1:MB1ChimN", :"mb1:MB1ChimSuperLayerZ"],
+      [:"mb1:MB1N", :"mb1:MB1HoneycombBox"],
+      [:"mb1:MB1N", :"mb1:MB1SuperLayerPhi"],
+      [:"mb1:MB1N", :"mb1:MB1SuperLayerPhi"],
+      [:"mb1:MB1N", :"mb1:MB1SuperLayerZ"],
+      [:"mb1:MB1N#1", :"mb1:MB1HoneycombBox"],
+      [:"mb1:MB1N#1", :"mb1:MB1SuperLayerPhi"],
+      [:"mb1:MB1N#1", :"mb1:MB1SuperLayerPhi"],
+      [:"mb1:MB1N#1", :"mb1:MB1SuperLayerZ"],
+      [:"muonBase:MBWheel_1N", :"mb1:MB1ChimN"],
+      [:"muonBase:MBWheel_1N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_1N", :"mb1:MB1N#1"],
+      [:"muonBase:MBWheel_1N", :"mb1:MB1N#1"],
+      [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
+    ].sort, graph.edges.map { |e| [e.source, e.target] }.sort
+
+  end
+
+  def test_make_logicalPart_unique__unique_target
     graph = @graph_0_s.class.new(@graph_0_s)
     vertices = @vertices_0_s.clone
     edge =  graph.edges.select { |e| e.source == :"muonBase:MUON" and e.target == :"muonBase:MB" }[0]
     make_logicalPart_unique(graph, edge, vertices)
 
+    # no changes
     assert_equal @vertices_0_s, vertices
     assert_equal @graph_0_s, graph
+
+  end
+
+  def test_make_logicalPart_unique__unique_target_multiple_edges
+
+    graph = @graph_0_s.class.new(@graph_0_s)
+    vertices = @vertices_0_s.clone
+    edges =  graph.edges.select { |e| e.source == :"mb1:MB1N" and e.target == :"mb1:MB1SuperLayerPhi"}
+    make_logicalPart_unique(graph, edges, vertices)
+
+    # no changes
+    assert_equal @vertices_0_s, vertices
+    assert_equal @graph_0_s, graph
+
+  end
+
+  def test_make_logicalPart_unique__recursive
+    graph = @graph_0_s.class.new(@graph_0_s)
+    vertices = @vertices_0_s.clone
+    edge =  graph.edges.select { |e| e.source == :"muonBase:MBWheel_1N" and e.target == :"mb1:MB1N" }[0]
+    make_logicalPart_unique(graph, edge, vertices, true)
+
+    # @graph_0_s.write_to_graphic_file('pdf', 'graph')
+    # graph.write_to_graphic_file('pdf', 'actual')
+
+    assert_equal [
+      [:"cms:CMSE", :"muonBase:MUON"],
+      [:"muonBase:MUON", :"muonBase:MB"],
+      [:"muonBase:MB", :"muonBase:MBWheel_2N"],
+      [:"muonBase:MB", :"muonBase:MBWheel_1N"],
+      [:"mb1:MB1ChimN", :"mb1:MB1ChimHoneycombBox"],
+      [:"mb1:MB1ChimN", :"mb1:MB1ChimSuperLayerPhi"],
+      [:"mb1:MB1ChimN", :"mb1:MB1ChimSuperLayerPhi"],
+      [:"mb1:MB1ChimN", :"mb1:MB1ChimSuperLayerZ"],
+      [:"mb1:MB1N", :"mb1:MB1HoneycombBox"],
+      [:"mb1:MB1N", :"mb1:MB1SuperLayerPhi"],
+      [:"mb1:MB1N", :"mb1:MB1SuperLayerPhi"],
+      [:"mb1:MB1N", :"mb1:MB1SuperLayerZ"],
+      [:"mb1:MB1N#1", :"mb1:MB1HoneycombBox#1"],
+      [:"mb1:MB1N#1", :"mb1:MB1SuperLayerPhi#1"],
+      [:"mb1:MB1N#1", :"mb1:MB1SuperLayerPhi#1"],
+      [:"mb1:MB1N#1", :"mb1:MB1SuperLayerZ#1"],
+      [:"muonBase:MBWheel_1N", :"mb1:MB1ChimN"],
+      [:"muonBase:MBWheel_1N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_1N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_1N", :"mb1:MB1N#1"],
+      [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
+      [:"muonBase:MBWheel_2N", :"mb1:MB1N"],
+    ].sort, graph.edges.map { |e| [e.source, e.target] }.sort
 
   end
 
