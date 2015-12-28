@@ -5,11 +5,11 @@ class PosPartExecuter
 
   def initialize geometryManager
     @geometryManager = geometryManager
-    @doneList = Set.new
+    # @doneList = Set.new
   end
 
   def exec posPart, parent, child
-    return if @doneList.include? posPart
+    # return if @doneList.include? posPart
 
     return unless parent
     return unless child
@@ -23,7 +23,7 @@ class PosPartExecuter
     end
 
     parent.placeChild(child, posPart.translation, rotation)
-    @doneList.add posPart
+    # @doneList.add posPart
   end
 
 end
