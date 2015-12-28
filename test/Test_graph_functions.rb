@@ -226,6 +226,79 @@ class Test_graph_functions < Test::Unit::TestCase
     assert_equal [ ], sub.edges.map { |e| [e.source, e.target] }.sort
   end
 
+  def test_subgraph_trim_depth__depth_0
+    sub = subgraph_trim_depth(@graph_0, 5, 0)
+    # sub.write_to_graphic_file('pdf', 'graph_0')
+    #            0
+    #            |
+    #            1
+    #         //     \
+    #        2         3
+    #      //       /  ||  \\
+    #      4       6   7    12
+    #            //\    \  /
+    #            8  9    13
+    #           /    \
+    #          10     11
+    assert_equal @graph_0.class, sub.class
+    assert_not_same @graph_0, sub
+    assert_equal [[0, 1], [1, 2], [1, 2], [1, 3],
+                  [2, 4], [2, 4],
+                  [3, 6], [3, 7], [3, 7], [3, 12], [3, 12],
+                  [6, 8], [6, 8], [6, 9],
+                  [7, 13],
+                  [8, 10], [9, 11],
+                  [12, 13]], sub.edges.map { |e| [e.source, e.target] }.sort
+  end
+
+  def test_subgraph_trim_depth__depth_1
+    sub = subgraph_trim_depth(@graph_0, 5, 1)
+    # sub.write_to_graphic_file('pdf', 'graph_1')
+    #            0
+    #            |
+    #            1
+    #         //     \
+    #        2         3
+    #      //\\\    /  ||  \\
+    #      4   5   6   7    12
+    #            //\    \  /
+    #            8  9    13
+    #           /    \
+    #          10     11
+    assert_equal @graph_0.class, sub.class
+    assert_not_same @graph_0, sub
+    assert_equal [[0, 1], [1, 2], [1, 2], [1, 3],
+                  [2, 4], [2, 4], [2, 5], [2, 5], [2, 5],
+                  [3, 6], [3, 7], [3, 7], [3, 12], [3, 12],
+                  [6, 8], [6, 8], [6, 9],
+                  [7, 13], [8, 10],
+                  [9, 11], [12, 13]], sub.edges.map { |e| [e.source, e.target] }.sort
+  end
+
+  def test_subgraph_trim_depth__depth_2
+    sub = subgraph_trim_depth(@graph_0, 5, 2)
+    # sub.write_to_graphic_file('pdf', 'graph_2')
+    #            0
+    #            |
+    #            1
+    #         //     \
+    #        2         3
+    #      //\\\    /  ||  \\
+    #      4   5   6   7    12
+    #          \\//\    \  /
+    #            8  9    13
+    #                \
+    #                 11
+    assert_equal @graph_0.class, sub.class
+    assert_not_same @graph_0, sub
+    assert_equal [[0, 1], [1, 2], [1, 2], [1, 3],
+                  [2, 4], [2, 4], [2, 5], [2, 5], [2, 5],
+                  [3, 6], [3, 7], [3, 7], [3, 12], [3, 12],
+                  [5, 8], [5, 8], [6, 8], [6, 8], [6, 9], [7, 13],
+                  [9, 11], [12, 13]], sub.edges.map { |e| [e.source, e.target] }.sort
+
+  end
+
   def test_n_paths
     actual = n_paths(@graph_0, 0)
     assert_equal({0=>1, 1=>1,

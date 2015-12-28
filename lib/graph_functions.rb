@@ -134,6 +134,37 @@ def subgraph_from_depth(graph, from, depth)
 end
 
 ##__________________________________________________________________||
+def subgraph_trim_depth(graph, at, depth)
+
+  ret = graph.class.new(graph)
+
+  return ret unless depth >= 0
+
+  return ret unless ret.vertex?(at)
+
+  if depth == 0
+    ret.remove_vertex! at
+    return ret
+  end
+
+  if depth == 1
+    ret.adjacent(at, {:direction => :out, :type => :edges}).each do |e|
+      ret.remove_edge! e
+    end
+    return ret
+  end
+
+  if depth >= 1
+    ret.adjacent(at, {:direction => :out, :type => :vertices}).uniq do |v|
+      ret = subgraph_trim_depth(ret, v, depth - 1)
+    end
+  end
+
+  ret
+
+end
+
+##__________________________________________________________________||
 # Returns a hash in which the keys are vertices and the values are the
 # numbers of all possible paths to the vertices from "from"
 def n_paths(graph, from)
