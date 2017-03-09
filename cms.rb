@@ -445,32 +445,8 @@ def draw_gratr
   ]
 
   nameDepthME = [
-    {:name => :"mf:RR12", :depth => 2},
-    {:name => :"mf:RR12N", :depth => 2},
-    {:name => :"mf:RR13", :depth => 2},
-    {:name => :"mf:RR2X", :depth => 2},
-    {:name => :"mf:RR3X", :depth => 2},
-    {:name => :"mf:ME11AlumFrame", :depth => 0},
-    {:name => :"mf:ME12AlumFrame", :depth => 0},
-    {:name => :"mf:ME13AlumFrame", :depth => 0},
-    {:name => :"mf:ME21AlumFrame", :depth => 0},
-    {:name => :"mf:ME22AlumFrame", :depth => 0},
-    {:name => :"mf:ME31AlumFrame", :depth => 0},
-    {:name => :"mf:ME32AlumFrame", :depth => 0},
-    {:name => :"mf:ME41AlumFrame", :depth => 0},
-    {:name => :"mf:ME42AlumFrame", :depth => 0},
-    {:name => :"muonYoke:YE12", :depth => 0},
-    {:name => :"muonYoke:YE1p_a", :depth => 0},
-    {:name => :"muonYoke:YE1p_b", :depth => 0},
-    {:name => :"muonYoke:YE23", :depth => 0},
-    {:name => :"muonYoke:YE2p_a", :depth => 0},
-    {:name => :"muonYoke:YE2p_b", :depth => 0},
-    {:name => :"muonYoke:YE34", :depth => 0},
-    {:name => :"muonYoke:YE3p_a", :depth => 0},
-    {:name => :"muonYoke:YE3p_b", :depth => 0},
-    {:name => :"muonYoke:YN12p_a", :depth => 0},
-    {:name => :"muonYoke:YN12p_b", :depth => 0},
-    {:name => :"muonYoke:YN12p_c", :depth => 0},
+    {:name => :"mf:MEP", :depth => 3},
+    {:name => :"mf:MEN", :depth => 3},
   ]
 
   nameDepthMGNT = [
