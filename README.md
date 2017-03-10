@@ -23,7 +23,7 @@ As an example, this seciton describes how to build a 3D model of the CMS detecto
 
 #### Create a big XML file
 
-First you need to create a big XML file with all CMS detector geoetry.
+First you need to create a big XML file with all CMS detector geometry.
 
 Follow the instructions at https://github.com/SketchUpCMS/ddtoddl_cfg and create the big XML file `GeometryExtended2017.xml`.
 
