@@ -15,6 +15,8 @@ Ruby scripts that read detector geometries in [Detector Description Language (DD
 * Tai Sakuma and Thomas McCauley, "Detector and Event Visualization with SketchUp at the CMS Experiment" <br />
   *J. Phys.: Conf. Ser.* **513** 022032, [doi:10.1088/1742-6596/513/2/022032](http://dx.doi.org/10.1088/1742-6596/513/2/022032)
 
+---
+
 ### Quick instructions
 
 As an example, this seciton describes how to build a 3D model of the CMS detector with the [2017 geoetmry](https://github.com/cms-sw/cmssw/blob/CMSSW_9_0_0_pre5/Configuration/Geometry/python/GeometryExtended2017_cff.py).
