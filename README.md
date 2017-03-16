@@ -52,6 +52,6 @@ Run [`cms_2017.rb`](cms_2017.rb):
 load '/<some path>/SketchUpCMS/cms_2017.rb'
 ```
 
-When the script end, you will probaly need to zoom out to find the CMS detector.
+After the script ends, you will probaly need to zoom out to find the CMS detector.
 
 
