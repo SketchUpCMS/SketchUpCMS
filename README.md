@@ -19,7 +19,7 @@ Ruby scripts that read detector geometries in [Detector Description Language (DD
 
 ### Quick instructions
 
-As an example, this seciton describes how to build a 3D model of the CMS detector with the [2017 geoetmry](https://github.com/cms-sw/cmssw/blob/CMSSW_9_0_0_pre5/Configuration/Geometry/python/GeometryExtended2017_cff.py).
+As an example, this section describes how to build a 3D model of the CMS detector with the [2017 geometry](https://github.com/cms-sw/cmssw/blob/CMSSW_9_0_0_pre5/Configuration/Geometry/python/GeometryExtended2017_cff.py).
 
 #### Create a big XML file
 
