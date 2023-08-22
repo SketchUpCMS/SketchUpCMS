@@ -3,20 +3,25 @@
 ##____________________________________________________________________________||
 def draw_ExtrudedPolygon entities, args
 
-  zxs = args["ZXYSection"].map {|x| x['x']}
-  zys = args["ZXYSection"].map {|x| x['y']}
-  zscales = args["ZXYSection"].map {|x| x['scale']}
+  def defineFaces(entities, args)
 
-  def defineFace(entities, args)
-    points = Array.new
+    args["ZXYSection"].each do |zxy|
 
-    args["XYPoint"].each do |xy|
-      point = Geom::Point3d.new(xy["x"], xy["y"], 0)
-      points << point
+      points = Array.new
+      
+      args["XYPoint"].each do |xy|
+
+        x = xy["x"]*zxy["scale"] + zxy["x"]
+        y = xy["y"]*zxy["scale"] + zxy["y"]
+        
+        point = Geom::Point3d.new(x, y, zxy["z"])        
+        points << point
+      end
+      
+      face = entities.add_face points
+      
     end
 
-    face = entities.add_face points
-    face
   end
   
   def reverseFacesIfInward(entities)
@@ -29,10 +34,7 @@ def draw_ExtrudedPolygon entities, args
 
   group = entities.add_group
   entities = group.entities
-  face = defineFace entities, args
-
-  puts "Face:"
-  p face
+  defineFaces entities, args
   
   #reverseFacesIfInward(entities)
 
