@@ -1,4 +1,5 @@
 # Tai Sakuma <sakuma@fnal.gov>
+# Thomas McCauley <thomas.mccauley@cern.ch>
 require 'sketchup'
 
 require File.dirname(__FILE__) + '/sitecfg.rb'

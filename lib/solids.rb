@@ -1,4 +1,5 @@
 # Tai Sakuma <sakuma@fnal.gov>
+# Thomas McCauley <thomas.mccauley@cern.ch>
 require 'draw_solid_methods/draw_empty_solid.rb'
 require 'draw_solid_methods/draw_Torus_2pi.rb'
 require 'draw_solid_methods/draw_Torus_filled.rb'

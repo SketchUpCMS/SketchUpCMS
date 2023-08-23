@@ -1,5 +1,5 @@
 # Tai Sakuma <sakuma@fnal.gov>
-
+# Thomas McCauley <thomas.mccauley@cern.ch>
 require "stringToSUNumeric"
 
 ##__________________________________________________________________||
@@ -20,7 +20,7 @@ class SolidDefiner
   end
 
   def solidDrawer partName
-    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus]
+    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus, :ExtrudedPolygon]
     compoundSolidNames = [:UnionSolid, :SubtractionSolid]
 
     if basicSolidNames.include?(partName)
