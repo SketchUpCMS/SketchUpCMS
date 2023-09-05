@@ -1,4 +1,5 @@
 # Tai Sakuma <sakuma@fnal.gov>
+# Thomas McCauley <thomas.mccauley@cern.ch>
 require 'sketchup'
 
 require File.dirname(__FILE__) + '/sitecfg.rb'
@@ -113,13 +114,39 @@ def draw_solids
       "h2"=>0.2.m, "bl2"=>0.304.m, "tl2"=>0.304.m, "alp2"=>10.0.degrees
     }
     s1 = draw_Trapezoid entities, args
-    s1.move! Geom::Transformation.translation(Geom::Vector3d.new(0, 7.m, 0.2.m))
+    s1.move! Geom::Transformation.translation(Geom::Vector3d.new(0, 7.m, 0.m))
 
     model = Sketchup.active_model
     layer = model.layers.add(model.layers.unique_name('Trapezoid'))
     s1.layer = layer
   end
 
+  def test_draw_ExtrudedPolygon entities
+    args = Hash.new
+
+    args["XYPoint"] = Array.new
+    args["XYPoint"] << { "x" => -0.3.m, "y" => -0.3.m }
+    args["XYPoint"] << { "x" => -0.3.m, "y" => 0.3.m }
+    args["XYPoint"] << { "x" => 0.3.m, "y" => 0.3.m }
+    args["XYPoint"] << { "x" => 0.3.m, "y" => -0.3.m }
+    args["XYPoint"] << { "x" => 0.15.m, "y" => -0.3.m }
+    args["XYPoint"] << { "x" => 0.15.m, "y" => 0.15.m }
+    args["XYPoint"] << { "x" => -0.15.m, "y" => 0.15.m }
+    args["XYPoint"] << { "x" => -0.15.m, "y" => -0.3.m }
+    
+    args["ZXYSection"] = Array.new
+    args["ZXYSection"] << { "z" => -0.4.m, "x" => -0.2.m, "y" => 0.1.m, "scale" => 1.5}
+    args["ZXYSection"] << { "z" => 0.1.m, "x" => 0.m, "y" => 0.m, "scale" => 0.5} 
+    args["ZXYSection"] << { "z" => 0.1.m, "x" => 0.m, "y" => 0.m, "scale" => 0.7}
+    args["ZXYSection"] << { "z" => 0.4.m, "x" => 0.m, "y" => 0.2.m, "scale" => 0.9}
+
+    ep = draw_ExtrudedPolygon entities, args
+    ep.move! Geom::Transformation.translation(Geom::Vector3d.new(0, 8.m, 0.3.m))
+
+    model = Sketchup.active_model
+    layer = model.layers.add(model.layers.unique_name('ExtrudedPolygon'))
+    ep.layer = layer
+  end
 
   def test_draw_UnionSolid entities
 
@@ -206,6 +233,7 @@ def draw_solids
   test_draw_Polyhedra entities
   test_draw_PseudoTrap entities
   test_draw_Trapezoid entities
+  test_draw_ExtrudedPolygon entities
 
   # test_draw_Cylinder entities
   # test_draw_Polycone_2pi entities
