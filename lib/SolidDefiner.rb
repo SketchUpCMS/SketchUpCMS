@@ -20,7 +20,7 @@ class SolidDefiner
   end
 
   def solidDrawer partName
-    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus, :ExtrudedPolygon]
+    basicSolidNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus, :ExtrudedPolygon, :TruncTubs]
     compoundSolidNames = [:UnionSolid, :SubtractionSolid]
 
     if basicSolidNames.include?(partName)
