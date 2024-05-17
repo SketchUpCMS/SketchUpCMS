@@ -75,6 +75,7 @@ class BasicSolidDrawer
     scalarNumericArgs += ['numSide', 'startPhi', 'deltaPhi', 'dx', 'dy', 'dz', 'rMax', 'rMin', 'rMax1', 'rMin1', 'rMax2', 'rMin2', 'alp1', 'bl1', 'tl1', 'h1', 'alp2', 'bl2', 'tl2', 'h2', 'phi', 'theta']
     scalarNumericArgs += ["radius", "atMinusZ", "dy1", "dx1", "dy2", "dx2"]
     scalarNumericArgs += ["innerRadius", "outerRadius", "torusRadius", "startPhi", "deltaPhi"]
+    scalarNumericArgs += ["zHalf", "cutAtStart", "cutAtDelta", "cutInside"]
     vectorArgs = ['ZSection']
 
     knownArgs = nonnumericArgs + scalarNumericArgs + vectorArgs
