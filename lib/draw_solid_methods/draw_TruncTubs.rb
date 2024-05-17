@@ -7,8 +7,8 @@ def draw_TruncTubs entities, args
   entities = group.entities
   
   zHalf = args["zHalf"]
-  rIn = args["rIn"]
-  rOut = args["rOut"]
+  rMin = args["rMin"]
+  rMax = args["rMax"]
   startPhi = args["startPhi"]
   deltaPhi = args["deltaPhi"]
   cutAtStart = args["cutAtStart"]
@@ -31,8 +31,8 @@ def draw_TruncTubs entities, args
   alpha = Math.acos(cos_alpha)
   sin_alpha = Math.sin(alpha.abs)
 
-  boxX = rOut + rOut/sin_alpha
-  boxY = rOut
+  boxX = rMax + rMax/sin_alpha
+  boxY = rMax
   boxZ = zHalf
 
   if ! cutInside
@@ -53,7 +53,7 @@ def draw_TruncTubs entities, args
   box.transform! rotation
   box.transform! translation
   
-  tubs = draw_Tubs entities, {"dz" => zHalf, "startPhi" => startPhi, "deltaPhi" => deltaPhi, "rMin" => rIn, "rMax" => rOut}
+  tubs = draw_Tubs entities, {"dz" => zHalf, "startPhi" => startPhi, "deltaPhi" => deltaPhi, "rMin" => rMin, "rMax" => rMax}
   
   trunctubs = box.subtract(tubs)
   trunctubs.explode

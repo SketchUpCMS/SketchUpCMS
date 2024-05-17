@@ -150,7 +150,7 @@ def draw_solids
   
   def test_draw_TruncTubs entities
     args = {
-      "zHalf" => 0.5.m, "rIn" => 0.2.m, "rOut" => 0.4.m,
+      "zHalf" => 0.5.m, "rMin" => 0.2.m, "rMax" => 0.4.m,
       "startPhi" => 0.0.degrees, "deltaPhi" => 90.0.degrees,
       "cutAtStart" => 0.25.m, "cutAtDelta" => 0.35.m, "cutInside" => true
     }
