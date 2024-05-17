@@ -7,7 +7,7 @@ class SolidsManager
   attr_accessor :geometryManager
   attr_accessor :partsHash, :parts
 
-  KnownPartNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus, :UnionSolid, :SubtractionSolid, :ExtrudedPolygon]
+  KnownPartNames = [:PseudoTrap, :Trd1, :Polycone, :Polyhedra, :Trapezoid, :Tubs, :Box, :Cone, :Torus, :UnionSolid, :SubtractionSolid, :ExtrudedPolygon, :TruncTubs]
 
   def inspect
     "#<" + self.class.name + ":0x" + self.object_id.to_s(16) + ">"

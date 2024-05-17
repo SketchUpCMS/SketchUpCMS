@@ -59,7 +59,7 @@ def draw_solids
     layer = model.layers.add(model.layers.unique_name('Tubs'))
     s1.layer = layer
   end
-
+  
   def test_draw_Torus entities
     args = Hash.new
     args["innerRadius"] = 0.05.m
@@ -147,7 +147,29 @@ def draw_solids
     layer = model.layers.add(model.layers.unique_name('ExtrudedPolygon'))
     ep.layer = layer
   end
+  
+  def test_draw_TruncTubs entities
+    args = {
+      "zHalf" => 0.5.m, "rIn" => 0.2.m, "rOut" => 0.4.m,
+      "startPhi" => 0.0.degrees, "deltaPhi" => 90.0.degrees,
+      "cutAtStart" => 0.25.m, "cutAtDelta" => 0.35.m, "cutInside" => true
+    }
+    
+    tt_inside = draw_TruncTubs entities, args
+    tt_inside.move! Geom::Transformation.translation(Geom::Vector3d.new(0, 9.m, 0.3.m))
+    
+    model = Sketchup.active_model
+    layer = model.layers.add(model.layers.unique_name('TruncTubs_cutInside'))
+    tt_inside.layer = layer
 
+    args["cutInside"] = false
+
+    tt_outside = draw_TruncTubs entities, args
+    tt_outside.move! Geom::Transformation.translation(Geom::Vector3d.new(0, 10.m, 0.3.m))
+    layer = model.layers.add(model.layers.unique_name('TruncTubs_cutOutside'))
+    tt_outside.layer = layer
+  end
+  
   def test_draw_UnionSolid entities
 
     # CHIMNEY_HOLE_N_c
@@ -234,7 +256,8 @@ def draw_solids
   test_draw_PseudoTrap entities
   test_draw_Trapezoid entities
   test_draw_ExtrudedPolygon entities
-
+  test_draw_TruncTubs entities
+  
   # test_draw_Cylinder entities
   # test_draw_Polycone_2pi entities
   # test_draw_Polycone_BeamVacuum5 entities
