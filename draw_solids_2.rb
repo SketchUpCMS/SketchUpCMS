@@ -194,6 +194,73 @@ def test_draw_solids
     s1.move! Geom::Transformation.translation(Geom::Vector3d.new(6.m, 0, 0))
   end
 
+  def test_draw_IntersectionSolid entities
+
+    #<IntersectionSolid name="tracker:OTLayer1Ring5Minus">
+    #<rSolid name="tracker:OTLayer1Ring5MinusCone"/>
+    #<rSolid name="tracker:OTLayer1Ring5MinusTub"/>
+    #<Translation x="0.000000000000000000*mm" y="0.000000000000000000*mm" z="0.000000000000000000*mm"/>
+    #<rRotation name="DdBlNa:DdBlNa48"/>
+    #</IntersectionSolid>
+    
+    cone_args = {
+      "dz" => 30.709099999999999397.mm,
+      "rMin1" => 209.997000000000014097.mm,
+      "rMax1" => 248.492999999999994998.mm,
+      "rMin2" => 275.860000000000013642.mm,
+      "rMax2" => 314.355999999999994543.mm,
+      "startPhi" => 0.000000000000000000.degrees,
+      "deltaPhi" => 360.000000000000000000.degrees
+    }
+
+    tubs_args = {
+      "rMin" => 224.586999999999989086.mm,
+      "rMax" => 298.505999999999971806.mm,
+      "dz" => 30.709099999999999397.mm,
+      "startPhi" => 0.000000000000000000.degrees,
+      "deltaPhi" => 360.000000000000000000.degrees
+    }     
+
+    cone = draw_Cone entities, cone_args
+    cone = cone.to_component.definition
+
+    tubs = draw_Tubs entities, tubs_args
+    tubs = tubs.to_component.definition
+    
+    entities.clear!
+  
+    # phiX="0.000000000000000000*deg" thetaX="90.000000000000000000*deg"
+    # phiY="90.000000000000000000*deg" thetaY="90.000000000000000000*deg"
+    # phiZ="0.000000000000000000*deg" thetaZ="0.000000000000000000*deg"
+    thetaX = Math::PI/2
+    phiX = 0
+
+    thetaY = Math::PI/2
+    phiY = Math::PI/2
+
+    thetaZ = 0
+    phiZ = 0
+
+    origin = Geom::Point3d.new 0, 0, 0
+    
+    xaxis = Geom::Vector3d.new Math::cos(thetaX), Math::sin(thetaX)*Math::cos(phiX), Math::sin(thetaX)*Math::sin(phiX)
+    yaxis = Geom::Vector3d.new Math::cos(thetaY), Math::sin(thetaY)*Math::cos(phiY), Math::sin(thetaY)*Math::sin(phiY)
+    zaxis = Geom::Vector3d.new Math::cos(thetaZ), Math::sin(thetaZ)*Math::cos(phiZ), Math::sin(thetaZ)*Math::sin(phiZ)
+    rotation = Geom::Transformation.axes origin, zaxis, xaxis, yaxis
+    
+    vector = Geom::Vector3d.new 0, 0, 0
+    translation = Geom::Transformation.translation vector
+
+    args = Hash.new
+    args["rSolid"] = [cone, tubs]
+    args["rRotation"] = rotation
+    args["Translation"] = translation
+
+    draw_IntersectionSolid entities, args
+                                                                                               
+  end
+
+  
   def test_draw_UnionSolid entities
 
     # CHIMNEY_HOLE_N_c
@@ -291,7 +358,8 @@ def test_draw_solids
   # test_draw_UnionSolid entities
   # test_draw_SubtractionSolid entities
   # test_draw_Torus entities
-  test_draw_Polyhedra entities
+  # test_draw_Polyhedra entities
+  test_draw_IntersectionSolid entities
 end
 
 ##____________________________________________________________________________||

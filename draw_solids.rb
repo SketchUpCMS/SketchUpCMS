@@ -199,7 +199,7 @@ def draw_solids
     # {"rSolid"=>[{"name"=>"CHIMNEY_HOLE_N_c"}, {"name"=>"CHIMNEY_HOLE_N_a"}], "rRotation"=>[{"name"=>"rotations:000D"}], "Translation"=>[{"x"=>"-0.15*m", "y"=>"0.*fm", "z"=>"0.*fm"}]}
 
   end
-
+  
   def test_draw_SubtractionSolid entities
 
     # "MGNT_0"
